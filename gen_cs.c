@@ -332,13 +332,29 @@ static void BuildTypeDecls(TreeCCContext *context,
 		/* This type is the base of a class hierarchy */
 		if(isAbstract)
 		{
-			TreeCCStreamPrint(stream, "%s abstract class %s\n{\n",
+			if(context->baseType)
+			{
+				TreeCCStreamPrint(stream, "%s abstract class %s : %s\n{\n",
+							  accessMode, node->name, context->baseType);
+			}
+			else
+			{
+				TreeCCStreamPrint(stream, "%s abstract class %s\n{\n",
 							  accessMode, node->name);
+			}
 		}
 		else
 		{
-			TreeCCStreamPrint(stream, "%s class %s\n{\n",
+			if(context->baseType)
+			{
+				TreeCCStreamPrint(stream, "%s class %s : %s\n{\n",
+							  accessMode, node->name, context->baseType);
+			}
+			else
+			{
+				TreeCCStreamPrint(stream, "%s class %s\n{\n",
 							  accessMode, node->name);
+			}
 		}
 
 		/* Declare the node kind member variable */

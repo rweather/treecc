@@ -382,6 +382,27 @@ static int GCAllocatorOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "base_type": use the type as the base type for the root treecc node 
+ */
+static int BaseTypeOption(TreeCCContext *context, char *value, int flag)
+{
+	if(!value)
+	{
+		return TREECC_OPT_NEED_VALUE;
+	}
+	else if(value == '\0')
+	{
+		context->baseType = 0;
+		return TREECC_OPT_OK;
+	}
+	else
+	{
+		context->baseType = value;
+		return TREECC_OPT_KEEP_VALUE;
+	}
+}
+
+/*
  * Table of option handlers.
  */
 static struct
@@ -422,6 +443,7 @@ static struct
 	{"no_allocator",		AllocatorOption,		0},
 	{"gc_allocator",		GCAllocatorOption,		1},
 	{"no_gc_allocator",		GCAllocatorOption,		0},
+	{"base_type",			BaseTypeOption,			0},
 	{0,						0,						0},
 };
 

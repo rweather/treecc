@@ -250,6 +250,9 @@ typedef struct _tagTreeCCContext
 	/* Name of the directory to output Java source files to */
 	char		   *outputDirectory;
 
+	/* name of the base type which is what %typedef expands to */
+	char		   *baseType;
+
 } TreeCCContext;
 
 /*

@@ -1177,6 +1177,12 @@ option has no effect for other output languages.
 @item %option no_gc_allocator
 @cindex no_gc_allocator option
 Do not use libgc as a garbage-collecting node allocator for C and C++. (*)
+
+@item %option base_type
+@cindex base_type option
+Specify the base type for the root node of the treecc node heirarchy.
+The default is no base type.
+
 @end table
 
 @c -----------------------------------------------------------------------

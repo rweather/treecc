@@ -1,4 +1,9 @@
 
+2003-11-20  Gopal.V  <gopalv82@symonds.net>
+
+	* context.c, gen_cpp.c, gen_cs.c, gen_java.c, info.h, options.c,
+	doc/treecc.texi: add the "base_type" option.
+
 2003-07-17  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the 0.2.6 release.

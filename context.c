@@ -58,6 +58,7 @@ TreeCCContext *TreeCCContextCreate(TreeCCInput *input)
 	context->language = TREECC_LANG_C;
 	context->block_size = 0;
 	context->nodeNumber = 1;
+	context->baseType = 0;
 	return context;
 }
 

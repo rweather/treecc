@@ -226,7 +226,14 @@ static void BuildTypeDecls(TreeCCContext *context,
 	else
 	{
 		/* This type is the base of a class hierarchy */
-		TreeCCStreamPrint(stream, "class %s\n{\n", node->name);
+		if(context->baseType)
+		{
+			TreeCCStreamPrint(stream, "class %s : public %s\n{\n", node->name,context->baseType);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "class %s\n{\n", node->name);
+		}
 
 		/* The following fields have protected access */
 		TreeCCStreamPrint(stream, "protected:\n\n");
