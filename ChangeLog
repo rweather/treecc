@@ -4,6 +4,9 @@
 	* configure.in, aclocal.m4: use "AM_MAINTAINER_MODE" in the
 	configure.in file to work around automake issues under Cygwin.
 
+	* conf_fix.sh, README: remove "conf_fix.sh", as we don't
+	need it any more with maintainer mode.
+
 2002-03-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* conf_fix.sh, README: add a configuration script that can be
