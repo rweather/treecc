@@ -1,7 +1,7 @@
 /*
  * gen.h - Generate code to "treecc" output files.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2002  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ void TreeCCGenerateC(TreeCCContext *context);
 void TreeCCGenerateCPP(TreeCCContext *context);
 void TreeCCGenerateJava(TreeCCContext *context);
 void TreeCCGenerateCSharp(TreeCCContext *context);
+void TreeCCGenerateRuby(TreeCCContext *context);
 
 /*
  * Control structure for generating the code for

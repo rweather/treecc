@@ -251,6 +251,10 @@ static int LangOption(TreeCCContext *context, char *value, int flag)
 		{
 			context->language = TREECC_LANG_CSHARP;
 		}
+		else if(!strcmp(value, "ruby") || !strcmp(value, "Ruby"))
+		{
+			context->language = TREECC_LANG_RUBY;
+		}
 		else
 		{
 			return TREECC_OPT_INVALID_VALUE;

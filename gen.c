@@ -55,6 +55,13 @@ void TreeCCGenerate(TreeCCContext *context)
 			TreeCCGenerateCSharp(context);
 		}
 		break;
+
+		case TREECC_LANG_RUBY:
+		{
+			TreeCCGenerateRuby(context);
+		}
+		break;
+
 	}
 }
 

@@ -1,4 +1,10 @@
 
+2002-10-26  Peter Minten  <silvernerd@users.sf.net>
+
+	* Makefile.am, gen.c, gen.h, gen_ruby.c, info.h, options.c,
+	examples/README, examples/expr_ruby.tc: add Ruby code generation
+	support to treecc.
+
 2002-09-12  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* gen_cpp.c: extra comma where there shouldn't be in the

@@ -12,6 +12,7 @@ libtreecc_a_SOURCES = context.c \
 					  gen_c.c \
 					  gen_cpp.c \
 					  gen_cs.c \
+					  gen_ruby.c \
 					  gen_java.c \
 				      input.c \
 				      literal.c \

@@ -18,6 +18,8 @@ mkjava          Shell script for building the Java version of the example
 expr_cs.tc      Treecc input file for the C# version of the example
 mkcsharp        Shell script for building the C# version of the example
 
+expr_ruby.tc    Treecc input file for the Ruby version of the example
+
 The C++ example demonstrates creating a reentrant system.
 
 The Java and C# versions build and compile, but cannot run because
