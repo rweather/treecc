@@ -197,7 +197,7 @@ void TreeCCIncludeSkeleton(TreeCCContext *context, TreeCCStream *stream,
 		perror(path);
 		exit(1);
 	}
-	TreeCCStreamPrint(stream, "#line 1 \"%s\"\n", path);
+	TreeCCStreamLine(stream, 1, path);
 	while(fgets(buffer, BUFSIZ, file))
 	{
 	#if HAVE_STRCHR

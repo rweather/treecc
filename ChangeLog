@@ -1,4 +1,12 @@
 
+2002-03-17  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* context.c, gen_c.c, gen_cpp.c, gen_cs.c, gen_java.c, info.h,
+	options.c, skeleton.c, stream.c, stream.h, doc/treecc.texi:
+	implement the "strip_filenames" option to make it more likely
+	that treecc will generate constant output files regardless of
+	which directory it is executed in.
+
 2002-03-05  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* doc/treecc.texi: polish the text a little.

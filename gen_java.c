@@ -932,8 +932,7 @@ static void Java_GenCaseFunc(TreeCCContext *context, TreeCCStream *stream,
 	/* Output the code for the operation case */
 	if(context->language == TREECC_LANG_CSHARP)
 	{
-		TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-				operCase->codeLinenum, operCase->codeFilename);
+		TreeCCStreamLine(stream, operCase->codeLinenum, operCase->codeFilename);
 	}
 	TreeCCStreamPrint(stream, "\t{");
 	if(operCase->code)
@@ -1048,8 +1047,7 @@ static void Java_GenCaseInline(TreeCCContext *context, TreeCCStream *stream,
 	/* Output the inline code for the case */
 	if(context->language == TREECC_LANG_CSHARP)
 	{
-		TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-				operCase->codeLinenum, operCase->codeFilename);
+		TreeCCStreamLine(stream, operCase->codeLinenum, operCase->codeFilename);
 	}
 	Indent(stream, level * 2 + 4);
 	TreeCCStreamPrint(stream, "{");

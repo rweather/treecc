@@ -290,6 +290,23 @@ static int BlockSizeOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "strip_filenames": strip filenames in #line directives down
+ * to their base name, with no directory information.
+ */
+static int StripFilenamesOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->strip_filenames = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
+/*
  * Table of option handlers.
  */
 static struct
@@ -320,6 +337,8 @@ static struct
 	{"base",				BaseOption,				0},
 	{"lang",				LangOption,				0},
 	{"block_size",			BlockSizeOption,		0},
+	{"strip_filenames",		StripFilenamesOption,	1},
+	{"no_strip_filenames",	StripFilenamesOption,	0},
 	{0,						0},
 };
 

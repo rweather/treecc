@@ -742,8 +742,8 @@ static void OutputVtableImpls(TreeCCContext *context, TreeCCStream *stream,
 			param = param->next;
 		}
 		TreeCCStreamPrint(stream, ")\n");
-		TreeCCStreamPrint(stream, "#line %ld \"%s\"\n{",
-						  operCase->codeLinenum, operCase->codeFilename);
+		TreeCCStreamLine(stream, operCase->codeLinenum, operCase->codeFilename);
+		TreeCCStreamPrint(stream, "{");
 		TreeCCStreamCode(stream, operCase->code);
 		TreeCCStreamPrint(stream, "}\n");
 		TreeCCStreamFixLine(stream);
@@ -1334,8 +1334,7 @@ static void C_GenCaseFunc(TreeCCContext *context, TreeCCStream *stream,
 	TreeCCStreamPrint(stream, ")\n");
 
 	/* Output the code for the operation case */
-	TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-					  operCase->codeLinenum, operCase->codeFilename);
+	TreeCCStreamLine(stream, operCase->codeLinenum, operCase->codeFilename);
 	TreeCCStreamPrint(stream, "{");
 	if(operCase->code)
 	{
@@ -1444,8 +1443,7 @@ static void C_GenCaseInline(TreeCCContext *context, TreeCCStream *stream,
 	}
 
 	/* Output the inline code for the case */
-	TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-					  operCase->codeLinenum, operCase->codeFilename);
+	TreeCCStreamLine(stream, operCase->codeLinenum, operCase->codeFilename);
 	Indent(stream, level * 2 + 3);
 	TreeCCStreamPrint(stream, "{");
 	if(operCase->code)

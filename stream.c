@@ -506,8 +506,7 @@ void TreeCCStreamCodeIndent(TreeCCStream *stream, char *code, int indent)
 
 void TreeCCStreamFixLine(TreeCCStream *stream)
 {
-	TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-					  stream->linenum + 1, stream->embedName);
+	TreeCCStreamLine(stream, stream->linenum + 1, stream->embedName);
 }
 
 void TreeCCStreamAddLiteral(TreeCCStream *stream, char *code,
@@ -583,8 +582,7 @@ static void OutputDefns(TreeCCStream *stream, int atEnd)
 	{
 		if(defn->atEnd == atEnd)
 		{
-			TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-							  defn->linenum, defn->filename);
+			TreeCCStreamLine(stream, defn->linenum, defn->filename);
 			WriteBuffer(stream, defn->code);
 			UpdateLineNum(stream, defn->code);
 			if(*(defn->code) != '\0' &&
@@ -637,6 +635,22 @@ void TreeCCStreamSourceTopCS(TreeCCStream *stream)
 void TreeCCStreamSourceBottom(TreeCCStream *stream)
 {
 	OutputDefns(stream, 1);
+}
+
+void TreeCCStreamLine(TreeCCStream *stream, long linenum,
+					  const char *filename)
+{
+	int len;
+	if(stream->context->strip_filenames)
+	{
+		len = strlen(filename);
+		while(len > 0 && filename[len - 1] != '/' && filename[len - 1] != '\\')
+		{
+			--len;
+		}
+		filename += len;
+	}
+	TreeCCStreamPrint(stream, "#line %ld \"%s\"\n", linenum, filename);
 }
 
 #ifdef	__cplusplus

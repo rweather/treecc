@@ -184,6 +184,12 @@ void TreeCCStreamSourceTopCS(TreeCCStream *stream);
  */
 void TreeCCStreamSourceBottom(TreeCCStream *stream);
 
+/*
+ * Print a "#line" directive to an output stream.
+ */
+void TreeCCStreamLine(TreeCCStream *stream, long linenum,
+					  const char *filename);
+
 #ifdef	__cplusplus
 };
 #endif

@@ -1060,7 +1060,7 @@ ignored for C, which does not use factories.
 Don't use virtual methods in the node type factories. (*)
 
 @item %option abstract_factory
-@cindex virtual_factory option
+@cindex abstract_factory option
 Use abstract virtual methods in the node type factories.
 The programmer is responsible for subclassing the factory
 to provide node creation functionality.
@@ -1117,6 +1117,18 @@ Specify the output language.  Must be one of @code{"C"}, @code{"C++"},
 @item %option block_size = NUM
 @cindex block_size option
 Specify the size of the memory blocks to use in C and C++ node allocators.
+
+@item %option strip_filenames
+@cindex strip_filenames option
+Strip filenames down to their base name in @code{#line} directives.
+i.e. strip off the directory component.  This can be helpful in
+combination with the @code{%include %readonly} command when
+treecc input files may processed from different directories,
+causing common output files to change unexpectedly.
+
+@item %option no_strip_filenames
+@cindex no_strip_filenames option
+Don't strip filenames in @code{#line} directives. (*)
 @end table
 
 @c -----------------------------------------------------------------------

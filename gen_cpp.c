@@ -605,8 +605,9 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 		{
 			/* The first parameter is called "this", so we don't
 			   need to declare it at the head of the function */
-			TreeCCStreamPrint(stream, "#line %ld \"%s\"\n{",
-							  operCase->codeLinenum, operCase->codeFilename);
+			TreeCCStreamLine(stream, operCase->codeLinenum,
+							 operCase->codeFilename);
+			TreeCCStreamPrint(stream, "{");
 			TreeCCStreamCode(stream, operCase->code);
 			TreeCCStreamPrint(stream, "}\n");
 			TreeCCStreamFixLine(stream);
@@ -617,8 +618,9 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 			   so create a temporary variable to hold "this" */
 		   	TreeCCStreamPrint(stream, "{\n\t%s *%s = this;\n",
 							  actualNode->name, oper->params->name);
-			TreeCCStreamPrint(stream, "#line %ld \"%s\"\n\t{",
-							  operCase->codeLinenum, operCase->codeFilename);
+			TreeCCStreamLine(stream, operCase->codeLinenum,
+							 operCase->codeFilename);
+			TreeCCStreamPrint(stream, "\t{");
 			TreeCCStreamCodeIndent(stream, operCase->code, 1);
 			TreeCCStreamPrint(stream, "}\n");
 			TreeCCStreamFixLine(stream);

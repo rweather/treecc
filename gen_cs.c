@@ -240,8 +240,8 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 			if(!abstractCase)
 			{
 				TreeCCStreamPrint(stream, ")\n");
-				TreeCCStreamPrint(stream, "#line %ld \"%s\"\n",
-					  operCase->codeLinenum, operCase->codeFilename);
+				TreeCCStreamLine(stream, operCase->codeLinenum,
+								 operCase->codeFilename);
 				TreeCCStreamPrint(stream, "\t{");
 				if(!(virt->oper->params->name) ||
 				   !strcmp(virt->oper->params->name, "this"))
