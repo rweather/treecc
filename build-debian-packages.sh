@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # SYPNOSIS
 #   ./build-debian-packages.sh
@@ -32,7 +32,13 @@
 #   you make changes to this file, copy it to all pnet modules
 #   in the CVS repository.
 #
-set -e
+
+pre=no
+[[ ."$1" != ."--pre" ]] || {
+  pre=yes
+  shift
+}
+archive=$1
 
 #
 # Get the version of an installed debian package.
@@ -47,8 +53,14 @@ getVersion() {
   echo ${pkgVersion}
 }
 
-version=$(pwd)
-version=${version##*-}
+if [[ -z "${archive}" ]]
+then
+  version=$(pwd)
+  version=${version##*-}
+else
+  version=${archive##*-}
+  version=${version%.tar.gz}
+fi
 
 pnetDpkgVersion() {
   local dpkgVersion=$(getVersion "$1")
@@ -128,9 +140,22 @@ expandRpmMacros() {
 #
 rm -rf debian/tmp
 builddir="debian/tmp/${PKG_NAME}-${version}"
-mkdir -p "${builddir}"
-tar --create --exclude="./debian/tmp" --exclude="./debian/tmp/*" . |
-  tar --extract --directory "${builddir}" 
+if [[ -z "${archive}" ]]
+then
+  mkdir -p "${builddir}"
+  tar --create --exclude="./debian/tmp" --exclude="./debian/tmp/*" . |
+    tar --extract --directory "${builddir}" 
+else
+  rm -rf tmp
+  mkdir tmp
+  tar --extract --directory tmp --gzip --file "${archive}"
+  dirname=${archive##*/}
+  dirname=${dirname%.tar.gz}
+  [[ ."${dirname}" = "${builddir##*/}" ]] ||
+    mv tmp/"${dirname}" "tmp/${builddir##*/}"
+  cp -a debian "tmp/${builddir##*/}"
+  mv tmp debian
+fi
 
 #
 # Create the .orig.tar.gz file.
@@ -192,6 +217,9 @@ do
     %defattr*)
       ;;
     %dir)
+      ;;
+    %post|%postun|%pre|%preun)
+      filepackage=
       ;;
     %{_infodir}/*)
       [[ -n "${filepackage}" ]] || continue
@@ -280,6 +308,8 @@ License can be found in /usr/share/common-licenses/GPL file.
   mv debian/changelog.new debian/changelog
   changelogModified=yes
 }
+
+[[ "${pre}" == no ]] || exit 0
 
 #
 # Invoke the magic Debian build incantation.
