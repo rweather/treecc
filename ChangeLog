@@ -1,4 +1,9 @@
 
+2001-12-28  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+* gen_c.c (ImplementCreateFuncs): insert a '*' into the return cast when
+creating a singleton.
+
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * main.c: bug fix - create the default output files correctly; defaults

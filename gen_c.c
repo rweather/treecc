@@ -953,7 +953,7 @@ static void ImplementCreateFuncs(TreeCCContext *context,
 		TreeCCStreamPrint(stream, "\t\t&%s_vt__,\n\t\t%s_kind\n",
 						  node->name, node->name);
 		TreeCCStreamPrint(stream, "\t};\n");
-		TreeCCStreamPrint(stream, "\treturn (%s)&instance__;\n",
+		TreeCCStreamPrint(stream, "\treturn (%s *)&instance__;\n",
 						  typedefName);
 	}
 	else
