@@ -1,4 +1,8 @@
 
+2004-10-30  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, NEWS: update version for the 0.3.4 release.
+
 2004-10-29  Peter Lund <firefly@diku.dk>
 
 	* doc/treecc.1: fix manpage formatting issues. (patch attached

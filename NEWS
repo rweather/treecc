@@ -1,4 +1,9 @@
 
+0.3.4 (30 October 2004)
+
+	* Clean up Debian packaging rules (Russell Stuart).
+	* Man page formatting (Peter Lund).
+
 0.3.2 (8 August 2004)
 
 	* Fixes for parallel builds (Gopal V).
