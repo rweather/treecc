@@ -3,6 +3,8 @@
 
 	* NEWS, configure.in: update version for the "0.1.4" release.
 
+	* configure.in: update working version to "0.1.5".
+
 2002-08-13  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* auto_gen.sh: slightly smarter script that also runs "aclocal".
