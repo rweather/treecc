@@ -9,6 +9,9 @@
 	* doc/treecc.texi: minor adjustment to direntry tag; only include
 	treecc once in the info directory.
 
+	* doc/treecc.texi: document the "print_lines" and "no_print_lines"
+	options.
+
 2003-01-26  Stephen Compall  <s11@member.fsf.org>
 
 	* doc/treecc.texi: Added info dir entries.

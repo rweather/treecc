@@ -1143,6 +1143,15 @@ Use @code{internal} as the access mode for classes in C#, rather than
 @cindex public_access option
 Use @code{public} as the access mode for classes in C#, rather than
 @code{internal}. (*)
+
+@item %option print_lines
+@cindex print_lines option
+Print @code{#line} markers in languages that use them. (*)
+
+@item %option no_print_lines
+@cindex no_print_lines option
+Do not print @code{#line} markers, even in languages that normally
+use them.
 @end table
 
 @c -----------------------------------------------------------------------
