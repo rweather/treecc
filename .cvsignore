@@ -8,6 +8,7 @@ config.status
 config.h
 stamp-h
 treecc
+treecc.spec
 aclocal.m4
 config.h.in
 skels.c

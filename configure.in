@@ -64,4 +64,5 @@ Makefile
 etc/Makefile
 doc/Makefile
 tests/Makefile
-examples/Makefile])
+examples/Makefile
+treecc.spec])

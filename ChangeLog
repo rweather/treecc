@@ -7,6 +7,9 @@
 	* doc/treecc.texi: fix the info directory entry for treecc
 	(thanks to kloczek@pld.org.pl and qboosh@pld-linux.org).
 
+	* .cvsignore, configure.in: generate "treecc.spec" from
+	"treecc.spec.in" (thanks to Russell Stuart, russell@stuart.id.au).
+
 2004-01-03  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the 0.2.8 release.
