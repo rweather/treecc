@@ -1,4 +1,8 @@
 
+2002-01-07  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* input.c: add ';' after a goto label for correct ANSI C syntax.
+
 2001-12-28  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* gen_c.c (ImplementCreateFuncs): insert a '*' into the return

@@ -892,7 +892,7 @@ int TreeCCNextToken(TreeCCInput *input)
 						}
 					}
 				}
-			endComment:
+			endComment: ;
 			}
 			else if(ch == '/')
 			{
