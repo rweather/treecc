@@ -1,4 +1,8 @@
 
+2003-02-08  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* NEWS, configure.in: update version for the "0.2.2" release.
+
 2003-01-29  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* context.c, gen_c.c, gen_cpp.c, info.h, options.c, doc/treecc.texi,

@@ -1,4 +1,14 @@
 
+0.2.2 (8 February 2003)
+
+	* PHP back-end patches (Alan Knowles).
+	* Add directory entries to texinfo documentation (Stephen Compall).
+	* "print_lines" and "no_print_lines" options (James Michael DuPont).
+	* "allocator" and "no_allocator" options.
+	* Permit treecc "%name" options to be set from the command-line.
+	* Replace "sed" with "normalize" in "run_tests", to work around
+	  problems on systems with CRLF end of line markers (e.g. cygwin.
+
 0.2.0 (11 January 2003)
 
 	* Bind the skeleton files directly into the "treecc" binary,
