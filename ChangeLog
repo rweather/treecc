@@ -1,4 +1,8 @@
 
+2003-07-04  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* README: minor change to the treecc README file.
+
 2003-02-29  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/output5.out, tests/output6.out, tests/output9.out:

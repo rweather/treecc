@@ -55,9 +55,7 @@ free software providers.  Use by commercial software vendors is welcome.
 When you use treecc on your own input files to generate source code as
 output, the resulting source code files are also owned by you.  You may
 re-distribute unmodified copies of these output source files, and any
-binaries derived from them, in any way you see fit.  Executing treecc on
-your input files does not automatically infect the input or the output
-files with the GPL.
+binaries derived from them, in any way you see fit.
 
 If you modify treecc itself, and generate new output files as a result,
 then you must release all modifications to treecc with your program so
