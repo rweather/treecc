@@ -1297,6 +1297,7 @@ for each of the output languages.
 * C++ Language::   C++ Language API's
 * Java Language::  Java Language API's
 * C# Language::    C# Language API's
+* Ruby Language::  Ruby Language API's
 @end menu
 
 @c -----------------------------------------------------------------------
@@ -2082,7 +2083,7 @@ to act as the global state and node creation factory.
 
 @c -----------------------------------------------------------------------
 
-@node C# Language, Full Expression Example, Java Language, Output APIs
+@node C# Language, Ruby Language, Java Language, Output APIs
 @section C# Language APIs
 @cindex C# APIs
 
@@ -2351,7 +2352,284 @@ to act as the global state and node creation factory.
 
 @c -----------------------------------------------------------------------
 
-@node Full Expression Example, EBNF Syntax, C# Language, Top
+@node Ruby Language, Full Expression Example, C# Language, Output APIs
+@section Ruby Language APIs
+@cindex Ruby APIs
+
+In the Ruby output language, each node type is converted into a
+@samp{class} that contains the node's fields, operations, and other
+house-keeping definitions.  The following example demonstrates how
+treecc node declarations are converted into Ruby source code:
+
+@example
+%node expression %abstract %typedef =
+@{
+    %nocreate type_code type;
+@}
+%node binary expression %abstract =
+@{
+    expression expr1;
+    expression expr2;
+@}
+%node plus binary
+@end example
+
+becomes:
+
+@example
+class YYNODESTATE
+
+  @@@@state = nil
+
+  def YYNODESTATE.state
+    return @@@@state unless @@@@state.nil?
+    @@@@state = YYNODESTATE.new()
+    return @@@@state
+  end
+
+  def intialize 
+     @@@@state = self 
+   end
+
+  def currFilename 
+     return nil
+  end
+
+  def currLinenum 
+     return 0 
+  end
+end
+
+class Expression
+  protected
+  attr_reader :kind
+  public 
+
+  attr_accessor :Linenum, :Filename
+
+  attr_accessor :type
+
+  KIND = 1
+
+  def initialize()
+    @@kind = KIND
+    @@Filename = YYNODESTATE.state.currFilename()
+    @@Linenum = YYNODESTATE.state.currLinenum()
+  end
+
+  def isA(kind)
+    if(@@kind == KIND) then
+      return true
+    else
+      return 0
+    end
+  end
+
+  def KindName
+    return "Expression"
+  end
+
+end
+
+class Binary < Expression
+
+  attr_accessor :expr1
+  attr_accessor :expr2
+
+  KIND = 2
+
+  def initialize(expr1, expr2)
+  super(expr1, expr2)
+    @@kind = KIND
+    self.expr1 = expr1
+    self.expr2 = expr2
+  end
+
+  def isA(kind)
+    if(@@kind == Kind) then
+      return true
+    else
+      return super(kind)
+    end
+  end
+
+  def KindName
+    return "Binary"
+  end
+
+end
+
+class Plus < Binary
+
+  KIND = 3
+
+  def initialize(expr1, expr2)
+  super(expr1, expr2expr1, expr2)
+    @@kind = KIND
+  end
+
+  def isA(kind)
+    if(@@kind == KIND) then
+      return true
+    else
+      return super(kind)
+    end
+  end
+
+  def KindName
+    return "Plus"
+  end
+
+end
+@end example
+
+The following standard members are available on every node type:
+
+@table @code
+@item KIND
+@cindex KIND field (Ruby)
+The kind value for the node type corresponding to this class.
+The kind value for node type @samp{NAME} is called @samp{NAME::KIND}.
+
+@item KindName
+@cindex KindName field (Ruby)
+The name of the node kind associated with a particular node.  This may
+be helpful for debugging and logging code.
+
+@item isA(int kind)
+@cindex isA method (Ruby)
+Determines if the node is a member of the node type that corresponds
+to the numeric kind value @samp{kind}.
+
+@item Filename
+@cindex Filename field (Ruby)
+The filename corresponding to where the node was created during parsing.
+This method is only generated if @samp{%option track_lines} was
+specified.
+
+@item Linenum()
+@cindex Linenum field (Ruby)
+The line number corresponding to where the node was created during
+parsing.  This method is only generated if @samp{%option track_lines}
+was specified.
+
+@end table
+
+@c Don't know if this is true for ruby
+@ignore
+If the generated code is non-reentrant, then the constructor for the
+class can be used to construct nodes of the specified node type.  The
+constructor parameters are the same as the fields within the node type's
+definition, except for @samp{%nocreate} fields.
+
+If the generated code is reentrant, then nodes cannot be constructed
+using the C# @samp{new} operator.  The @samp{*Create} methods
+on the @samp{YYNODESTATE} factory class must be used instead.
+@end ignore
+
+Enumerated types are converted into a Ruby @samp{class} definition:
+
+@example
+%enum JavaType =
+@{
+    JT_BYTE,
+    JT_SHORT,
+    JT_CHAR,
+    JT_INT,
+    JT_LONG,
+    JT_FLOAT,
+    JT_DOUBLE,
+    JT_OBJECT_REF
+@}
+@end example
+
+becomes:
+
+@example
+
+class JavaType 
+  JT_BYTE = 0
+  JT_SHORT = 1
+  JT_CHAR = 2
+  JT_INT = 3
+  JT_LONG = 4
+  JT_FLOAT = 5
+  JT_DOUBLE = 6
+  JT_OBJECT_REF = 7
+end
+
+@end example
+
+@c 
+Virtual operations are converted into public methods on the Ruby
+node classes.
+
+Non-virtual operations are converted into a class method within
+a class named for the operation.  For example,
+
+@example
+%operation void InferType::infer_type(expression e)
+@end example
+
+becomes:
+
+@example
+class InferType
+    def InferType.infer_type(expression e)   
+        ...
+    end
+end
+@end example
+
+If the class name (@samp{InferType} in the above example) is omitted,
+then the name of the operation is used as both the class name and the
+the method name. You then get a method with a name starting with an
+uppercase letter. However, Ruby methods start with lowercase methods.
+So never forget the class name.
+
+The @samp{YYNODESTATE} class contains a number of house-keeping methods
+that are used to manage nodes:
+
+@table @code
+@item YYNODESTATE::state()
+@cindex state field (Ruby)
+Gets the global @samp{YYNODESTATE} instance that is being used by
+non-reentrant code.  If an instance has not yet been created,
+this method will create one.
+
+@c Don't know if the following is correct
+@ignore
+
+When using non-reentrant code, the programmer will normally subclass
+@samp{YYNODESTATE}, override some of the methods below, and then
+construct an instance of the subclass.  This constructed instance
+will then be returned by future calls to @samp{getState}.
+
+This method will not be present if a reentrant system is being
+generated.
+
+@end ignore
+
+@item currFilename
+@cindex currFilename field (Ruby)
+The name of the current input file from the parser.  This fields
+accessor method is usually overrriden by the programmer in subclasses if
+@samp{%option track_lines} was specified.
+
+@item currLinenum
+@cindex currLinenum field (Ruby)
+The number of the current input line from the parser.  This fields
+accessor method is usually overridden by the programmer in subclasses if
+@samp{%option track_lines} was specified.
+@end table
+
+The programmer will typically subclass @samp{YYNODESTATE} to provide
+additional functionality, and then create an instance of this class
+to act as the global state and node creation factory.
+
+@c -----------------------------------------------------------------------
+
+@node Full Expression Example, EBNF Syntax, Ruby Language, Top
 @appendix Full expression example code
 @cindex Full expression example
 
