@@ -41,6 +41,13 @@ dnl Checks for library functions.
 AC_CHECK_FUNCS(vfprintf strchr qsort vsnprintf _vsnprintf vsprintf)
 AC_CHECK_FUNCS(memcmp memcpy access stat)
 
+dnl Determine if we can compile the C++ example, which
+dnl uses bison-specific yacc features.
+AC_SUBST(EXPR_CPP)
+if test "x$YACC" = "xbison -y" ; then
+	EXPR_CPP=expr_cpp
+fi
+
 AC_OUTPUT([
 Makefile
 etc/Makefile

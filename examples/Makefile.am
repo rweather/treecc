@@ -1,4 +1,5 @@
-noinst_PROGRAMS = expr_c expr_cpp
+noinst_PROGRAMS = expr_c @EXPR_CPP@
+EXTRA_PROGRAMS  = expr_cpp
 
 expr_c_SOURCES = expr_c.c gram_c.y scan_c.l
 expr_c_LDADD = -lm

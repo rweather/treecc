@@ -1,4 +1,10 @@
 
+2002-01-10  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, examples/Makefile.am: only build "expr_cpp" if
+	bison is being used, because it uses features that are not
+	compatible with byacc.
+
 2002-01-07  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* input.c: add ';' after a goto label for correct ANSI C syntax.
