@@ -1,4 +1,13 @@
 
+2004-08-23  Russell Stuart <russell-savannah@stuart.id.au>
+
+	* debian/files - deleted.  This is an intermediate file generated
+	  by a debian package build.  Having it present may cause the
+	  package build to fail.
+
+	* debian/.cvsignore - added "files".  Try to prevent the same
+	  error from happening again.
+
 2004-08-08  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the 0.3.2 release.
