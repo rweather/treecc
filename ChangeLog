@@ -3,6 +3,8 @@
 
 	* configure.in, NEWS: update version for the "0.1.0" release.
 
+	* configure.in: update the working version to "0.1.1".
+
 2002-04-01  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, aclocal.m4: use "AM_MAINTAINER_MODE" in the
