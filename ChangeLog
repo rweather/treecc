@@ -3,6 +3,9 @@
 
 	* doc/treecc.texi: polish the text a little.
 
+	* etc/cpp_skel.cc: declare the argument to "alloc" as "size_t",
+	to match the declaration in the common header file.
+
 2002-01-10  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, examples/Makefile.am: only build "expr_cpp" if
