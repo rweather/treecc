@@ -1,4 +1,8 @@
 
+0.3.2 (8 August 2004)
+
+	* Fixes for parallel builds (Gopal V).
+
 0.3.0 (13 March 2004)
 
 	* Allow for parallel "make -jN" building (kloczek@pld.org.pl).

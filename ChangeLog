@@ -1,4 +1,8 @@
 
+2004-08-08  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, NEWS: update version for the 0.3.2 release.
+
 2004-07-26  Gopal.V  <gopalv82@symonds.net>
 
 	* examples/Makefile.am: Mark gram_c.c as a dependency of the 
