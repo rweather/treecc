@@ -38,6 +38,7 @@ void TreeCCGenerateCPP(TreeCCContext *context);
 void TreeCCGenerateJava(TreeCCContext *context);
 void TreeCCGenerateCSharp(TreeCCContext *context);
 void TreeCCGenerateRuby(TreeCCContext *context);
+void TreeCCGeneratePHP(TreeCCContext *context);
 
 /*
  * Control structure for generating the code for

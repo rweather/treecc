@@ -255,6 +255,10 @@ static int LangOption(TreeCCContext *context, char *value, int flag)
 		{
 			context->language = TREECC_LANG_RUBY;
 		}
+		else if(!strcmp(value, "php") || !strcmp(value, "PHP"))
+		{
+			context->language = TREECC_LANG_PHP;
+		}
 		else
 		{
 			return TREECC_OPT_INVALID_VALUE;

@@ -74,6 +74,7 @@ typedef struct _tagTreeCCOperationCase	TreeCCOperationCase;
 #define	TREECC_LANG_JAVA			2
 #define	TREECC_LANG_CSHARP			3
 #define	TREECC_LANG_RUBY			4
+#define	TREECC_LANG_PHP				5
 
 /*
  * Information that is stored about a field.

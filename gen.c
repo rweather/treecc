@@ -62,6 +62,12 @@ void TreeCCGenerate(TreeCCContext *context)
 		}
 		break;
 
+		case TREECC_LANG_PHP:
+		{
+			TreeCCGeneratePHP(context);
+		}
+		break;
+
 	}
 }
 
