@@ -6,7 +6,8 @@ and other language-based tools.  It manages the generation of code to handle
 abstract syntax trees and operations upon the trees.
 
 A fuller account of why treecc exists and what it can be used for can
-be found in the Texinfo documentation within the "doc" subdirectory.
+be found in the Texinfo documentation within the "doc" subdirectory,
+and in the introductory article "doc/essay.html".
 
 Downloading and Building
 ------------------------

@@ -1,4 +1,9 @@
 
+2002-03-23  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* doc/essay.html, README: add the treecc essay to the "doc"
+	subdirectory.
+
 2002-03-17  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* context.c, gen_c.c, gen_cpp.c, gen_cs.c, gen_java.c, info.h,
