@@ -1704,13 +1704,16 @@ void TreeCCGenerateC(TreeCCContext *context)
 	OutputHelpers(context);
 
 	/* Generate the contents of the source stream */
-	if(context->commonSource)
+	if(context->use_allocator)
 	{
-		WriteSourceSkeleton(context, context->commonSource);
-	}
-	else
-	{
-		WriteSourceSkeleton(context, context->sourceStream);
+		if(context->commonSource)
+		{
+			WriteSourceSkeleton(context, context->commonSource);
+		}
+		else
+		{
+			WriteSourceSkeleton(context, context->sourceStream);
+		}
 	}
 	TreeCCNodeVisitAll(context, DefineVtables);
 	TreeCCNodeVisitAll(context, ImplementCreateFuncs);

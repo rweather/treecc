@@ -662,10 +662,11 @@ static void ImplementNodeTypes(TreeCCContext *context, TreeCCNode *node)
 		TreeCCStreamPrint(stream, "\treturn %s::getState()->alloc(size__);\n",
 						  context->state_type);
 		TreeCCStreamPrint(stream, "}\n\n");
-		TreeCCStreamPrint(stream, "void %s::operator delete(void *, size_t)\n",
+		TreeCCStreamPrint(stream,
+				"void %s::operator delete(void *ptr__, size_t size__)\n",
 						  node->name);
 		TreeCCStreamPrint(stream, "{\n");
-		TreeCCStreamPrint(stream, "\t// not used: use %s::pop() instead\n",
+		TreeCCStreamPrint(stream, "\t%s::getState()->dealloc(ptr__, size__);\n",
 						  context->state_type);
 		TreeCCStreamPrint(stream, "}\n\n");
 	}
@@ -834,7 +835,8 @@ static void DeclareStateType(TreeCCContext *context, TreeCCStream *stream)
 
 	/* Declare the node pool handling functions */
 	TreeCCStreamPrint(stream, "public:\n\n");
-	TreeCCStreamPrint(stream, "\tvoid *alloc(size_t size);\n");
+	TreeCCStreamPrint(stream, "\tvoid *alloc(size_t);\n");
+	TreeCCStreamPrint(stream, "\tvoid dealloc(void *, size_t);\n");
 	TreeCCStreamPrint(stream, "\tint push();\n");
 	TreeCCStreamPrint(stream, "\tvoid pop();\n");
 	TreeCCStreamPrint(stream, "\tvoid clear();\n");
@@ -954,6 +956,11 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 	if(context->track_lines)
 	{
 		TreeCCStreamPrint(stream, "#define %s_TRACK_LINES 1\n",
+						  context->state_type);
+	}
+	if(context->use_allocator)
+	{
+		TreeCCStreamPrint(stream, "#define %s_USE_ALLOCATOR 1\n",
 						  context->state_type);
 	}
 	TreeCCIncludeSkeleton(context, stream, "cpp_skel.cc");

@@ -76,7 +76,8 @@ public:
 
 public:
 
-	void *alloc(size_t size);
+	void *alloc(size_t);
+	void dealloc(void *, size_t);
 	int push();
 	void pop();
 	void clear();
@@ -321,6 +322,7 @@ protected:
 
 #define YYNODESTATE_REENTRANT 1
 #define YYNODESTATE_TRACK_LINES 1
+#define YYNODESTATE_USE_ALLOCATOR 1
 #line 1 "cpp_skel.cc"
 /*
  * treecc node allocation routines for C++.
@@ -444,6 +446,8 @@ YYNODESTATE::~YYNODESTATE()
 #endif
 }
 
+#ifdef YYNODESTATE_USE_ALLOCATOR
+
 /*
  * Allocate a block of memory.
  */
@@ -483,6 +487,14 @@ void *YYNODESTATE::alloc(size_t size__)
 	result__ = (void *)(block__->data__ + used__);
 	used__ += size__;
 	return result__;
+}
+
+/*
+ * Deallocate a block of memory.
+ */
+void *YYNODESTATE::dealloc(void *ptr__, size_t size__)
+{
+	/* Nothing to do for this type of node allocator */
 }
 
 /*
@@ -564,6 +576,8 @@ void YYNODESTATE::clear()
 	used__ = 0;
 }
 
+#endif /* YYNODESTATE_USE_ALLOCATOR */
+
 /*
  * Default implementation of functions which may be overridden.
  */
@@ -584,7 +598,7 @@ long YYNODESTATE::currLinenum()
 }
 
 #endif
-#line 269 "output.c"
+#line 282 "output.c"
 intnum *YYNODESTATE::intnumCreate(int num)
 {
 	void *buf__ = this->alloc(sizeof(intnum));
@@ -692,7 +706,7 @@ void binary::infer_type()
 		type = int_type;
 	}
 }
-#line 377 "output.c"
+#line 390 "output.c"
 
 int binary::isA(int kind) const
 {
@@ -725,7 +739,7 @@ void unary::infer_type()
 	expr->infer_type();
 	type = expr->type;
 }
-#line 410 "output.c"
+#line 423 "output.c"
 
 int unary::isA(int kind) const
 {
@@ -757,7 +771,7 @@ void intnum::infer_type()
 {
 	type = int_type;
 }
-#line 442 "output.c"
+#line 455 "output.c"
 
 int intnum::isA(int kind) const
 {
@@ -892,7 +906,7 @@ void power::infer_type()
 
 	type = expr1->type;
 }
-#line 577 "output.c"
+#line 590 "output.c"
 
 int power::isA(int kind) const
 {

@@ -77,7 +77,8 @@ public:
 
 public:
 
-	void *alloc(size_t size);
+	void *alloc(size_t);
+	void dealloc(void *, size_t);
 	int push();
 	void pop();
 	void clear();
@@ -300,6 +301,7 @@ void infer_type(expression * e);
 /* output.c.  Generated automatically by treecc */
 
 #define YYNODESTATE_TRACK_LINES 1
+#define YYNODESTATE_USE_ALLOCATOR 1
 #line 1 "cpp_skel.cc"
 /*
  * treecc node allocation routines for C++.
@@ -423,6 +425,8 @@ YYNODESTATE::~YYNODESTATE()
 #endif
 }
 
+#ifdef YYNODESTATE_USE_ALLOCATOR
+
 /*
  * Allocate a block of memory.
  */
@@ -462,6 +466,14 @@ void *YYNODESTATE::alloc(size_t size__)
 	result__ = (void *)(block__->data__ + used__);
 	used__ += size__;
 	return result__;
+}
+
+/*
+ * Deallocate a block of memory.
+ */
+void *YYNODESTATE::dealloc(void *ptr__, size_t size__)
+{
+	/* Nothing to do for this type of node allocator */
 }
 
 /*
@@ -543,6 +555,8 @@ void YYNODESTATE::clear()
 	used__ = 0;
 }
 
+#endif /* YYNODESTATE_USE_ALLOCATOR */
+
 /*
  * Default implementation of functions which may be overridden.
  */
@@ -563,15 +577,15 @@ long YYNODESTATE::currLinenum()
 }
 
 #endif
-#line 268 "output.c"
+#line 281 "output.c"
 void *expression::operator new(size_t size__)
 {
 	return YYNODESTATE::getState()->alloc(size__);
 }
 
-void expression::operator delete(void *, size_t)
+void expression::operator delete(void *ptr__, size_t size__)
 {
-	// not used: use YYNODESTATE::pop() instead
+	YYNODESTATE::getState()->dealloc(ptr__, size__);
 }
 
 expression::expression()
@@ -838,7 +852,7 @@ void infer_type(expression * e__)
 			
 				e->type = e->expr1->type;
 			}
-#line 543 "output.c"
+#line 556 "output.c"
 		}
 		break;
 
@@ -868,7 +882,7 @@ void infer_type(expression * e__)
 					e->type = int_type;
 				}
 			}
-#line 573 "output.c"
+#line 586 "output.c"
 		}
 		break;
 
@@ -881,7 +895,7 @@ void infer_type(expression * e__)
 				infer_type(e->expr);
 				e->type = e->expr->type;
 			}
-#line 586 "output.c"
+#line 599 "output.c"
 		}
 		break;
 
@@ -892,7 +906,7 @@ void infer_type(expression * e__)
 			{
 				e->type = int_type;
 			}
-#line 597 "output.c"
+#line 610 "output.c"
 		}
 		break;
 

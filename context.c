@@ -49,6 +49,8 @@ TreeCCContext *TreeCCContextCreate(TreeCCInput *input)
 	context->kind_in_vtable = 0;
 	context->strip_filenames = 0;
 	context->print_lines = 1;
+	context->internal_access = 0;
+	context->use_allocator = 1;
 	context->yy_replacement = "yy";
 	context->state_type = "YYNODESTATE";
 	context->namespace = 0;

@@ -1152,6 +1152,17 @@ Print @code{#line} markers in languages that use them. (*)
 @cindex no_print_lines option
 Do not print @code{#line} markers, even in languages that normally
 use them.
+
+@item %option allocator
+@cindex allocator option
+Use treecc's standard node allocator for C and C++.  This option has
+no effect for other output languages. (*)
+
+@item %option no_allocator
+@cindex no_allocator option
+Do not use treecc's standard node allocator for C and C++.  This can be
+useful when the programmer wants to redirect node allocation to their
+own routines.
 @end table
 
 @c -----------------------------------------------------------------------

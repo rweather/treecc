@@ -350,6 +350,22 @@ static int InternalAccessOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "allocator": use (or don't use) the standard treecc allocator for C/C++.
+ */
+static int AllocatorOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->use_allocator = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
+/*
  * Table of option handlers.
  */
 static struct
@@ -386,6 +402,8 @@ static struct
 	{"no_strip_filenames",	StripFilenamesOption,	0},
 	{"internal_access",		InternalAccessOption,	1},
 	{"public_access",		InternalAccessOption,	0},
+	{"allocator",			AllocatorOption,		1},
+	{"no_allocator",		AllocatorOption,		0},
 	{0,						0,						0},
 };
 

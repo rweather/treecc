@@ -120,6 +120,8 @@ YYNODESTATE::~YYNODESTATE()
 #endif
 }
 
+#ifdef YYNODESTATE_USE_ALLOCATOR
+
 /*
  * Allocate a block of memory.
  */
@@ -159,6 +161,14 @@ void *YYNODESTATE::alloc(size_t size__)
 	result__ = (void *)(block__->data__ + used__);
 	used__ += size__;
 	return result__;
+}
+
+/*
+ * Deallocate a block of memory.
+ */
+void *YYNODESTATE::dealloc(void *ptr__, size_t size__)
+{
+	/* Nothing to do for this type of node allocator */
 }
 
 /*
@@ -239,6 +249,8 @@ void YYNODESTATE::clear()
 	push_stack__ = 0;
 	used__ = 0;
 }
+
+#endif /* YYNODESTATE_USE_ALLOCATOR */
 
 /*
  * Default implementation of functions which may be overridden.
