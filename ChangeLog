@@ -25,6 +25,9 @@
 
 	* configure.in, NEWS: update the release version to 0.0.6.
 
+	* configure.in: change the version to "0.0.7" for the new working
+	version.
+
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* main.c: bug fix - create the default output files correctly;
