@@ -164,18 +164,20 @@ static void DeclareTypeDefs(TreeCCContext *context,
 	if((node->flags & TREECC_NODE_ENUM) != 0)
 	{
 		/* Define an enumerated type */
+		char const *sep = "\n";
 		TreeCCNode *child;
-		TreeCCStreamPrint(stream, "typedef enum {\n");
+		TreeCCStreamPrint(stream, "typedef enum {");
 		child = node->firstChild;
 		while(child != 0)
 		{
 			if((child->flags & TREECC_NODE_ENUM_VALUE) != 0)
 			{
-				TreeCCStreamPrint(stream, "\t%s,\n", child->name);
+				TreeCCStreamPrint(stream, "%s\t%s", sep, child->name);
+				sep = ",\n";
 			}
 			child = child->nextSibling;
 		}
-		TreeCCStreamPrint(stream, "} %s;\n\n", node->name);
+		TreeCCStreamPrint(stream, "\n} %s;\n\n", node->name);
 	}
 	else if((node->flags & TREECC_NODE_ENUM_VALUE) == 0)
 	{

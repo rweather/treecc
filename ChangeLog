@@ -1,4 +1,10 @@
 
+2003-12-03  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* gen_c.c, tests/output15.out, tests/output7.out, tests/output8.out:
+	don't put a trailing comma on "enum" definitions, because strict ANSI
+	C compilers don't like them (thanks to Miroslaw Dobrzanski-Neumann).
+
 2003-11-20  Gopal.V  <gopalv82@symonds.net>
 
 	* context.c, gen_cpp.c, gen_cs.c, gen_java.c, info.h, options.c,

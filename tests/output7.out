@@ -16,7 +16,7 @@ typedef enum {
 	D,
 	E,
 	F,
-	G,
+	G
 } C;
 
 
