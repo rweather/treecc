@@ -1,4 +1,10 @@
 
+0.1.2 (27 June 2002)
+
+	* Add some patches to support out of tree builds (Stephen Compall).
+	* Make the build system more automake 1.5 friendly.
+	* Work around versions of "sed" that don't support "-" for stdin.
+
 0.1.0 (20 April 2002)
 
 	* Add maintainer mode to the autoconf system to work around
