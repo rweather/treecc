@@ -1,4 +1,9 @@
 
+2003-01-09  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* stream.c (TreeCCStreamCreate): copy the "force" flag from
+	the configuration settings into newly created streams.
+
 2002-12-31  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* gen_cs.c, gen_java.c, info.h, options.c, doc/treecc.texi,

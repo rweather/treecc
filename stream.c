@@ -110,7 +110,7 @@ TreeCCStream *TreeCCStreamCreate(PTreeCCContext context,
 	stream->firstBuf = 0;
 	stream->lastBuf = 0;
 	stream->posn = TREECC_STREAM_BUFSIZ;
-	stream->forceCreate = 0;
+	stream->forceCreate = context->force;
 	stream->readOnly = 0;
 	stream->isHeader = isHeader;
 	stream->defaultFile = 0;
