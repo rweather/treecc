@@ -1,54 +1,59 @@
 
 2001-12-28  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-* gen_c.c (ImplementCreateFuncs): insert a '*' into the return cast when
-creating a singleton.
+	* gen_c.c (ImplementCreateFuncs): insert a '*' into the return
+	cast when creating a singleton.
 
-* context.c, gen_c.c, info.h, options.c, doc/treecc.texi: add the options
-"kind_in_vtable" and "kind_in_node".
+	* context.c, gen_c.c, info.h, options.c, doc/treecc.texi:
+	add the options "kind_in_vtable" and "kind_in_node".
 
-* skeleton.c (TreeCCIncludeSkeleton): replace all instances of "yy" in
-a skeleton with "context->yy_replacement".
+	* skeleton.c (TreeCCIncludeSkeleton): replace all instances of
+	"yy" in a skeleton with "context->yy_replacement".
 
-* tests/output12.out, tests/output12.tst, tests/output13.out,
-tests/output13.tst, tests/output14.out, tests/output14.tst,
-tests/test_list: add new tests for singletons, vtable kinds, and
-"yy" replacement.
+	* tests/output12.out, tests/output12.tst, tests/output13.out,
+	tests/output13.tst, tests/output14.out, tests/output14.tst,
+	tests/test_list: add new tests for singletons, vtable kinds, and
+	"yy" replacement.
+
+	* ChangeLog: adjust the ChangeLog format to make it Emacs-friendly.
 
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-* main.c: bug fix - create the default output files correctly; defaults
-weren't working when the input didn't have "%output" specified.
+	* main.c: bug fix - create the default output files correctly;
+	defaults weren't working when the input didn't have "%output"
+	specified.
 
 2001-12-11  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-* etc/c_skel.c, etc/cpp_skel.cc: swap the order of "data__" and "next__"
-in "YYNODESTATE_block" so that the start of the "data__" buffer will be
-properly aligned on 64-bit platforms.
+	* etc/c_skel.c, etc/cpp_skel.cc: swap the order of "data__" and
+	"next__" in "YYNODESTATE_block" so that the start of the
+	"data__" buffer will be properly aligned on 64-bit platforms.
 
-* tests/output1.out, tests/output2.out, tests/output3.out, tests/output4.out,
-tests/output5.out, tests/output6.out, tests/output7.out, tests/output8.out,
-tests/output9.out: new test output files that were affected by the
-skeleton change.
+	* tests/output1.out, tests/output2.out, tests/output3.out,
+	tests/output4.out, tests/output5.out, tests/output6.out,
+	tests/output7.out, tests/output8.out, tests/output9.out:
+	new test output files that were affected by the skeleton change.
 
 2001-11-08  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-* etc/c_skel.c, etc/cpp_skel.cc: update the C and C++ skeleton files with
-an alignment algorithm that should work better on platforms such as 64-bit
-Solaris.
+	* etc/c_skel.c, etc/cpp_skel.cc: update the C and C++ skeleton
+	files with an alignment algorithm that should work better on
+	platforms such as 64-bit Solaris.
 
-* tests/output1.out, tests/output2.out, tests/output3.out, tests/output4.out,
-tests/output5.out, tests/output6.out, tests/output7.out, tests/output8.out,
-tests/output9.out: new test output files that were affected by the
-skeleton change.
+	* tests/output1.out, tests/output2.out, tests/output3.out,
+	tests/output4.out, tests/output5.out, tests/output6.out,
+	tests/output7.out, tests/output8.out, tests/output9.out:
+	new test output files that were affected by the skeleton change.
 
-* doc/treecc.texi: insert a "@page" command to force the index to
-be formatted correctly when PDF documentation is generated.
+	* doc/treecc.texi: insert a "@page" command to force the index to
+	be formatted correctly when PDF documentation is generated.
 
-* configure.in, NEWS: version and news updates for the "0.0.4" release.
+	* configure.in, NEWS: version and news updates for the "0.0.4" release.
 
-* configure.in: change the version to "0.0.5" for the new working version.
+	* configure.in: change the version to "0.0.5" for the new working
+	version.
 
 2001-08-14  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-* treecc.spec: applied patch submitted by mdaniel to create RPM spec file.
+	* treecc.spec: applied patch submitted by mdaniel to create
+	RPM spec file.
