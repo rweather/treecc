@@ -4,6 +4,9 @@
 	* auto_gen.sh, configure.in: make the system more friendly to
 	automake 1.5 systems.
 
+	* tests/run_tests: work-around versions of "sed" that do not
+	recognise "-" to mean standard input.
+
 2002-05-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/Makefile.am, examples/Makefile.am: patches from

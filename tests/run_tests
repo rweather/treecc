@@ -26,7 +26,7 @@ trap 'rm -f $TMPFILE $TMPFILEB' 1 2 15
 process()
 {
 	echo -n "$1 $2.tst: "
-	if ./$1 "$2.tst" | sed 's///g' - >$TMPFILE ; then
+	if ./$1 "$2.tst" | sed 's///g' >$TMPFILE ; then
 		if diff "$2.out" $TMPFILE >$TMPFILEB ; then
 			echo "ok"
 			return 0
