@@ -13,6 +13,8 @@ skeleton change.
 * doc/treecc.texi: insert a "@page" command to force the index to
 be formatted correctly when PDF documentation is generated.
 
+* configure.in, NEWS: version and news updates for the "0.0.4" release.
+
 2001-08-14  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * treecc.spec: applied patch submitted by mdaniel to create RPM spec file.

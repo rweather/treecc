@@ -1,1 +1,7 @@
-See README for any relevant news.
+
+0.0.4 (8 November 2001)
+
+	* Modify the skeleton files so that tree nodes are aligned correctly
+	  on 64-bit Solaris systems.
+	* Slight documentation and GNU-compliance updates.
+	* New version numbering scheme.
