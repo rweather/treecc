@@ -21,6 +21,7 @@
 #include "parse.h"
 #include "errors.h"
 #include "gen.h"
+#include "options.h"
 
 #ifdef	__cplusplus
 extern	"C" {
@@ -28,6 +29,7 @@ extern	"C" {
 
 static void Usage(char *progname);
 static void Version(void);
+static int ExtraOptions(TreeCCContext *context, char **options, int num);
 static char *GetDefault(const char *filename, const char *extension);
 
 int main(int argc, char *argv[])
@@ -45,6 +47,15 @@ int main(int argc, char *argv[])
 	int generateOutput = 1;
 	FILE *file;
 	int len, result;
+	char **options = (char **)malloc(sizeof(char *) * argc);
+	int num_options = 0;
+
+	/* Allocate the array for external "%option" values */
+	options = (char **)malloc(sizeof(char *) * argc);
+	if(!options)
+	{
+		TreeCCOutOfMemory(0);
+	}
 
 	/* Parse the command-line options */
 	while(argc > 1 && argv[1][0] == '-')
@@ -119,6 +130,17 @@ int main(int argc, char *argv[])
 					return 1;
 				}
 				extension = argv[1];
+			}
+			else if(!strcmp(argv[1], "--option"))
+			{
+				--argc;
+				++argv;
+				if(argc <= 1)
+				{
+					Usage(progname);
+					return 1;
+				}
+				options[num_options++] = argv[1];
 			}
 			else if(!strcmp(argv[1], "--force-create"))
 			{
@@ -257,6 +279,27 @@ int main(int argc, char *argv[])
 					}
 					break;
 
+					case 'O':
+					{
+						if(*opt != '\0')
+						{
+							options[num_options++] = opt;
+							opt = "";
+						}
+						else if(argc <= 2)
+						{
+							Usage(progname);
+							return 1;
+						}
+						else
+						{
+							--argc;
+							++argv;
+							options[num_options++] = argv[1];
+						}
+					}
+					break;
+
 					case 'f':
 					{
 						forceCreate = 1;
@@ -343,6 +386,13 @@ int main(int argc, char *argv[])
 	}
 	context->force = forceCreate;
 	context->outputDirectory = outputDir;
+
+	/* Process additional options from the command-line */
+	if(!ExtraOptions(context, options, num_options))
+	{
+		return 1;
+	}
+	free(options);
 
 	/* Create the default source and header streams */
 	context->sourceStream = TreeCCStreamCreate(context, outputFile,
@@ -435,6 +485,8 @@ static void Usage(char *progname)
 	fprintf(stderr, "        Set the output file extension (default is \".c\").\n");
 	fprintf(stderr, "    -f,      --force-create\n");
 	fprintf(stderr, "        Force the creation of unchanged output files.\n");
+	fprintf(stderr, "    -O opt,  --option opt\n");
+	fprintf(stderr, "        Set a treecc source option value.\n");
 	fprintf(stderr, "    --help\n");
 	fprintf(stderr, "        Print this help message.\n");
 	fprintf(stderr, "    -v,      --version\n");
@@ -451,6 +503,38 @@ static void Version(void)
 	printf("GNU General Public License.  See the file COPYING for further details.\n");
 	printf("\n");
 	printf("Use the `--help' option to get help on the command-line options.\n");
+}
+
+/*
+ * Process extra treecc "%option" values from the command-line.
+ */
+static int ExtraOptions(TreeCCContext *context, char **options, int num)
+{
+	char *name;
+	char *value;
+	while(num-- > 0)
+	{
+		name = *options++;
+		value = name;
+		while(*value != '\0' && *value != '=')
+		{
+			++value;
+		}
+		if(*value == '\0')
+		{
+			value = 0;
+		}
+		else
+		{
+			*value++ = '\0';
+		}
+		if(TreeCCOptionProcess(context, name, value) != TREECC_OPT_OK)
+		{
+			fprintf(stderr, "%s: unknown option or invalid value\n", name);
+			return 0;
+		}
+	}
+	return 1;
 }
 
 /*

@@ -7,6 +7,10 @@
 	which allow treecc's C/C++ node allocators to be replaced with
 	third party node allocators.
 
+	* main.c, doc/treecc.1, doc/treecc.texi: add the "-O" option to
+	the treecc command-line, which allows "%option" commands to
+	be issued directly from the command-line.
+
 2003-01-27  James Michael DuPont  <mdupont777@yahoo.com>
 
 	* context.c, info.h, options.c, stream.c: add the "print_lines"

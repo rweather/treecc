@@ -567,6 +567,11 @@ are the same as existing files with the same name.
 The declaration @samp{%option force} can be used in the input files
 to achieve the same effect as this option.
 
+@item -O OPT
+@itemx --option OPT
+Set a treecc option value.  This is a command-line version of
+the @samp{%option} keyword in the input files.
+
 @item -n
 @itemx --no-output
 Suppress the generation of output files.  Treecc parses the
