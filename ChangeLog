@@ -3,6 +3,10 @@
 
 	* auto_gen.sh: slightly smarter script that also runs "aclocal".
 
+	* aclocal.m4, config.h.in, missing, examples/Makefile.am,
+	examples/ylwrap: update build system to automake 1.6, and remove
+	"expr_cpp" from the build because cygwin's automake is busted.
+
 2002-06-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* NEWS, configure.in: update version for the "0.1.2" release.
