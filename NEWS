@@ -1,4 +1,20 @@
 
+0.0.6 (28 December 2001)
+
+	* Swap the order of some fields in "YYNODESTATE" to align nodes
+	  better on 64-bit platforms.
+	* Fix a bug which prevented treecc from creating default output
+	  files if "%output" and "%header" were missing from the source.
+	* Bug fix in the singleton code: missing '*' in return case.
+	* Add an option for kind values in either the node or the vtable.
+	  Vtable kinds can help reduce memory requirements.
+	* Bug fix to the skeleton expansion code: "yy" was not being
+	  properly expanded to the specified prefix.
+	* Implement the "%split" flag for non-virtual operations to split
+	  large "switch" statements across multiple functions.  This should
+	  help alleviate optimisation problems when compiling Portable.NET's
+	  C# compiler with GCC 3.0.
+
 0.0.4 (8 November 2001)
 
 	* Modify the skeleton files so that tree nodes are aligned correctly

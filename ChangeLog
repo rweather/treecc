@@ -23,6 +23,8 @@
 	for non-virtual operations to split large "switch" statements
 	across multiple functions.
 
+	* configure.in, NEWS: update the release version to 0.0.6.
+
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* main.c: bug fix - create the default output files correctly;
