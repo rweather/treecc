@@ -1,4 +1,8 @@
 
+2002-03-05  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* doc/treecc.texi: polish the text a little.
+
 2002-01-10  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, examples/Makefile.am: only build "expr_cpp" if

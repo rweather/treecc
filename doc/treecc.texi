@@ -17,8 +17,12 @@ Copyright @copyright{} 2001 Southern Storm Software, Pty Ltd
 @sp 10
 @center @titlefont{Tree Compiler-Compiler}
 
-@vskip 0pt plus 1fill
-@center{Copyright @copyright{} 2001 Southern Storm Software, Pty Ltd}
+@vskip 50pt
+
+@center{Rhys Weatherley}
+
+@vskip 50pt
+@center{Copyright @copyright{} 2001, 2002 Southern Storm Software, Pty Ltd}
 @end titlepage
 
 @c -----------------------------------------------------------------------
@@ -129,15 +133,15 @@ the following drawback of visitor patterns, as described in Gamma,
 et al:
 
 @quotation
-The Visitor pattern makes it hard to add new subclasses of
+@emph{The Visitor pattern makes it hard to add new subclasses of
 Element.  Each new ConcreteElement gives rise to a new abstract
 operation on Visitor and a corresponding implementation in
-every ConcreteVisitor class.
+every ConcreteVisitor class.}
 
-... The Visitor class hierarchy can be difficult to maintain
+@emph{... The Visitor class hierarchy can be difficult to maintain
 when new ConcreteElement classes are added frequently.  In such
 cases, it's probably easier just to define operations on the
-classes that make up the structure.
+classes that make up the structure.}
 @end quotation
 
 That is, if we add a new node type in the future, we have a large
@@ -156,6 +160,35 @@ existing node types adequately.  Existing OO languages do not perform
 this kind of global error checking.  What few checking procedures they
 have change the maintainence problem into a different problem of
 similar complexity.
+
+@section Aspect-oriented programming
+
+A new field in language design has emerged in recent years called
+"Aspect-Oriented Programming" (AOP).  A good review of the field
+can be found in the October 2001 issue of the @emph{Communications of
+the ACM}, and on the AspectJ Web site, @url{http://www.aspectj.org/}.
+
+The following excerpt from the introduction to the AOP section in the
+CACM issue describes the essential aspects of AOP, and the difference
+between OOP and AOP:
+
+@quotation
+@emph{AOP is based on the idea that computer systems are better programmed
+by separately specifying the various concerns (properties or areas
+of interest) of a system and some description of their relationships,
+and then relying on mechanisms in the underlying AOP environment to
+weave or compose them together into a coherent program. ...
+While the tendancy in OOP's is to find commonality among classes
+and push it up the inheritance tree, AOP attempts to realize
+scattered concerns as first-class elements, and eject them
+horizontally from the object structure.}
+@end quotation
+
+Aspect-orientation gives us some hope of solving our compiler
+complexity problems.  We can view each operation on node types
+(semantic analysis, optimization, code generation, etc) as an
+"aspect" of the compiler's construction.  The AOP language weaves
+these aspects with the node types to create the final compiler.
 
 @section The treecc approach
 
@@ -1056,12 +1089,12 @@ Specify the prefix to be used in output files in place of "yy".
 @cindex state_type option
 Specify the name of the state type.  The state type is generated
 by treecc to perform centralised memory management and reentrancy
-support.  The default value is "YYNODESTATE".  If the output language
+support.  The default value is @samp{YYNODESTATE}.  If the output language
 uses factories, then this will also be the name of the factory
 base class.
 
 @item %option namespace = NAME
-@cindex namspace option
+@cindex namespace option
 Specify the namespace to write definitions to in the output
 source files.  This option is ignored when the output language
 is C.
@@ -1452,14 +1485,14 @@ was specified.
 Sets the filename associated with @samp{node} to @samp{value}.  The
 string is not copied, so @samp{value} must persist for the lifetime
 of the node.  This macro will rarely be required, unless a node
-corresponds to a different line that the current parse line.  This
+corresponds to a different line than the current parse line.  This
 macro is only generated if @samp{%option track_lines} was specified.
 
 @item void yysetlinenum(ANY *node, long value)
 @cindex yysetlinenum macro
 Sets the line number associated with @samp{node} to @samp{value}.
 This macro will rarely be required, unless a node corresponds to a
-different line that the current parse line.  This macro is only
+different line than the current parse line.  This macro is only
 generated if @samp{%option track_lines} was specified.
 
 @item char *yycurrfilename([YYNODESTATE *state])
@@ -1665,14 +1698,14 @@ was specified.
 Sets the filename associated with the node to @samp{value}.  The
 string is not copied, so @samp{value} must persist for the lifetime
 of the node.  This method will rarely be required, unless a node
-corresponds to a different line that the current parse line.  This
+corresponds to a different line than the current parse line.  This
 method is only generated if @samp{%option track_lines} was specified.
 
 @item void setLinenum(long value)
 @cindex setLinenum method (C++)
 Sets the line number associated with the node to @samp{value}.
 This method will rarely be required, unless a node corresponds to a
-different line that the current parse line.  This method is only
+different line than the current parse line.  This method is only
 generated if @samp{%option track_lines} was specified.
 @end table
 
@@ -1919,14 +1952,14 @@ was specified.
 @cindex setFilename method (Java)
 Sets the filename associated with the node to @samp{value}.
 This method will rarely be required, unless a node corresponds to
-a different line that the current parse line.  This method is only
+a different line than the current parse line.  This method is only
 generated if @samp{%option track_lines} was specified.
 
 @item void setLinenum(long value)
 @cindex setLinenum method (Java)
 Sets the line number associated with the node to @samp{value}.
 This method will rarely be required, unless a node corresponds to a
-different line that the current parse line.  This method is only
+different line than the current parse line.  This method is only
 generated if @samp{%option track_lines} was specified.
 @end table
 
@@ -2191,14 +2224,14 @@ was specified.
 @cindex setFilename method (C#)
 Sets the filename associated with the node to @samp{value}.
 This method will rarely be required, unless a node corresponds to
-a different line that the current parse line.  This method is only
+a different line than the current parse line.  This method is only
 generated if @samp{%option track_lines} was specified.
 
 @item void setLinenum(long value)
 @cindex setLinenum method (C#)
 Sets the line number associated with the node to @samp{value}.
 This method will rarely be required, unless a node corresponds to a
-different line that the current parse line.  This method is only
+different line than the current parse line.  This method is only
 generated if @samp{%option track_lines} was specified.
 @end table
 
@@ -2488,7 +2521,7 @@ TypeName ::= IDENTIFIER @{ IDENTIFIER @}
 
 Operation ::= %operation @{ OperFlag @} Type
                    [ ClassName ] IDENTIFIER '(' [ Params ] ')'
-				   [ '=' LITERAL_CODE ] [ ';' ]
+                   [ '=' LITERAL_CODE ] [ ';' ]
 
 OperFlag ::= %virtual | %inline | %split
 
