@@ -12,6 +12,9 @@ case "$host" in
 		platform_win32=yes
 		CC="gcc -mno-cygwin"
 		;;
+	*-*-mingw*)
+		platform_win32=yes
+		;;
 	*)
 		platform_win32=no
 		;;

@@ -4,6 +4,8 @@
 	* tests/run_tests: perform end of line conversion on the expected
 	test output files to prevent problems when diff'ing on MS-DOS systems.
 
+	* configure.in: don't use "-mno-cygwin" with "mingw32" compilers.
+
 2002-12-15  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* mkskel-sh, .cvsignore, Makefile.am, info.h, main.c, skeleton.c,
