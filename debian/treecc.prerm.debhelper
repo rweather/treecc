@@ -1,0 +1,6 @@
+# Automatically added by dh_installdocs
+if [ "$1" = "upgrade" ] || [ "$1" = "remove" ] && [ -L /usr/doc/treecc ]
+then
+	rm -f /usr/doc/treecc
+fi
+# End automatically added section
