@@ -1,4 +1,9 @@
 
+2004-03-11  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* examples/Makefile.am: small change to allow for parallel
+	"make -jN" building (thanks to kloczek@pld.org.pl).
+
 2004-01-03  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the 0.2.8 release.
