@@ -1,7 +1,8 @@
 
 2003-01-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
-	* doc/treecc.texi: minor adjustment to direntry tag.
+	* doc/treecc.texi: minor adjustment to direntry tag; only include
+	treecc once in the info directory.
 
 2003-01-26  Stephen Compall  <s11@member.fsf.org>
 

@@ -11,11 +11,6 @@
                                 abstract syntax trees.
 @end direntry
 
-@dircategory Individual utilities
-@direntry
-* treecc: (treecc). Invoking Treecc.  Build compiler AST code.
-@end direntry
-
 @ifinfo
 The treecc program converts descriptions of abstract syntax
 trees into source code that can be used to support compiler
