@@ -1,4 +1,9 @@
 
+2003-01-27  James Michael DuPont  <mdupont777@yahoo.com>
+
+	* context.c, info.h, options.c, stream.c: add the "print_lines"
+	and "no_print_lines" options to suppress #line directives.
+
 2003-01-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* doc/treecc.texi: minor adjustment to direntry tag; only include

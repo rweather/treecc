@@ -660,17 +660,21 @@ void TreeCCStreamSourceBottom(TreeCCStream *stream)
 void TreeCCStreamLine(TreeCCStream *stream, long linenum,
 					  const char *filename)
 {
-	int len;
-	if(stream->context->strip_filenames)
+	if(stream->context->print_lines)
 	{
-		len = strlen(filename);
-		while(len > 0 && filename[len - 1] != '/' && filename[len - 1] != '\\')
+		int len;
+		if(stream->context->strip_filenames)
 		{
-			--len;
+			len = strlen(filename);
+			while(len > 0 && filename[len - 1] != '/' &&
+				  filename[len - 1] != '\\')
+			{
+				--len;
+			}
+			filename += len;
 		}
-		filename += len;
+		TreeCCStreamPrint(stream, "#line %ld \"%s\"\n", linenum, filename);
 	}
-	TreeCCStreamPrint(stream, "#line %ld \"%s\"\n", linenum, filename);
 }
 
 #ifdef	__cplusplus

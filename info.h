@@ -224,6 +224,7 @@ typedef struct _tagTreeCCContext
 	int				abstract_factory : 1;/* Declare factory methods abstract */
 	int				kind_in_vtable : 1;	/* Put kind value in vtable only */
 	int				strip_filenames : 1; /* Strip names in #line directives */
+	int				print_lines : 1;	/* Dont emit #line directives */
 	int				internal_access : 1; /* Use "internal" classes in C# */
 
 	/* String to use to replace "yy" in output files */

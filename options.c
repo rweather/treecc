@@ -297,6 +297,24 @@ static int BlockSizeOption(TreeCCContext *context, char *value, int flag)
 	}
 }
 
+
+
+/*
+ * "print_lines": print out line number directives.
+ */
+static int PrintLineNumberOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->print_lines = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
 /*
  * "strip_filenames": strip filenames in #line directives down
  * to their base name, with no directory information.
@@ -363,6 +381,8 @@ static struct
 	{"lang",				LangOption,				0},
 	{"block_size",			BlockSizeOption,		0},
 	{"strip_filenames",		StripFilenamesOption,	1},
+	{"print_lines",			PrintLineNumberOption,	1},
+	{"no_print_lines",		PrintLineNumberOption,	0},
 	{"no_strip_filenames",	StripFilenamesOption,	0},
 	{"internal_access",		InternalAccessOption,	1},
 	{"public_access",		InternalAccessOption,	0},
