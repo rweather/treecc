@@ -21,6 +21,9 @@
 	* examples/Makefile.am: remove the unnecessary skeleton directory
 	specification.
 
+	* make-zip.sh, doc/binary_readme.txt: add the "make-zip.sh"
+	script, to assist with building a Win32 binary .zip file package.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds
