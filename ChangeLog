@@ -10,6 +10,11 @@ creating a singleton.
 * skeleton.c (TreeCCIncludeSkeleton): replace all instances of "yy" in
 a skeleton with "context->yy_replacement".
 
+* tests/output12.out, tests/output12.tst, tests/output13.out,
+tests/output13.tst, tests/output14.out, tests/output14.tst,
+tests/test_list: add new tests for singletons, vtable kinds, and
+"yy" replacement.
+
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * main.c: bug fix - create the default output files correctly; defaults
