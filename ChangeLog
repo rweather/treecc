@@ -10,6 +10,8 @@
 	tests/test_output.c: bind the skeleton files into the "treecc"
 	binary so that we don't have any more skeleton path search problems.
 
+	* README, configure.in: always turn off cygwin builds under Win32.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds

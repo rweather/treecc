@@ -41,17 +41,7 @@ If you wish to install treecc somewhere other than the default prefix
 where "PREFIX" is the full pathname of the directory where you want to
 install the program.
 
-If you are building treecc under Cygwin on Windows and you want to be
-able to run treecc outside the Cygwin environment, then you should
-configure the program as follows:
-
-    $ ./configure --disable-cygwin
-
-This forces treecc to be built in such a way that it can be run as a
-regular Windows program.  Otherwise you will need to run treecc within
-the Cygwin environment, using CYGWIN1.DLL.
-
-If you want to add a new output languages, see "doc/extending.txt".
+If you want to add a new output language, see "doc/extending.txt".
 
 Copyright Considerations
 ------------------------
