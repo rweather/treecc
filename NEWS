@@ -1,4 +1,9 @@
 
+0.1.4 (2 September 2002)
+
+	* Fixes to "auto_gen.sh" and autoconf/automake support scripts
+	  to better support automake 1.6 systems.
+
 0.1.2 (27 June 2002)
 
 	* Add some patches to support out of tree builds (Stephen Compall).
