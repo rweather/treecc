@@ -1,3 +1,8 @@
+
+2003-01-27  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* doc/treecc.texi: minor adjustment to direntry tag.
+
 2003-01-26  Stephen Compall  <s11@member.fsf.org>
 
 	* doc/treecc.texi: Added info dir entries.

@@ -13,7 +13,7 @@
 
 @dircategory Individual utilities
 @direntry
-* treecc: (treecc)Invoking Treecc.  Build compiler AST code.
+* treecc: (treecc). Invoking Treecc.  Build compiler AST code.
 @end direntry
 
 @ifinfo
