@@ -1,4 +1,10 @@
 
+0.2.8 (3 January 2004)
+
+	* Add the "base_type" option (Gopal V).
+	* Don't put trailing commas on enums because strict ANSI C
+	  does not allow trailing commas (Miroslaw Dobrzanski-Neumann).
+
 0.2.6 (17 July 2003)
 
 	* Add the "gc_allocator" option, so that node allocation can be
