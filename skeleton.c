@@ -201,10 +201,10 @@ void TreeCCIncludeSkeleton(TreeCCContext *context, TreeCCStream *stream,
 	while(fgets(buffer, BUFSIZ, file))
 	{
 	#if HAVE_STRCHR
-		if(strchr(buffer, 'Y') != 0)
+		if(strchr(buffer, 'Y') != 0 || strchr(buffer, 'y') != 0)
 	#endif
 		{
-			/* The line probably contains "YYNODESTATE" */
+			/* The line probably contains "YYNODESTATE" or "yy" */
 			posn = 0;
 			start = 0;
 			while(buffer[posn] != '\0')
@@ -219,6 +219,17 @@ void TreeCCIncludeSkeleton(TreeCCContext *context, TreeCCStream *stream,
 					}
 					TreeCCStreamCode(stream, context->state_type);
 					posn += 11;
+					start = posn;
+				}
+				else if(buffer[posn] == 'y' && buffer[posn + 1] == 'y')
+				{
+					buffer[posn] = '\0';
+					if(start < posn)
+					{
+						TreeCCStreamCode(stream, buffer + start);
+					}
+					TreeCCStreamCode(stream, context->yy_replacement);
+					posn += 2;
 					start = posn;
 				}
 				else
