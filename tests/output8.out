@@ -160,6 +160,42 @@ static YYNODESTATE fixed_state__;
 #endif
 
 /*
+ * Some macro magic to determine the default alignment
+ * on this machine.  This will compile down to a constant.
+ */
+#define	YYNODESTATE_ALIGN_CHECK_TYPE(type,name)	\
+	struct _YYNODESTATE_align_##name { \
+		char pad; \
+		type field; \
+	}
+#define	YYNODESTATE_ALIGN_FOR_TYPE(type)	\
+	((unsigned)(&(((struct _YYNODESTATE_align_##type *)0)->field)))
+#define	YYNODESTATE_ALIGN_MAX(a,b)	\
+	((a) > (b) ? (a) : (b))
+#define	YYNODESTATE_ALIGN_MAX3(a,b,c) \
+	(YYNODESTATE_ALIGN_MAX((a), YYNODESTATE_ALIGN_MAX((b), (c))))
+YYNODESTATE_ALIGN_CHECK_TYPE(int, int);
+YYNODESTATE_ALIGN_CHECK_TYPE(long, long);
+#if defined(WIN32) && !defined(__CYGWIN__)
+YYNODESTATE_ALIGN_CHECK_TYPE(__int64, long_long);
+#else
+YYNODESTATE_ALIGN_CHECK_TYPE(long long, long_long);
+#endif
+YYNODESTATE_ALIGN_CHECK_TYPE(void *, void_p);
+YYNODESTATE_ALIGN_CHECK_TYPE(float, float);
+YYNODESTATE_ALIGN_CHECK_TYPE(double, double);
+#define	YYNODESTATE_ALIGNMENT	\
+	YYNODESTATE_ALIGN_MAX( \
+			YYNODESTATE_ALIGN_MAX3	\
+			(YYNODESTATE_ALIGN_FOR_TYPE(int), \
+		     YYNODESTATE_ALIGN_FOR_TYPE(long), \
+			 YYNODESTATE_ALIGN_FOR_TYPE(long_long)), \
+  	     YYNODESTATE_ALIGN_MAX3 \
+		 	(YYNODESTATE_ALIGN_FOR_TYPE(void_p), \
+			 YYNODESTATE_ALIGN_FOR_TYPE(float), \
+			 YYNODESTATE_ALIGN_FOR_TYPE(double)))
+
+/*
  * Initialize the node allocation pool.
  */
 #ifdef YYNODESTATE_REENTRANT
@@ -194,14 +230,8 @@ unsigned int size__;
 	void *result__;
 
 	/* Round the size to the next alignment boundary */
-	if(sizeof(void *) > sizeof(long))
-	{
-		size__ = (size__ + sizeof(void *) - 1) & ~(sizeof(void *) - 1);
-	}
-	else
-	{
-		size__ = (size__ + sizeof(long) - 1) & ~(sizeof(long) - 1);
-	}
+	size__ = (size__ + YYNODESTATE_ALIGNMENT - 1) &
+				~(YYNODESTATE_ALIGNMENT - 1);
 
 	/* Do we need to allocate a new block? */
 	block__ = state__->blocks__;
@@ -341,34 +371,34 @@ void yynodeclear()
 	state__->push_stack__ = 0;
 	state__->used__ = 0;
 }
-#line 240 "output.c"
+#line 270 "output.c"
 static void op1_1__(C c, int value)
 #line 9 "output8.tst"
 {
 	code1;
 }
-#line 246 "output.c"
+#line 276 "output.c"
 
 static void op1_2__(C c, int value)
 #line 14 "output8.tst"
 {
 	code2;
 }
-#line 253 "output.c"
+#line 283 "output.c"
 
 static void op1_3__(C c, int value)
 #line 19 "output8.tst"
 {
 	code3;
 }
-#line 260 "output.c"
+#line 290 "output.c"
 
 static void op1_4__(C c, int value)
 #line 24 "output8.tst"
 {
 	code4;
 }
-#line 267 "output.c"
+#line 297 "output.c"
 
 void op1(C c, int value)
 {
@@ -412,7 +442,7 @@ void op2(C c, int value)
 			{
 				code1;
 			}
-#line 311 "output.c"
+#line 341 "output.c"
 		}
 		break;
 
@@ -422,7 +452,7 @@ void op2(C c, int value)
 			{
 				code2;
 			}
-#line 321 "output.c"
+#line 351 "output.c"
 		}
 		break;
 
@@ -433,7 +463,7 @@ void op2(C c, int value)
 			{
 				code5;
 			}
-#line 332 "output.c"
+#line 362 "output.c"
 		}
 		break;
 

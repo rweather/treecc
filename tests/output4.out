@@ -358,6 +358,42 @@ static GlobalState fixed_state__;
 #endif
 
 /*
+ * Some macro magic to determine the default alignment
+ * on this machine.  This will compile down to a constant.
+ */
+#define	GlobalState_ALIGN_CHECK_TYPE(type,name)	\
+	struct _GlobalState_align_##name { \
+		char pad; \
+		type field; \
+	}
+#define	GlobalState_ALIGN_FOR_TYPE(type)	\
+	((unsigned)(&(((struct _GlobalState_align_##type *)0)->field)))
+#define	GlobalState_ALIGN_MAX(a,b)	\
+	((a) > (b) ? (a) : (b))
+#define	GlobalState_ALIGN_MAX3(a,b,c) \
+	(GlobalState_ALIGN_MAX((a), GlobalState_ALIGN_MAX((b), (c))))
+GlobalState_ALIGN_CHECK_TYPE(int, int);
+GlobalState_ALIGN_CHECK_TYPE(long, long);
+#if defined(WIN32) && !defined(__CYGWIN__)
+GlobalState_ALIGN_CHECK_TYPE(__int64, long_long);
+#else
+GlobalState_ALIGN_CHECK_TYPE(long long, long_long);
+#endif
+GlobalState_ALIGN_CHECK_TYPE(void *, void_p);
+GlobalState_ALIGN_CHECK_TYPE(float, float);
+GlobalState_ALIGN_CHECK_TYPE(double, double);
+#define	GlobalState_ALIGNMENT	\
+	GlobalState_ALIGN_MAX( \
+			GlobalState_ALIGN_MAX3	\
+			(GlobalState_ALIGN_FOR_TYPE(int), \
+		     GlobalState_ALIGN_FOR_TYPE(long), \
+			 GlobalState_ALIGN_FOR_TYPE(long_long)), \
+  	     GlobalState_ALIGN_MAX3 \
+		 	(GlobalState_ALIGN_FOR_TYPE(void_p), \
+			 GlobalState_ALIGN_FOR_TYPE(float), \
+			 GlobalState_ALIGN_FOR_TYPE(double)))
+
+/*
  * Initialize the node allocation pool.
  */
 #ifdef GlobalState_REENTRANT
@@ -392,14 +428,8 @@ unsigned int size__;
 	void *result__;
 
 	/* Round the size to the next alignment boundary */
-	if(sizeof(void *) > sizeof(long))
-	{
-		size__ = (size__ + sizeof(void *) - 1) & ~(sizeof(void *) - 1);
-	}
-	else
-	{
-		size__ = (size__ + sizeof(long) - 1) & ~(sizeof(long) - 1);
-	}
+	size__ = (size__ + GlobalState_ALIGNMENT - 1) &
+				~(GlobalState_ALIGNMENT - 1);
 
 	/* Do we need to allocate a new block? */
 	block__ = state__->blocks__;
@@ -539,7 +569,7 @@ void yynodeclear()
 	state__->push_stack__ = 0;
 	state__->used__ = 0;
 }
-#line 240 "output.c"
+#line 270 "output.c"
 struct expression_vtable__ const expression_vt__ = {
 	0,
 	expression_kind,
@@ -702,7 +732,7 @@ static void infer_type_1__(power *e)
 
 	e->type = e->expr1->type;
 }
-#line 403 "output.c"
+#line 433 "output.c"
 
 static void infer_type_2__(binary *e)
 #line 38 "output4.tst"
@@ -724,7 +754,7 @@ static void infer_type_2__(binary *e)
 		e->type = int_type;
 	}
 }
-#line 425 "output.c"
+#line 455 "output.c"
 
 static void infer_type_3__(unary *e)
 #line 58 "output4.tst"
@@ -732,14 +762,14 @@ static void infer_type_3__(unary *e)
 	infer_type(e->expr);
 	e->type = e->expr->type;
 }
-#line 433 "output.c"
+#line 463 "output.c"
 
 static void infer_type_4__(intnum *e)
 #line 64 "output4.tst"
 {
 	e->type = int_type;
 }
-#line 440 "output.c"
+#line 470 "output.c"
 
 void infer_type(expression * e__)
 {
