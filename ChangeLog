@@ -1,4 +1,9 @@
 
+2002-05-27  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* tests/Makefile.am, examples/Makefile.am: patches from
+	Stephen Compall to support out of tree builds.
+
 2002-04-20  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the "0.1.0" release.

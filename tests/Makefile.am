@@ -12,7 +12,7 @@ test_output_LDADD = ../libtreecc.a
 TESTS = run_tests
 
 if USINGGCC
-INCLUDES = -I.. -Wall
+INCLUDES = -I$(srcdir)/.. -Wall
 else
-INCLUDES = -I..
+INCLUDES = -I$(srcdir)/..
 endif
