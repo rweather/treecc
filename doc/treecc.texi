@@ -2509,6 +2509,8 @@ Include ::= %include [ %readonly ] STRING
 
 @c -----------------------------------------------------------------------
 
+@page
+
 @node Index, , EBNF Syntax, Top
 @unnumbered Index
 

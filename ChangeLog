@@ -10,6 +10,9 @@ tests/output5.out, tests/output6.out, tests/output7.out, tests/output8.out,
 tests/output9.out: new test output files that were affected by the
 skeleton change.
 
+* doc/treecc.texi: insert a "@page" command to force the index to
+be formatted correctly when PDF documentation is generated.
+
 2001-08-14  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * treecc.spec: applied patch submitted by mdaniel to create RPM spec file.
