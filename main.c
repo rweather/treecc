@@ -345,6 +345,14 @@ int main(int argc, char *argv[])
 	context->outputDirectory = outputDir;
 	context->skeletonDirectory = skeletonDir;
 
+	/* Create the default source and header streams */
+	context->sourceStream = TreeCCStreamCreate(context, outputFile,
+											   NULL, 0);
+	context->sourceStream->defaultFile = 1;
+	context->headerStream = TreeCCStreamCreate(context, outputFile,
+											   NULL, 1);
+	context->headerStream->defaultFile = 1;
+
 	/* Process the input files */
 	while(argc > 1)
 	{

@@ -1,4 +1,9 @@
 
+2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+* main.c: bug fix - create the default output files correctly; defaults
+weren't working when the input didn't have "%output" specified.
+
 2001-12-11  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * etc/c_skel.c, etc/cpp_skel.cc: swap the order of "data__" and "next__"
