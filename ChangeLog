@@ -1,6 +1,11 @@
+
+2002-11-23  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* NEWS, configure.in: update version for the "0.1.8" release.
+
 2002-11-16  Peter Minten  <silvernerd@users.sf.net>
 
-	* doc/treecc.texi: Added Ruby outputdocumentation.
+	* doc/treecc.texi: Added Ruby output documentation.
 
 2002-11-09  Peter Minten  <silvernerd@users.sf.net>
 
