@@ -1168,6 +1168,15 @@ no effect for other output languages. (*)
 Do not use treecc's standard node allocator for C and C++.  This can be
 useful when the programmer wants to redirect node allocation to their
 own routines.
+
+@item %option gc_allocator
+@cindex gc_allocator option
+Use libgc as a garbage-collecting node allocator for C and C++.  This
+option has no effect for other output languages.
+
+@item %option no_gc_allocator
+@cindex no_gc_allocator option
+Do not use libgc as a garbage-collecting node allocator for C and C++. (*)
 @end table
 
 @c -----------------------------------------------------------------------

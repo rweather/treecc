@@ -51,6 +51,7 @@ TreeCCContext *TreeCCContextCreate(TreeCCInput *input)
 	context->print_lines = 1;
 	context->internal_access = 0;
 	context->use_allocator = 1;
+	context->use_gc_allocator = 0;
 	context->yy_replacement = "yy";
 	context->state_type = "YYNODESTATE";
 	context->namespace = 0;

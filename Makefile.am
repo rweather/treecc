@@ -28,7 +28,11 @@ libtreecc_a_SOURCES = context.c \
 SKELETON_FILES = $(top_srcdir)/etc/c_skel.c \
 				 $(top_srcdir)/etc/c_skel.h \
 				 $(top_srcdir)/etc/cpp_skel.cc \
-				 $(top_srcdir)/etc/cpp_skel.h
+				 $(top_srcdir)/etc/cpp_skel.h \
+				 $(top_srcdir)/etc/c_gc_skel.h \
+				 $(top_srcdir)/etc/c_gc_skel.c \
+				 $(top_srcdir)/etc/cpp_gc_skel.h \
+				 $(top_srcdir)/etc/cpp_gc_skel.cc
 
 $(srcdir)/skels.c: $(SKELETON_FILES) $(top_srcdir)/mkskel-sh
 	$(SHELL) $(top_srcdir)/mkskel-sh $(SKELETON_FILES) >$(srcdir)/skels.c

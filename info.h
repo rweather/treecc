@@ -227,6 +227,7 @@ typedef struct _tagTreeCCContext
 	int				print_lines : 1;	/* Dont emit #line directives */
 	int				internal_access : 1; /* Use "internal" classes in C# */
 	int				use_allocator : 1;	/* Use the skeleton allocator */
+	int				use_gc_allocator : 1; /* Use the libgc allocator */
 
 	/* String to use to replace "yy" in output files */
 	char		   *yy_replacement;

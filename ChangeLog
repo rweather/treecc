@@ -3,6 +3,13 @@
 
 	* README: minor change to the treecc README file.
 
+	* Makefile.am, context.c, gen_c.c, gen_cpp.c, info.h, options.c,
+	doc/treecc.texi, etc/Makefile.am, etc/c_gc_skel.c, etc/c_gc_skel.h,
+	etc/cpp_gc_skel.cc, etc/cpp_gc_skel.h, tests/output17.out,
+	tests/output17.tst, tests/output18.out, tests/output18.tst,
+	tests/test_list: add the "gc_allocator" option to treecc,
+	to make the node allocator use libgc.
+
 2003-02-29  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/output5.out, tests/output6.out, tests/output9.out:

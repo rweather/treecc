@@ -1675,7 +1675,14 @@ static void WriteSourceSkeleton(TreeCCContext *context, TreeCCStream *stream)
 		TreeCCStreamPrint(stream, "#define %s_TRACK_LINES 1\n",
 						  context->state_type);
 	}
-	TreeCCIncludeSkeleton(context, stream, "c_skel.c");
+	if(context->use_gc_allocator)
+	{
+		TreeCCIncludeSkeleton(context, stream, "c_gc_skel.c");
+	}
+	else
+	{
+		TreeCCIncludeSkeleton(context, stream, "c_skel.c");
+	}
 }
 
 void TreeCCGenerateC(TreeCCContext *context)
@@ -1688,13 +1695,29 @@ void TreeCCGenerateC(TreeCCContext *context)
 	TreeCCStreamPrint(context->headerStream, "\n");
 	TreeCCNodeVisitAll(context, DeclareTypeDefs);
 	TreeCCStreamPrint(context->headerStream, "\n");
-	if(context->commonHeader)
+	if(context->use_gc_allocator)
 	{
-		TreeCCIncludeSkeleton(context, context->commonHeader, "c_skel.h");
+		if(context->commonHeader)
+		{
+			TreeCCIncludeSkeleton
+				(context, context->commonHeader, "c_gc_skel.h");
+		}
+		else
+		{
+			TreeCCIncludeSkeleton
+				(context, context->headerStream, "c_gc_skel.h");
+		}
 	}
 	else
 	{
-		TreeCCIncludeSkeleton(context, context->headerStream, "c_skel.h");
+		if(context->commonHeader)
+		{
+			TreeCCIncludeSkeleton(context, context->commonHeader, "c_skel.h");
+		}
+		else
+		{
+			TreeCCIncludeSkeleton(context, context->headerStream, "c_skel.h");
+		}
 	}
 	TreeCCNodeVisitAll(context, BuildTypeDecls);
 	TreeCCNodeVisitAll(context, DeclareCreateFuncs);

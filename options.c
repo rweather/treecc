@@ -366,6 +366,22 @@ static int AllocatorOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "gc_allocator": use (or don't use) the libgc treecc allocator for C/C++.
+ */
+static int GCAllocatorOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->use_gc_allocator = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
+/*
  * Table of option handlers.
  */
 static struct
@@ -404,6 +420,8 @@ static struct
 	{"public_access",		InternalAccessOption,	0},
 	{"allocator",			AllocatorOption,		1},
 	{"no_allocator",		AllocatorOption,		0},
+	{"gc_allocator",		GCAllocatorOption,		1},
+	{"no_gc_allocator",		GCAllocatorOption,		0},
 	{0,						0,						0},
 };
 

@@ -806,7 +806,14 @@ static void DeclareStateType(TreeCCContext *context, TreeCCStream *stream)
 	TreeCCStreamPrint(stream, "\tvirtual ~%s();\n\n", context->state_type);
 
 	/* Include the header skeleton */
-	TreeCCIncludeSkeleton(context, stream, "cpp_skel.h");
+	if(context->use_gc_allocator)
+	{
+		TreeCCIncludeSkeleton(context, stream, "cpp_gc_skel.h");
+	}
+	else
+	{
+		TreeCCIncludeSkeleton(context, stream, "cpp_skel.h");
+	}
 
 	/* Singleton handling for non-reentrant systems */
 	if(!(context->reentrant))
@@ -963,7 +970,14 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 		TreeCCStreamPrint(stream, "#define %s_USE_ALLOCATOR 1\n",
 						  context->state_type);
 	}
-	TreeCCIncludeSkeleton(context, stream, "cpp_skel.cc");
+	if(context->use_gc_allocator)
+	{
+		TreeCCIncludeSkeleton(context, stream, "cpp_gc_skel.cc");
+	}
+	else
+	{
+		TreeCCIncludeSkeleton(context, stream, "cpp_skel.cc");
+	}
 
 	/* Implement the create functions for all of the node types */
 	if(context->reentrant && !(context->abstract_factory))
