@@ -1,0 +1,4 @@
+
+0.0.3
+
+	* treecc.spec: applied patch submitted by mdaniel to create RPM spec file.
