@@ -27,6 +27,11 @@ The "make check" runs the treecc test suite to check for any problems
 on your system.  Report any such problems to the authors, together with
 a script of the failed test output.
 
+If you obtained the treecc sources via CVS, you will need to run the
+following before "./configure":
+
+	$ ./auto_gen.sh
+
 If you wish to install treecc somewhere other than the default prefix
 ("/usr/local"), use the following configuration command instead:
 

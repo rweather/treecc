@@ -7,6 +7,9 @@
 	that treecc will generate constant output files regardless of
 	which directory it is executed in.
 
+	* auto_gen.sh, README: add the "auto_gen.sh" script and some
+	instructions on its use.
+
 2002-03-05  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* doc/treecc.texi: polish the text a little.
