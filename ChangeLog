@@ -1,4 +1,9 @@
 
+2004-07-26  Gopal.V  <gopalv82@symonds.net>
+
+	* examples/Makefile.am: Mark gram_c.c as a dependency of the 
+	scan_c.l to allow parallel building.
+
 2004-03-13  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, NEWS: update version for the 0.3.0 release.

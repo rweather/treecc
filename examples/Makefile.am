@@ -12,6 +12,8 @@ expr_c_LDADD = -lm
 expr_c.c expr_c.h: $(srcdir)/expr_c.tc
 	$(top_builddir)/treecc -o expr_c.c -h expr_c.h $(srcdir)/expr_c.tc
 
+scan_c.l: gram_c.c 
+
 ## expr_cpp_SOURCES = expr_cpp.cc gram_cpp.yy scan_cpp.ll
 ##
 ## expr_cpp.cc expr_cpp.h: expr_cpp.tc
