@@ -1,4 +1,10 @@
 
+0.3.0 (13 March 2004)
+
+	* Allow for parallel "make -jN" building (kloczek@pld.org.pl).
+	* Fix the info directory (kloczek@pld.org.pl, qboosh@pld-linux.org).
+	* Update the treecc.spec file (Russell Stuart).
+
 0.2.8 (3 January 2004)
 
 	* Add the "base_type" option (Gopal V).
