@@ -425,6 +425,11 @@ static void ParseOperation(TreeCCContext *context)
 			flags |= TREECC_OPER_INLINE;
 			TreeCCNextToken(input);
 		}
+		else if(input->token == TREECC_TOKEN_SPLIT)
+		{
+			flags |= TREECC_OPER_SPLIT;
+			TreeCCNextToken(input);
+		}
 		else
 		{
 			break;
@@ -1430,6 +1435,7 @@ void TreeCCParse(TreeCCContext *context)
 			case TREECC_TOKEN_NOCREATE:
 			case TREECC_TOKEN_VIRTUAL:
 			case TREECC_TOKEN_INLINE:
+			case TREECC_TOKEN_SPLIT:
 			case TREECC_TOKEN_READONLY:
 			{
 				/* This token is not valid here */

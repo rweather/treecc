@@ -1107,13 +1107,18 @@ static void C_GenStart(TreeCCContext *context, TreeCCStream *stream,
 /*
  * Generate the entry point for a non-virtual operation.
  */
-static void C_GenEntry(TreeCCContext *context, TreeCCStream *stream,
-					   TreeCCOperation *oper)
+static void CGenEntry(TreeCCContext *context, TreeCCStream *stream,
+					  TreeCCOperation *oper, int number)
 {
 	TreeCCParam *param;
 	int num;
 	int needComma;
-	if(context->language == TREECC_LANG_C || !(oper->className))
+	if(number != -1)
+	{
+		TreeCCStreamPrint(stream, "%s %s_split_%d__(",
+						  oper->returnType, oper->name, number);
+	}
+	else if(context->language == TREECC_LANG_C || !(oper->className))
 	{
 		TreeCCStreamPrint(stream, "%s %s(",
 						  oper->returnType, oper->name);
@@ -1158,6 +1163,24 @@ static void C_GenEntry(TreeCCContext *context, TreeCCStream *stream,
 	}
 	TreeCCStreamPrint(stream, ")\n");
 	TreeCCStreamPrint(stream, "{\n");
+}
+
+/*
+ * Generate the entry point for a split-out function.
+ */
+static void C_GenSplitEntry(TreeCCContext *context, TreeCCStream *stream,
+					        TreeCCOperation *oper, int number)
+{
+	CGenEntry(context, stream, oper, number);
+}
+
+/*
+ * Generate the entry point for a non-virtual operation.
+ */
+static void C_GenEntry(TreeCCContext *context, TreeCCStream *stream,
+					   TreeCCOperation *oper)
+{
+	CGenEntry(context, stream, oper, -1);
 }
 
 /*
@@ -1434,6 +1457,71 @@ static void C_GenCaseInline(TreeCCContext *context, TreeCCStream *stream,
 }
 
 /*
+ * Generate the code for a call to a split function within the "switch".
+ */
+static void C_GenCaseSplit(TreeCCContext *context, TreeCCStream *stream,
+						   TreeCCOperationCase *operCase,
+						   int number, int level)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+	int num;
+	int needComma;
+
+	/* Indent to the correct level */
+	Indent(stream, level * 2 + 3);
+
+	/* Add "return" to the front if the operation is non-void */
+	if(strcmp(operCase->oper->returnType, "void") != 0)
+	{
+		TreeCCStreamPrint(stream, "return ");
+	}
+
+	/* Print out the call */
+	TreeCCStreamPrint(stream, "%s_split_%d__(", operCase->oper->name, number);
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "(%s *)", trigger->node->name);
+			}
+		}
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "P%d__", num);
+			++num;
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "__");
+			}
+			trigger = trigger->next;
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ");\n");
+}
+
+/*
  * Terminate a "switch" case.
  */
 static void C_GenEndCase(TreeCCContext *context, TreeCCStream *stream,
@@ -1479,20 +1567,32 @@ static void C_GenExit(TreeCCContext *context, TreeCCStream *stream,
 }
 
 /*
+ * Generate the end declarations for a non-virtual operation.
+ */
+static void C_GenEnd(TreeCCContext *context, TreeCCStream *stream,
+					 TreeCCOperation *oper)
+{
+	/* Nothing to do here for C and C++ */
+}
+
+/*
  * Table of non-virtual code generation functions.
  */
 TreeCCNonVirtual const TreeCCNonVirtualFuncsC = {
 	C_GenStart,
 	C_GenEntry,
+	C_GenSplitEntry,
 	C_GenSwitchHead,
 	C_GenSelector,
 	C_GenEndSelectors,
 	C_GenCaseFunc,
 	C_GenCaseCall,
 	C_GenCaseInline,
+	C_GenCaseSplit,
 	C_GenEndCase,
 	C_GenEndSwitch,
 	C_GenExit,
+	C_GenEnd,
 };
 
 /*

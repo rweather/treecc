@@ -52,6 +52,10 @@ typedef struct
 	void (*genEntry)(TreeCCContext *context, TreeCCStream *stream,
 					 TreeCCOperation *oper);
 
+	/* Generate the entry point for a split-out function */
+	void (*genSplitEntry)(TreeCCContext *context, TreeCCStream *stream,
+					      TreeCCOperation *oper, int number);
+
 	/* Generate the head of a "switch" statement */
 	void (*genSwitchHead)(TreeCCContext *context, TreeCCStream *stream,
 						  char *paramName, int level, int isEnum);
@@ -76,6 +80,10 @@ typedef struct
 	void (*genCaseInline)(TreeCCContext *context, TreeCCStream *stream,
 						  TreeCCOperationCase *operCase, int level);
 
+	/* Generate the code for a call to a split function within the "switch" */
+	void (*genCaseSplit)(TreeCCContext *context, TreeCCStream *stream,
+						 TreeCCOperationCase *operCase, int number, int level);
+
 	/* Terminate a "switch" case */
 	void (*genEndCase)(TreeCCContext *context, TreeCCStream *stream,
 					   int level);
@@ -87,6 +95,10 @@ typedef struct
 	/* Generate the exit point for a non-virtual operation */
 	void (*genExit)(TreeCCContext *context, TreeCCStream *stream,
 					TreeCCOperation *oper);
+
+	/* Generate the end declarations for a non-virtual operation */
+	void (*genEnd)(TreeCCContext *context, TreeCCStream *stream,
+				   TreeCCOperation *oper);
 
 } TreeCCNonVirtual;
 

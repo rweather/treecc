@@ -843,7 +843,7 @@ trigger.
 The general form of an operation declaration is as follows:
 
 @example
-%operation @{ %virtual | %inline @} RTYPE [CLASS::]NAME(PARAMS)
+%operation @{ %virtual | %inline | %split @} RTYPE [CLASS::]NAME(PARAMS)
 @end example
 
 @table @samp
@@ -863,6 +863,13 @@ are inline within the code for the function itself.  This can
 only be used with non-virtual operations, and may improve
 code efficiency if there are lots of operation cases with a
 small amount of code in each.
+
+@item %split
+@cindex %split keyword
+Split the generation of the multi-trigger operation code across
+multiple functions, to reduce the size of each individual function.
+It is sometimes necessary to split large @code{%inline} operations
+to avoid compiler limits on function size.
 
 @item RTYPE
 The type of the return value for the operation.  This should be
@@ -2483,7 +2490,7 @@ Operation ::= %operation @{ OperFlag @} Type
                    [ ClassName ] IDENTIFIER '(' [ Params ] ')'
 				   [ '=' LITERAL_CODE ] [ ';' ]
 
-OperFlag ::= %virtual | %inline
+OperFlag ::= %virtual | %inline | %split
 
 ClassName ::= IDENTIFIER "::"
 

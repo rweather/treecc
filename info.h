@@ -59,6 +59,7 @@ typedef struct _tagTreeCCOperationCase	TreeCCOperationCase;
  */
 #define	TREECC_OPER_VIRTUAL			1
 #define	TREECC_OPER_INLINE			2
+#define	TREECC_OPER_SPLIT			4
 
 /*
  * Parameter flags.

@@ -366,6 +366,190 @@ static void GenerateMultiSwitch(TreeCCContext *context,
 }
 
 /*
+ * Forward declaration.
+ */
+static void GenerateSplitMultiSwitch(TreeCCContext *context,
+								     TreeCCStream *stream,
+							         const TreeCCNonVirtual *nonVirt,
+								     TreeCCOperation *oper,
+								     TreeCCOperationCase **sortedCases,
+								     int base, int multiplier,
+								     TreeCCParam *nextParam,
+								     int triggerNum);
+
+/*
+ * Scan down the hierarchy to generate cases for a multi-trigger operation
+ * that is split across multiple functions.
+ */
+static void GenerateSplitMultiScan(TreeCCContext *context,
+							       TreeCCStream *stream,
+						           const TreeCCNonVirtual *nonVirt,
+							       TreeCCOperation *oper,
+							       TreeCCOperationCase **sortedCases,
+							       int base, int multiplier,
+							       TreeCCParam *nextParam,
+							       int triggerNum,
+							       TreeCCNode *node)
+{
+	int number;
+
+	/* Ignore abstract node types */
+	if((node->flags & TREECC_NODE_ABSTRACT) == 0)
+	{
+		/* Generate a selector for this node */
+		(*(nonVirt->genSelector))(context, stream, node, 0);
+		(*(nonVirt->genEndSelectors))(context, stream, 0);
+
+		/* Generate the code for the case */
+		number = base + node->position * multiplier;
+		if(triggerNum == (oper->numTriggers - 1))
+		{
+			/* We are at the inner-most level, so insert the case's code */
+			if((oper->flags & TREECC_OPER_INLINE) != 0)
+			{
+				(*(nonVirt->genCaseInline))(context, stream,
+											sortedCases[number], 0);
+			}
+			else
+			{
+				(*(nonVirt->genCaseCall))(context, stream,
+										  sortedCases[number],
+										  sortedCases[number]->number, 0);
+			}
+		}
+		else
+		{
+			/* Generate a call to a split function */
+			(*(nonVirt->genCaseSplit))(context, stream,
+									   sortedCases[number], number, 0);
+		}
+
+		/* Terminate the case for the above selector */
+		(*(nonVirt->genEndCase))(context, stream, 0);
+	}
+
+	/* Scan all of the children */
+	node = node->firstChild;
+	while(node != 0)
+	{
+		GenerateSplitMultiScan(context, stream, nonVirt, oper, sortedCases,
+						       base, multiplier, nextParam, triggerNum, node);
+		node = node->nextSibling;
+	}
+}
+
+/*
+ * Scan down the hierarchy to generate split functions for
+ * a multi-trigger operation.
+ */
+static void GenerateSplitMultiScanFunc(TreeCCContext *context,
+							           TreeCCStream *stream,
+						               const TreeCCNonVirtual *nonVirt,
+							           TreeCCOperation *oper,
+							           TreeCCOperationCase **sortedCases,
+							           int base, int multiplier,
+							           TreeCCParam *nextParam,
+							           int triggerNum,
+							           TreeCCNode *node)
+{
+	/* Ignore abstract node types */
+	if((node->flags & TREECC_NODE_ABSTRACT) == 0)
+	{
+		/* Go in one level for this node */
+		GenerateSplitMultiSwitch(context, stream, nonVirt, oper, sortedCases,
+						         base + node->position * multiplier,
+					  		     multiplier * nextParam->size, nextParam->next,
+					  	         triggerNum + 1);
+	}
+
+	/* Scan all of the children */
+	node = node->firstChild;
+	while(node != 0)
+	{
+		GenerateSplitMultiScanFunc(context, stream, nonVirt, oper,
+								   sortedCases, base, multiplier,
+								   nextParam, triggerNum, node);
+		node = node->nextSibling;
+	}
+}
+
+/*
+ * Generate code for a "switch" on a multi-trigger operation
+ * that is split across multiple functions.
+ */
+static void GenerateSplitMultiSwitch(TreeCCContext *context,
+								     TreeCCStream *stream,
+							         const TreeCCNonVirtual *nonVirt,
+								     TreeCCOperation *oper,
+								     TreeCCOperationCase **sortedCases,
+								     int base, int multiplier,
+								     TreeCCParam *nextParam,
+								     int triggerNum)
+{
+	TreeCCNode *type;
+	int isEnum;
+
+	/* Scan for the next trigger parameter */
+	while(nextParam != 0 && (nextParam->flags & TREECC_PARAM_TRIGGER) == 0)
+	{
+		nextParam = nextParam->next;
+	}
+
+	/* Generate the next level of split functions */
+	type = TreeCCNodeFindByType(context, nextParam->type);
+	if(triggerNum != (oper->numTriggers - 1))
+	{
+		GenerateSplitMultiScanFunc
+			(context, stream, nonVirt, oper, sortedCases,
+		     base, multiplier, nextParam, triggerNum, type);
+	}
+
+	/* Output the entry point for this switch function */
+	if(triggerNum != 0)
+	{
+		(*(nonVirt->genSplitEntry))(context, stream, oper, base);
+	}
+	else
+	{
+		(*(nonVirt->genEntry))(context, stream, oper);
+	}
+
+	/* Generate the head of the switch for this level */
+	isEnum = ((type->flags & TREECC_NODE_ENUM) != 0);
+	if(nextParam->name)
+	{
+		(*(nonVirt->genSwitchHead))(context, stream, nextParam->name,
+								    0, isEnum);
+	}
+	else
+	{
+		char paramName[64];
+		int paramNum = 0;
+		TreeCCParam *param = oper->params;
+		while(param != 0 && param != nextParam)
+		{
+			if(!(param->name))
+			{
+				++paramNum;
+			}
+			param = param->next;
+		}
+		sprintf(paramName, "P%d__", paramNum);
+		(*(nonVirt->genSwitchHead))(context, stream, paramName, 0, isEnum);
+	}
+
+	/* Scan down the node type hierarchy for this trigger level */
+	GenerateSplitMultiScan(context, stream, nonVirt, oper, sortedCases,
+					       base, multiplier, nextParam, triggerNum, type);
+
+	/* Generate the end of the switch for this level */
+	(*(nonVirt->genEndSwitch))(context, stream, 0);
+
+	/* Generate the exit point for this switch function */
+	(*(nonVirt->genExit))(context, stream, oper);
+}
+
+/*
  * Generate code for a specific non-virtual operation.
  */
 static void GenerateNonVirtual(TreeCCContext *context,
@@ -409,10 +593,22 @@ static void GenerateNonVirtual(TreeCCContext *context,
 		}
 	}
 
+	/* Process split non-virtuals */
+	if(oper->numTriggers > 1 && (oper->flags & TREECC_OPER_SPLIT) != 0)
+	{
+		/* Split the switch statement over multiple levels of functions,
+		   so that no single function grows too large */
+		AssignTriggerPosns(context, oper);
+		GenerateSplitMultiSwitch(context, stream, nonVirt, oper,
+							     oper->sortedCases, 0, 1, oper->params, 0);
+		(*(nonVirt->genEnd))(context, stream, oper);
+		return;
+	}
+
 	/* Output the entry point for the operation */
 	(*(nonVirt->genEntry))(context, stream, oper);
 
-	/* Generate the the switch statement for the outer-most level */
+	/* Generate the switch statement for the outer-most level */
 	if(oper->numTriggers <= 1)
 	{
 		GenerateSwitch(context, stream, nonVirt, oper, oper->firstCase, 0);
@@ -426,6 +622,9 @@ static void GenerateNonVirtual(TreeCCContext *context,
 
 	/* Output the exit point for the operation */
 	(*(nonVirt->genExit))(context, stream, oper);
+
+	/* Output the end declarations for the operation */
+	(*(nonVirt->genEnd))(context, stream, oper);
 }
 
 void TreeCCGenerateNonVirtuals(TreeCCContext *context,

@@ -710,14 +710,22 @@ static void Java_GenStart(TreeCCContext *context, TreeCCStream *stream,
 /*
  * Generate the entry point for a non-virtual operation.
  */
-static void Java_GenEntry(TreeCCContext *context, TreeCCStream *stream,
-					      TreeCCOperation *oper)
+static void JavaGenEntry(TreeCCContext *context, TreeCCStream *stream,
+					     TreeCCOperation *oper, int number)
 {
 	TreeCCParam *param;
 	int num;
 	int needComma;
-	TreeCCStreamPrint(stream, "\tpublic static %s %s(",
-					  oper->returnType, oper->name);
+	if(number != -1)
+	{
+		TreeCCStreamPrint(stream, "\tprivate static %s %s_split_%d__(",
+						  oper->returnType, oper->name, number);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream, "\tpublic static %s %s(",
+						  oper->returnType, oper->name);
+	}
 	param = oper->params;
 	num = 1;
 	needComma = 0;
@@ -756,6 +764,24 @@ static void Java_GenEntry(TreeCCContext *context, TreeCCStream *stream,
 	}
 	TreeCCStreamPrint(stream, ")\n");
 	TreeCCStreamPrint(stream, "\t{\n");
+}
+
+/*
+ * Generate the entry point for a non-virtual operation.
+ */
+static void Java_GenEntry(TreeCCContext *context, TreeCCStream *stream,
+					      TreeCCOperation *oper)
+{
+	JavaGenEntry(context, stream, oper, -1);
+}
+
+/*
+ * Generate the entry point for a split-out function.
+ */
+static void Java_GenSplitEntry(TreeCCContext *context, TreeCCStream *stream,
+					           TreeCCOperation *oper, int number)
+{
+	JavaGenEntry(context, stream, oper, number);
 }
 
 /*
@@ -1039,6 +1065,71 @@ static void Java_GenCaseInline(TreeCCContext *context, TreeCCStream *stream,
 }
 
 /*
+ * Generate a call to a split function from within the "switch".
+ */
+static void Java_GenCaseSplit(TreeCCContext *context, TreeCCStream *stream,
+						      TreeCCOperationCase *operCase,
+							  int number, int level)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+	int num;
+	int needComma;
+
+	/* Indent to the correct level */
+	Indent(stream, level * 2 + 4);
+
+	/* Add "return" to the front if the operation is non-void */
+	if(strcmp(operCase->oper->returnType, "void") != 0)
+	{
+		TreeCCStreamPrint(stream, "return ");
+	}
+
+	/* Print out the call */
+	TreeCCStreamPrint(stream, "%s_split_%d__(", operCase->oper->name, number);
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "(%s)", trigger->node->name);
+			}
+		}
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "P%d__", num);
+			++num;
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "__");
+			}
+			trigger = trigger->next;
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ");\n");
+}
+
+/*
  * Terminate a "switch" case.
  */
 static void Java_GenEndCase(TreeCCContext *context, TreeCCStream *stream,
@@ -1081,6 +1172,14 @@ static void Java_GenExit(TreeCCContext *context, TreeCCStream *stream,
 		}
 	}
 	TreeCCStreamPrint(stream, "\t}\n");
+}
+
+/*
+ * Generate the end declarations for a non-virtual operation.
+ */
+static void Java_GenEnd(TreeCCContext *context, TreeCCStream *stream,
+					    TreeCCOperation *oper)
+{
 	TreeCCStreamPrint(stream, "}\n");
 	if(context->language == TREECC_LANG_CSHARP)
 	{
@@ -1094,15 +1193,18 @@ static void Java_GenExit(TreeCCContext *context, TreeCCStream *stream,
 TreeCCNonVirtual const TreeCCNonVirtualFuncsJava = {
 	Java_GenStart,
 	Java_GenEntry,
+	Java_GenSplitEntry,
 	Java_GenSwitchHead,
 	Java_GenSelector,
 	Java_GenEndSelectors,
 	Java_GenCaseFunc,
 	Java_GenCaseCall,
 	Java_GenCaseInline,
+	Java_GenCaseSplit,
 	Java_GenEndCase,
 	Java_GenEndSwitch,
 	Java_GenExit,
+	Java_GenEnd,
 };
 
 /*

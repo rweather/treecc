@@ -615,6 +615,7 @@ static struct
 	{"outdir",			TREECC_TOKEN_OUTDIR},
 	{"output",			TREECC_TOKEN_OUTPUT},
 	{"readonly",		TREECC_TOKEN_READONLY},
+	{"split",			TREECC_TOKEN_SPLIT},
 	{"typedef",			TREECC_TOKEN_TYPEDEF},
 	{"virtual",			TREECC_TOKEN_VIRTUAL},
 };

@@ -227,6 +227,12 @@ int main(int argc, char *argv[])
 			}
 			break;
 
+			case TREECC_TOKEN_SPLIT:
+			{
+				TreeCCDebug(input.linenum, "%%split");
+			}
+			break;
+
 			case TREECC_TOKEN_OPTION:
 			{
 				TreeCCDebug(input.linenum, "%%option");
