@@ -1,4 +1,10 @@
 
+2001-12-11  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+* etc/c_skel.c, etc/cpp_skel.cc: swap the order of "data__" and "next__"
+in "YYNODESTATE_block" so that the start of the "data__" buffer will be
+properly aligned on 64-bit platforms.
+
 2001-11-08  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * etc/c_skel.c, etc/cpp_skel.cc: update the C and C++ skeleton files with

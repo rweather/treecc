@@ -30,8 +30,8 @@
  */
 struct YYNODESTATE_block
 {
-	struct YYNODESTATE_block *next__;
 	char data__[YYNODESTATE_BLKSIZ];
+	struct YYNODESTATE_block *next__;
 
 };
 struct YYNODESTATE_push
