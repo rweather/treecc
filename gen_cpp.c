@@ -645,7 +645,7 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
  */
 static void ImplementNodeTypes(TreeCCContext *context, TreeCCNode *node)
 {
-	TreeCCStream *stream = stream = node->source;
+	TreeCCStream *stream = node->source;
 
 	/* Ignore if this is an enumerated type node */
 	if((node->flags & (TREECC_NODE_ENUM | TREECC_NODE_ENUM_VALUE)) != 0)

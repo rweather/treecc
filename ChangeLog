@@ -1,4 +1,9 @@
 
+2003-07-05  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* gen_c.c, gen_cpp.c: fix some incorrect variable declarations
+	that gcc allowed through when it shouldn't have.
+
 2003-07-04  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* README: minor change to the treecc README file.

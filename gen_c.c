@@ -821,7 +821,7 @@ static void OutputVtableFuncs(TreeCCContext *context, TreeCCStream *stream,
 static void DefineVtables(TreeCCContext *context,
 						  TreeCCNode *node)
 {
-	TreeCCStream *stream = stream = node->source;
+	TreeCCStream *stream = node->source;
 
 	/* Ignore this node if it is an enumerated type */
 	if((node->flags & (TREECC_NODE_ENUM | TREECC_NODE_ENUM_VALUE)) != 0)
@@ -916,7 +916,7 @@ static void InitFields(TreeCCContext *context, TreeCCStream *stream,
 static void ImplementCreateFuncs(TreeCCContext *context,
 						  		 TreeCCNode *node)
 {
-	TreeCCStream *stream = stream = node->source;
+	TreeCCStream *stream = node->source;
 	const char *typedefName;
 	int needComma;
 
