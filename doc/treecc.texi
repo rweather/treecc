@@ -1029,6 +1029,18 @@ to provide node creation functionality.
 @cindex no_abstract_factory option
 Don't use abstract virtual methods in the node type factories. (*)
 
+@item %option kind_in_node
+@cindex kind_in_node option
+Put the kind field in the node, for more efficient access at runtime. (*)
+
+@item %option kind_in_vtable
+@cindex kind_in_vtable option
+Put the kind field in the vtable, and not the node.  This saves some
+memory, at the cost of slower access to the kind value at runtime.
+This option only applies when the language is C.  The kind field is
+always placed in the node in other languages, because it isn't possible
+to modify the vtable.
+
 @item %option prefix = PREFIX
 @cindex prefix option
 Specify the prefix to be used in output files in place of "yy".

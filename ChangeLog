@@ -4,6 +4,9 @@
 * gen_c.c (ImplementCreateFuncs): insert a '*' into the return cast when
 creating a singleton.
 
+* context.c, gen_c.c, info.h, options.c, doc/treecc.texi: add the options
+"kind_in_vtable" and "kind_in_node".
+
 2001-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * main.c: bug fix - create the default output files correctly; defaults

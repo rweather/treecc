@@ -219,6 +219,7 @@ typedef struct _tagTreeCCContext
 	int				force : 1;			/* Force the creation of files */
 	int				virtual_factory : 1;/* Allow overrides of factory methods */
 	int				abstract_factory : 1;/* Declare factory methods abstract */
+	int				kind_in_vtable : 1;	/* Put kind value in vtable only */
 
 	/* String to use to replace "yy" in output files */
 	char		   *yy_replacement;

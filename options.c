@@ -124,6 +124,22 @@ static int AbstractFactoryOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "kind_in_vtable": put the kind value in the vtable, and not the node.
+ */
+static int KindInVtableOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->kind_in_vtable = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
+/*
  * "prefix": specify the prefix to use instead of "yy".
  */
 static int PrefixOption(TreeCCContext *context, char *value, int flag)
@@ -295,6 +311,8 @@ static struct
 	{"no_virtual_factory",	VirtualFactoryOption,	0},
 	{"abstract_factory",	AbstractFactoryOption,	1},
 	{"no_abstract_factory",	AbstractFactoryOption,	0},
+	{"kind_in_vtable",		KindInVtableOption,		1},
+	{"kind_in_node",		KindInVtableOption,		0},
 	{"prefix",				PrefixOption,			0},
 	{"state_type",			StateTypeOption,		0},
 	{"namespace",			NamespaceOption,		0},

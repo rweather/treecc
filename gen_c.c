@@ -283,7 +283,10 @@ static void BuildTypeDecls(TreeCCContext *context,
 					  node->name);
 
 	/* Declare the node kind member variable */
-	TreeCCStreamPrint(stream, "\tint kind__;\n");
+	if(!(context->kind_in_vtable))
+	{
+		TreeCCStreamPrint(stream, "\tint kind__;\n");
+	}
 
 	/* Declare the filename and linenum fields if we are tracking lines */
 	if(context->track_lines)
@@ -486,9 +489,18 @@ static void OutputHelpers(TreeCCContext *context)
 
 	/* yykind macro */
 	TreeCCStreamPrint(stream, "#ifndef %skind\n", context->yy_replacement);
-	TreeCCStreamPrint(stream,
-			"#define %skind(node__) ((node__)->kind__)\n",
-			context->yy_replacement);
+	if(context->kind_in_vtable)
+	{
+		TreeCCStreamPrint(stream,
+				"#define %skind(node__) ((node__)->vtable__->kind__)\n",
+				context->yy_replacement);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream,
+				"#define %skind(node__) ((node__)->kind__)\n",
+				context->yy_replacement);
+	}
 	TreeCCStreamPrint(stream, "#endif\n\n");
 
 	/* yykindname macro */
@@ -950,8 +962,11 @@ static void ImplementCreateFuncs(TreeCCContext *context,
 		   a static node instance and always return it */
 		TreeCCStreamPrint(stream, "\tstatic struct %s__ instance__ = {\n",
 						  node->name);
-		TreeCCStreamPrint(stream, "\t\t&%s_vt__,\n\t\t%s_kind\n",
-						  node->name, node->name);
+		TreeCCStreamPrint(stream, "\t\t&%s_vt__,\n", node->name);
+		if(!(context->kind_in_vtable))
+		{
+			TreeCCStreamPrint(stream, "\t\t%s_kind\n", node->name);
+		}
 		TreeCCStreamPrint(stream, "\t};\n");
 		TreeCCStreamPrint(stream, "\treturn (%s *)&instance__;\n",
 						  typedefName);
@@ -979,8 +994,11 @@ static void ImplementCreateFuncs(TreeCCContext *context,
 		/* Set the vtable and kind */
 		TreeCCStreamPrint(stream, "\tnode__->vtable__ = &%s_vt__;\n",
 						  node->name);
-		TreeCCStreamPrint(stream, "\tnode__->kind__ = %s_kind;\n",
-						  node->name);
+		if(!(context->kind_in_vtable))
+		{
+			TreeCCStreamPrint(stream, "\tnode__->kind__ = %s_kind;\n",
+							  node->name);
+		}
 
 		/* Track the filename and line number if necessary */
 		if(context->track_lines)
@@ -1179,7 +1197,15 @@ static void C_GenSwitchHead(TreeCCContext *context, TreeCCStream *stream,
 	}
 	else if(context->language == TREECC_LANG_C)
 	{
-		TreeCCStreamPrint(stream, "switch(%s__->kind__)\n", paramName);
+		if(context->kind_in_vtable)
+		{
+			TreeCCStreamPrint(stream, "switch(%s__->vtable__->kind__)\n",
+							  paramName);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "switch(%s__->kind__)\n", paramName);
+		}
 	}
 	else
 	{
