@@ -27,8 +27,8 @@ trap 'rm -f $TMPFILE $TMPFILEB $TMPFILEC' 1 2 15
 process()
 {
 	echo -n "$1 $2.tst: "
-	if ./$1 "$srcdir/$2.tst" | sed 's///g' >$TMPFILE ; then
-		cat "$srcdir/$2.out" | sed 's///g' >$TMPFILEC
+	if ./$1 "$srcdir/$2.tst" | ./normalize >$TMPFILE ; then
+		cat "$srcdir/$2.out" | ./normalize >$TMPFILEC
 		if diff $TMPFILEC $TMPFILE >$TMPFILEB ; then
 			echo "ok"
 			return 0

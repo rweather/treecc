@@ -11,6 +11,10 @@
 	the treecc command-line, which allows "%option" commands to
 	be issued directly from the command-line.
 
+	* tests/.cvsignore, tests/Makefile.am, tests/normalize.c,
+	tests/run_tests: replace the reference to "sed" in "run_tests"
+	with "normalize", to work around problems with CRLF's under cygwin.
+
 2003-01-27  James Michael DuPont  <mdupont777@yahoo.com>
 
 	* context.c, info.h, options.c, stream.c: add the "print_lines"
