@@ -3,6 +3,8 @@
 
 	* NEWS, configure.in: update version for the "0.1.8" release.
 
+	* configure.in: update working version to "0.1.9".
+
 2002-11-16  Peter Minten  <silvernerd@users.sf.net>
 
 	* doc/treecc.texi: Added Ruby output documentation.
