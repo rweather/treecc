@@ -432,7 +432,7 @@ YYNODESTATE::~YYNODESTATE()
 /*
  * Allocate a block of memory.
  */
-void *YYNODESTATE::alloc(unsigned int size__)
+void *YYNODESTATE::alloc(size_t size__)
 {
 	struct YYNODESTATE_block *block__;
 	void *result__;
