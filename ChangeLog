@@ -12,6 +12,9 @@
 
 	* README, configure.in: always turn off cygwin builds under Win32.
 
+	* configure.in, config.guess, config.sub: set up for a canonical
+	build system, so that cygwin/mingw32 detection works correctly.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds
