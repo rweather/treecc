@@ -1,4 +1,8 @@
 
+2002-11-24  Gopal V  <gopalv82@symonds.net>
+	
+	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds
+
 2002-11-23  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* NEWS, configure.in: update version for the "0.1.8" release.

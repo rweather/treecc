@@ -1,6 +1,6 @@
 Name: treecc
-Version: 0.0.1
-Release: 1mdk
+Version: @VERSION@
+Release: custom
 Source: http://www.southern-storm.com.au/download/%{name}-%{version}.tar.gz
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -21,7 +21,7 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 if test "/" != "${RPM_BUILD_ROOT}"; then rm -rf ${RPM_BUILD_ROOT}; fi
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING ChangeLog INSTALL NEWS README examples
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README
 %{_bindir}
 %{_mandir}
 %{_datadir}/treecc
