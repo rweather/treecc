@@ -3,6 +3,8 @@
 
 	* NEWS, configure.in: update version for the "0.2.0" release.
 
+	* configure.in: update working version to "0.2.1".
+
 2003-01-11  Alan Knowles  <alan@akbkhome.com>
 
 	* Makefile.am, gen.c, gen.h, gen_php.c, info.h, options.c:
