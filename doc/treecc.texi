@@ -5,12 +5,25 @@
 @setchapternewpage off
 @c %** end of header
 
+@dircategory DotGNU
+@direntry
+* TreeCC: (treecc).             Generate code for compilers to build
+                                abstract syntax trees.
+@end direntry
+
+@dircategory Individual utilities
+@direntry
+* treecc: (treecc)Invoking Treecc.  Build compiler AST code.
+@end direntry
+
 @ifinfo
 The treecc program converts descriptions of abstract syntax
 trees into source code that can be used to support compiler
 development.
 
+@noindent
 Copyright @copyright{} 2001 Southern Storm Software, Pty Ltd
+@*Copyright @copyright{} 2003 Free Software Foundation, Inc.
 @end ifinfo
 
 @titlepage
@@ -23,6 +36,7 @@ Copyright @copyright{} 2001 Southern Storm Software, Pty Ltd
 
 @vskip 50pt
 @center{Copyright @copyright{} 2001, 2002 Southern Storm Software, Pty Ltd}
+@center{Copyright @copyright{} 2003 Free Software Foundation, Inc.}
 @end titlepage
 
 @c -----------------------------------------------------------------------
