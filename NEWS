@@ -1,4 +1,10 @@
 
+0.2.6 (17 July 2003)
+
+	* Add the "gc_allocator" option, so that node allocation can be
+	  done using "libgc" if the programmer chooses to do so.
+	* Fix some non-ANSI variable declarations.
+
 0.2.4 (29 March 2003)
 
 	* Fixes to treecc.spec.in for RPM generation (Stephen Compall).
