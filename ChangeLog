@@ -3,6 +3,8 @@
 
 	* configure.in, NEWS: update version for the 0.3.6 release.
 
+	* configure.in: update working version to "0.3.7".
+
 2004-12-16  Russell Stuart <russell-savannah@stuart.id.au>
 
 	* treecc.spec.in: Was stomping on /usr/share/info/dir, which
