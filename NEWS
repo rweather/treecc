@@ -1,4 +1,10 @@
 
+0.1.6 (5 November 2002)
+
+	* Fix C++ code generation in the declaration of virtual operations.
+	* Add Ruby code generation (Peter Minten).
+	* "Quick and Dirty" guide to extending treecc to new languages.
+
 0.1.4 (2 September 2002)
 
 	* Fixes to "auto_gen.sh" and autoconf/automake support scripts

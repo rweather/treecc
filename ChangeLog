@@ -1,4 +1,8 @@
 
+2002-11-05  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* NEWS, configure.in: update version for the "0.1.6" release.
+
 2002-11-03  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* doc/extending.txt, README: add a "quick and dirty" guide for
