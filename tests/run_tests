@@ -20,14 +20,16 @@
 
 TMPFILE=/tmp/test$$
 TMPFILEB=/tmp/test2$$
+TMPFILEC=/tmp/test3$$
 
-trap 'rm -f $TMPFILE $TMPFILEB' 1 2 15
+trap 'rm -f $TMPFILE $TMPFILEB $TMPFILEC' 1 2 15
 
 process()
 {
 	echo -n "$1 $2.tst: "
 	if ./$1 "$srcdir/$2.tst" | sed 's///g' >$TMPFILE ; then
-		if diff "$srcdir/$2.out" $TMPFILE >$TMPFILEB ; then
+		cat "$srcdir/$2.out" | sed 's///g' >$TMPFILEC
+		if diff $TMPFILEC $TMPFILE >$TMPFILEB ; then
 			echo "ok"
 			return 0
 		else
@@ -50,5 +52,5 @@ while read LINE; do
 	fi
 done <"$srcdir/test_list"
 
-rm -f $TMPFILE $TMPFILEB
+rm -f $TMPFILE $TMPFILEB $TMPFILEC
 exit $STATUS
