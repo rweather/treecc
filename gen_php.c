@@ -1,5 +1,5 @@
 /*
- * gen_cs.c - Generate C# source code from "treecc" input files.
+ * gen_php.c - Generate Php source code from "treecc" input files.
  *
  * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
  *
@@ -271,7 +271,7 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 									  virt->oper->params->name);
 					TreeCCStreamCodeIndent(stream, operCase->code, 1);
 					*/
-					TreeCCStreamPrint(stream, "\n        %s = $this;\n    ", virt->oper->params->name);
+					TreeCCStreamPrint(stream, "\n        $%s = &$this;\n    ", virt->oper->params->name);
 					TreeCCStreamCodeIndent(stream, operCase->code, 1);
 				}
 				TreeCCStreamPrint(stream, "}\n");
