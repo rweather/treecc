@@ -1,4 +1,8 @@
 
+2003-01-11  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* NEWS, configure.in: update version for the "0.2.0" release.
+
 2003-01-11  Alan Knowles  <alan@akbkhome.com>
 
 	* Makefile.am, gen.c, gen.h, gen_php.c, info.h, options.c:

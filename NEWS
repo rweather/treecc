@@ -1,4 +1,17 @@
 
+0.2.0 (11 January 2003)
+
+	* Bind the skeleton files directly into the "treecc" binary,
+	  to solve problems with locating the skeletons at runtime.
+	* Always disable cygwin for Win32 builds.
+	* Better support for out of tree builds.
+	* Fix up end of line handling in the test suite so that the
+	  tests don't fail because of CRLF vs LF issues.
+	* Add the "interal_access" and "public_access" options to
+	  support creating private libraries of nodes in C#.
+	* Fix the "-f" (force) command-line flag.
+	* PHP back-end (Alan Knowles).
+
 0.1.8 (23 November 2002)
 
 	* Bug fixes and documentation for Ruby back-end (Peter Minten).
