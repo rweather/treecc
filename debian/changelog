@@ -1,3 +1,9 @@
+treecc (0.1.8-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Andrew Mitchell <ajmitch@dunedin.lug.net.nz>  Sat, 23 Nov 2002 19:33:46 +1300
+
 treecc (0.1.2-1) unstable; urgency=low
 
   * New upstream release
