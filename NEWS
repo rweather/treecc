@@ -1,4 +1,8 @@
 
+0.3.6 (16 January 2005)
+
+	* Fix a problem with treecc.spec (Russell Stuart).
+
 0.3.4 (30 October 2004)
 
 	* Clean up Debian packaging rules (Russell Stuart).
