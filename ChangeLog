@@ -3,6 +3,8 @@
 
 	* NEWS, configure.in: update version for the "0.1.2" release.
 
+	* configure.in: update working version to "0.1.3".
+
 2002-06-14  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* auto_gen.sh, configure.in: make the system more friendly to
