@@ -1,4 +1,9 @@
 
+2002-09-12  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* gen_cpp.c: extra comma where there shouldn't be in the
+	declaration of C++ virtual operations.
+
 2002-09-02  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* NEWS, configure.in: update version for the "0.1.4" release.

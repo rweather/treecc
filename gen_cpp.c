@@ -64,7 +64,7 @@ static void DeclareVirtuals(TreeCCContext *context, TreeCCStream *stream,
 {
 	TreeCCVirtual *virt;
 	TreeCCParam *param;
-	int num;
+	int num, needComma;
 	TreeCCOperationCase *operCase;
 	int declareCase, abstractCase;
 	TreeCCNode *tempNode;
@@ -106,16 +106,25 @@ static void DeclareVirtuals(TreeCCContext *context, TreeCCStream *stream,
 							  virt->returnType, virt->name);
 			param = virt->params;
 			num = 1;
+			needComma = 0;
 			while(param != 0)
 			{
+				if(needComma)
+				{
+					TreeCCStreamPrint(stream, ", ");
+				}
+				else
+				{
+					needComma = 1;
+				}
 				if(param->name)
 				{
-					TreeCCStreamPrint(stream, ", %s %s",
+					TreeCCStreamPrint(stream, "%s %s",
 									  param->type, param->name);
 				}
 				else
 				{
-					TreeCCStreamPrint(stream, ", %s P%d__",
+					TreeCCStreamPrint(stream, "%s P%d__",
 									  param->type, num);
 					++num;
 				}
