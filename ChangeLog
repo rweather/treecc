@@ -1,3 +1,7 @@
+2003-02-08  Stephen Compall  <s11@member.fsf.org>
+
+	* treecc.spec.in: Removed $PREFIX/share/treecc from the install
+	search-path.
 
 2003-02-08  Rhys Weatherley  <rweather@southern-storm.com.au>
 
