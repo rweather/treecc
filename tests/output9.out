@@ -55,7 +55,7 @@ public:
 	YYNODESTATE();
 	virtual ~YYNODESTATE();
 
-#line 1 "../etc/cpp_skel.h"
+#line 1 "cpp_skel.h"
 private:
 
 	struct YYNODESTATE_block *blocks__;
@@ -306,7 +306,7 @@ public:
 /* output.c.  Generated automatically by treecc */
 
 #define YYNODESTATE_TRACK_LINES 1
-#line 1 "../etc/cpp_skel.cc"
+#line 1 "cpp_skel.cc"
 /*
  * treecc node allocation routines for C++.
  *

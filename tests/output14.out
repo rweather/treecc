@@ -12,7 +12,7 @@ extern "C" {
 
 typedef struct expression__ expression;
 
-#line 1 "../etc/c_skel.h"
+#line 1 "c_skel.h"
 typedef struct
 {
 	struct YYNODESTATE_block *blocks__;
@@ -98,7 +98,7 @@ extern void xyzzynodefailed(void);
 /* output.c.  Generated automatically by treecc */
 
 #define YYNODESTATE_TRACK_LINES 1
-#line 1 "../etc/c_skel.c"
+#line 1 "c_skel.c"
 /*
  * treecc node allocation routines for C.
  *

@@ -1,4 +1,15 @@
 
+2002-12-15  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* mkskel-sh, .cvsignore, Makefile.am, info.h, main.c, skeleton.c,
+	doc/treecc.1, doc/treecc.texi, etc/Makefile.am, tests/output1.out,
+	tests/output12.out, tests/output13.out, tests/output14.out,
+	tests/output15.out, tests/output2.out, tests/output3.out,
+	tests/output4.out, tests/output5.out, tests/output6.out,
+	tests/output7.out, tests/output8.out, tests/output9.out,
+	tests/test_output.c: bind the skeleton files into the "treecc"
+	binary so that we don't have any more skeleton path search problems.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds

@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
 	/* Create the parsing context */
 	context = TreeCCContextCreate(&input);
 	context->debugMode = 1;
-	context->skeletonDirectory = "../etc";
 
 	/* Attempt to open the output streams */
 	if((context->headerStream =

@@ -21,10 +21,21 @@ libtreecc_a_SOURCES = context.c \
 					  options.c \
 				      parse.c \
 					  skeleton.c \
+					  skels.c \
 					  stream.c
+
+SKELETON_FILES = $(top_srcdir)/etc/c_skel.c \
+				 $(top_srcdir)/etc/c_skel.h \
+				 $(top_srcdir)/etc/cpp_skel.cc \
+				 $(top_srcdir)/etc/cpp_skel.h
+
+$(srcdir)/skels.c: $(SKELETON_FILES) $(top_srcdir)/mkskel-sh
+	$(SHELL) $(top_srcdir)/mkskel-sh $(SKELETON_FILES) >$(srcdir)/skels.c
 
 if USINGGCC
 INCLUDES = -Wall -DTREECC_DATA_DIR=\"$(datadir)/treecc\"
 else
 INCLUDES = -DTREECC_DATA_DIR=\"$(datadir)/treecc\"
 endif
+
+CLEANFILES = skels.c

@@ -22,183 +22,72 @@
 #include "input.h"
 #include "info.h"
 #include "errors.h"
-#if HAVE_UNISTD_H
-	#include <unistd.h>
-#endif
-#if HAVE_SYS_TYPES_H
-	#include <sys/types.h>
-#endif
-#if HAVE_SYS_STAT_H
-	#include <sys/stat.h>
-#endif
-#if defined(WIN32) || defined(_WIN32)
-	#include <windows.h>
-#endif
 
 #ifdef	__cplusplus
 extern	"C" {
 #endif
 
 /*
- * Check for a skeleton file in a specific directory.
- * Returns the malloc'ed path if found, or NULL otherwise.
+ * Find a particular skeleton string within "skels.c".
  */
-static char *CheckSkeleton(const char *dir, const char *skeleton)
+extern const char * const TreeCCSkelFiles[];
+static char *FindSkeletonString(const char *skeleton)
 {
-	int len;
-	char *path;
-
-	/* Construct the full skeleton path */
-	len = strlen(dir);
-	if((path = (char *)malloc(len + strlen(skeleton) + 2)) == 0)
+	char **search = (char **)TreeCCSkelFiles;
+	while(*search != 0)
 	{
-		TreeCCOutOfMemory(0);
-	}
-	strcpy(path, dir);
-#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
-	path[len] = '\\';
-#else
-	path[len] = '/';
-#endif
-	strcpy(path + len + 1, skeleton);
-
-	/* Is the file present? */
-#if HAVE_ACCESS
-	if(access(path, 0) == 0)
-	{
-		return path;
-	}
-#else
-#if HAVE_STAT
-	{
-		struct stat st;
-		if(stat(path, &st) == 0)
+		if(!strcmp(*search, skeleton))
 		{
-			return path;
+			return search[1];
 		}
+		search += 2;
 	}
-#else
-	{
-		/* Don't have "access" or "stat", so try to open it */
-		FILE *file = fopen(path, "r");
-		if(file)
-		{
-			fclose(file);
-			return path;
-		}
-	}
-#endif
-#endif
-
-	/* Could not find the skeleton file */
-	free(path);
 	return 0;
 }
 
 /*
- * Find a skeleton file along the standard search path.
- * Returns the malloc'ed path if found, or NULL otherwise.
+ * Read a line from a skeleton buffer..
  */
-static char *FindSkeleton(TreeCCContext *context, const char *skeleton)
+static int ReadSkeletonLine(char *buffer, int size, char **skel)
 {
-	char *path;
-
-	/* Look in the user-supplied skeleton directory */
-	if(context->skeletonDirectory)
+	char *ptr = *skel;
+	if(*ptr == '\0')
 	{
-		if((path = CheckSkeleton(context->skeletonDirectory, skeleton)) != 0)
+		return 0;
+	}
+	while(*ptr != '\0' && *ptr != '\n')
+	{
+		if(size > 2)
 		{
-			return path;
+			*buffer++ = *ptr;
+			--size;
 		}
+		++ptr;
 	}
-
-	/* Look in Windows-specific locations */
-#if defined(WIN32) || defined(_WIN32)
+	if(*ptr == '\n')
 	{
-		char moduleName[1024];
-		int len;
-
-		if(GetModuleFileName(NULL, moduleName, sizeof(moduleName) - 8) != 0)
-		{
-			/* Trim the module name to the name of the directory */
-			len = strlen(moduleName);
-			while(len > 0 && moduleName[len - 1] != '\\' &&
-				  moduleName[len - 1] != '/' &&
-				  moduleName[len - 1] != ':')
-			{
-				--len;
-			}
-			if(len > 0 && moduleName[len - 1] != ':')
-			{
-				--len;
-			}
-			if(len > 0)
-			{
-				/* Look in the "etc" sub-directory underneath where the
-				   executable was loaded from */
-				strcpy(moduleName + len, "\\etc");
-				if((path = CheckSkeleton(moduleName, skeleton)) != 0)
-				{
-					return path;
-				}
-
-				/* Look in the same directory as the executable */
-				moduleName[len] = '\0';
-				if((path = CheckSkeleton(moduleName, skeleton)) != 0)
-				{
-					return path;
-				}
-			}
-		}
+		*buffer++ = *ptr++;
 	}
-#endif
-
-#if !(defined(WIN32) || defined(_WIN32)) || defined(__CYGWIN__)
-
-	/* Try looking in the compiled-in default directory */
-#ifdef TREECC_DATA_DIR
-	if((path = CheckSkeleton(TREECC_DATA_DIR, skeleton)) != 0)
-	{
-		return path;
-	}
-#endif
-
-	/* Look in several standard places that it might be */
-	if((path = CheckSkeleton("/usr/local/share/treecc", skeleton)) != 0)
-	{
-		return path;
-	}
-	if((path = CheckSkeleton("/opt/local/share/treecc", skeleton)) != 0)
-	{
-		return path;
-	}
-	if((path = CheckSkeleton("/usr/share/treecc", skeleton)) != 0)
-	{
-		return path;
-	}
-#endif
-
-	/* Could not find the skeleton */
-	TreeCCAbort(0, "could not locate the skeleton file \"%s\"\n", skeleton);
-
-	/* Keep the compiler happy */
-	return (char *)0;
+	*buffer = '\0';
+	*skel = ptr;
+	return 1;
 }
 
 void TreeCCIncludeSkeleton(TreeCCContext *context, TreeCCStream *stream,
 						   const char *skeleton)
 {
-	char *path = FindSkeleton(context, skeleton);
-	FILE *file = fopen(path, "r");
+	char *skelstr = FindSkeletonString(skeleton);
 	char buffer[BUFSIZ];
 	int posn, start;
-	if(!file)
+	if(!skelstr)
 	{
-		perror(path);
+		fprintf(stderr,
+				"treecc: internal error - could not find skeleton \"%s\"\n",
+				skeleton);
 		exit(1);
 	}
-	TreeCCStreamLine(stream, 1, path);
-	while(fgets(buffer, BUFSIZ, file))
+	TreeCCStreamLine(stream, 1, skeleton);
+	while(ReadSkeletonLine(buffer, BUFSIZ, &skelstr))
 	{
 	#if HAVE_STRCHR
 		if(strchr(buffer, 'Y') != 0 || strchr(buffer, 'y') != 0)
@@ -250,9 +139,7 @@ void TreeCCIncludeSkeleton(TreeCCContext *context, TreeCCStream *stream,
 		}
 	#endif
 	}
-	fclose(file);
 	TreeCCStreamFixLine(stream);
-	free(path);
 }
 
 #ifdef	__cplusplus

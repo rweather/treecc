@@ -49,7 +49,7 @@ typedef struct divide__ divide;
 typedef struct power__ power;
 typedef struct negate__ negate;
 
-#line 1 "../etc/c_skel.h"
+#line 1 "c_skel.h"
 typedef struct
 {
 	struct YYNODESTATE_block *blocks__;
@@ -303,7 +303,7 @@ extern void yynodefailed(void);
 /* output.c.  Generated automatically by treecc */
 
 #define YYNODESTATE_TRACK_LINES 1
-#line 1 "../etc/c_skel.c"
+#line 1 "c_skel.c"
 /*
  * treecc node allocation routines for C.
  *

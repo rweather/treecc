@@ -539,11 +539,6 @@ This option may be overriden using the @samp{%outdir} keyword in the
 input files.  If this option is used with a language other than Java,
 it will be ignored.
 
-@item -s DIR
-@itemx --skeleton-dir DIR
-Set the name of the directory that contains the skeleton files for the
-C and C++ node memory managers to @samp{DIR}.
-
 @item -e EXT
 @itemx --extension EXT
 Change the default output file extension to @samp{ext}, instead of

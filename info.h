@@ -242,9 +242,6 @@ typedef struct _tagTreeCCContext
 	/* Size of blocks to use in C/C++ memory alloction */
 	int				block_size;
 
-	/* Directory in which to look for skeleton files */
-	char		   *skeletonDirectory;
-
 	/* Name of the directory to output Java source files to */
 	char		   *outputDirectory;
 

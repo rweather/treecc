@@ -15,7 +15,7 @@ extern "C" {
 typedef struct expression__ expression;
 typedef struct singleton__ singleton;
 
-#line 1 "../etc/c_skel.h"
+#line 1 "c_skel.h"
 typedef struct
 {
 	struct YYNODESTATE_block *blocks__;
@@ -88,7 +88,7 @@ extern void yynodefailed(void);
 #endif
 /* output.c.  Generated automatically by treecc */
 
-#line 1 "../etc/c_skel.c"
+#line 1 "c_skel.c"
 /*
  * treecc node allocation routines for C.
  *

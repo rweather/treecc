@@ -1,7 +1,7 @@
 /*
  * main.c - Main program entry point for "treecc".
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2002  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@ int main(int argc, char *argv[])
 	char *headerFile = NULL;
 	char *extension = "c";
 	char *outputDir = NULL;
-	char *skeletonDir = NULL;
 	int forceCreate = 0;
 	TreeCCInput input;
 	TreeCCContext *context;
@@ -100,6 +99,8 @@ int main(int argc, char *argv[])
 			}
 			else if(!strcmp(argv[1], "--skeleton-dir"))
 			{
+				/* This option is obsolete: we still parse it just in
+				   case there are older build systems that expect it */
 				--argc;
 				++argv;
 				if(argc <= 1)
@@ -107,7 +108,6 @@ int main(int argc, char *argv[])
 					Usage(progname);
 					return 1;
 				}
-				skeletonDir = argv[1];
 			}
 			else if(!strcmp(argv[1], "--extension"))
 			{
@@ -217,9 +217,10 @@ int main(int argc, char *argv[])
 
 					case 's':
 					{
+						/* This option is obsolete: we still parse it just in
+						   case there are older build systems that expect it */
 						if(*opt != '\0')
 						{
-							skeletonDir = opt;
 							opt = "";
 						}
 						else if(argc <= 2)
@@ -231,7 +232,6 @@ int main(int argc, char *argv[])
 						{
 							--argc;
 							++argv;
-							skeletonDir = argv[1];
 						}
 					}
 					break;
@@ -343,7 +343,6 @@ int main(int argc, char *argv[])
 	}
 	context->force = forceCreate;
 	context->outputDirectory = outputDir;
-	context->skeletonDirectory = skeletonDir;
 
 	/* Create the default source and header streams */
 	context->sourceStream = TreeCCStreamCreate(context, outputFile,
@@ -422,7 +421,7 @@ int main(int argc, char *argv[])
 static void Usage(char *progname)
 {
 	fprintf(stderr, "TREECC " VERSION " - Tree Compiler-Compiler\n");
-	fprintf(stderr, "Copyright (c) 2001 Southern Storm Software, Pty Ltd.\n");
+	fprintf(stderr, "Copyright (c) 2001, 2002 Southern Storm Software, Pty Ltd.\n");
 	fprintf(stderr, "\n");
 	fprintf(stderr, "Usage: %s [options] input ...\n", progname);
 	fprintf(stderr, "\n");
@@ -432,8 +431,6 @@ static void Usage(char *progname)
 	fprintf(stderr, "        Set the name of the header output file.\n");
 	fprintf(stderr, "    -d dir,  --output-dir file\n");
 	fprintf(stderr, "        Set the name of the Java output directory.\n");
-	fprintf(stderr, "    -s dir,  --skeleton-dir file\n");
-	fprintf(stderr, "        Set the name of the skeleton directory.\n");
 	fprintf(stderr, "    -e ext,  --extension ext\n");
 	fprintf(stderr, "        Set the output file extension (default is \".c\").\n");
 	fprintf(stderr, "    -f,      --force-create\n");
@@ -447,7 +444,7 @@ static void Usage(char *progname)
 static void Version(void)
 {
 	printf("TREECC " VERSION " - Tree Compiler-Compiler\n");
-	printf("Copyright (c) 2001 Southern Storm Software, Pty Ltd.\n");
+	printf("Copyright (c) 2001, 2002 Southern Storm Software, Pty Ltd.\n");
 	printf("\n");
 	printf("TREECC comes with ABSOLUTELY NO WARRANTY.  This is free software,\n");
 	printf("and you are welcome to redistribute it under the terms of the\n");
