@@ -1124,6 +1124,16 @@ causing common output files to change unexpectedly.
 @item %option no_strip_filenames
 @cindex no_strip_filenames option
 Don't strip filenames in @code{#line} directives. (*)
+
+@item %option internal_access
+@cindex internal_access option
+Use @code{internal} as the access mode for classes in C#, rather than
+@code{public}.
+
+@item %option public_access
+@cindex public_access option
+Use @code{public} as the access mode for classes in C#, rather than
+@code{internal}. (*)
 @end table
 
 @c -----------------------------------------------------------------------

@@ -311,6 +311,23 @@ static int StripFilenamesOption(TreeCCContext *context, char *value, int flag)
 }
 
 /*
+ * "internal_access": use "internal" access on classes in C#, instead
+ * of using "public".  "public_access" is used to select "public".
+ */
+static int InternalAccessOption(TreeCCContext *context, char *value, int flag)
+{
+	if(value)
+	{
+		return TREECC_OPT_NO_VALUE;
+	}
+	else
+	{
+		context->internal_access = flag;
+		return TREECC_OPT_OK;
+	}
+}
+
+/*
  * Table of option handlers.
  */
 static struct
@@ -343,7 +360,9 @@ static struct
 	{"block_size",			BlockSizeOption,		0},
 	{"strip_filenames",		StripFilenamesOption,	1},
 	{"no_strip_filenames",	StripFilenamesOption,	0},
-	{0,						0},
+	{"internal_access",		InternalAccessOption,	1},
+	{"public_access",		InternalAccessOption,	0},
+	{0,						0,						0},
 };
 
 int TreeCCOptionProcess(TreeCCContext *context, char *name, char *value)

@@ -1,4 +1,11 @@
 
+2002-12-31  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* gen_cs.c, gen_java.c, info.h, options.c, doc/treecc.texi,
+	tests/output16.out, tests/output16.tst, tests/test_list:
+	add the "internal_access" and "public_access" options, so that
+	treecc can output assembly-private node definitions.
+
 2002-12-21  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in: remove AC_PROG_CXX from configure.in, because it

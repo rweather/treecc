@@ -54,7 +54,14 @@ static void DeclareTypeDefs(TreeCCContext *context,
 		/* Define an enumerated type */
 		TreeCCStream *stream = node->source;
 		TreeCCNode *child;
-		TreeCCStreamPrint(stream, "public enum %s\n", node->name);
+		if(context->internal_access)
+		{
+			TreeCCStreamPrint(stream, "internal enum %s\n", node->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "public enum %s\n", node->name);
+		}
 		TreeCCStreamPrint(stream, "{\n");
 		child = node->firstChild;
 		while(child != 0)
@@ -283,6 +290,7 @@ static void BuildTypeDecls(TreeCCContext *context,
 	const char *constructorAccess;
 	TreeCCField *field;
 	int isAbstract;
+	const char *accessMode;
 
 	/* Ignore if this is an enumerated type node */
 	if((node->flags & (TREECC_NODE_ENUM | TREECC_NODE_ENUM_VALUE)) != 0)
@@ -293,6 +301,16 @@ static void BuildTypeDecls(TreeCCContext *context,
 	/* Determine if this class has abstract virtuals */
 	isAbstract = TreeCCNodeHasAbstracts(context, node);
 
+	/* Determine the access mode for the class */
+	if(context->internal_access)
+	{
+		accessMode = "internal";
+	}
+	else
+	{
+		accessMode = "public";
+	}
+
 	/* Output the class header */
 	stream = node->source;
 	if(node->parent)
@@ -300,13 +318,13 @@ static void BuildTypeDecls(TreeCCContext *context,
 		/* Inherit from a specified parent type */
 		if(isAbstract)
 		{
-			TreeCCStreamPrint(stream, "public abstract class %s : %s\n{\n",
-							  node->name, node->parent->name);
+			TreeCCStreamPrint(stream, "%s abstract class %s : %s\n{\n",
+							  accessMode, node->name, node->parent->name);
 		}
 		else
 		{
-			TreeCCStreamPrint(stream, "public class %s : %s\n{\n",
-							  node->name, node->parent->name);
+			TreeCCStreamPrint(stream, "%s class %s : %s\n{\n",
+							  accessMode, node->name, node->parent->name);
 		}
 	}
 	else
@@ -314,12 +332,13 @@ static void BuildTypeDecls(TreeCCContext *context,
 		/* This type is the base of a class hierarchy */
 		if(isAbstract)
 		{
-			TreeCCStreamPrint(stream, "public abstract class %s\n{\n",
-							  node->name);
+			TreeCCStreamPrint(stream, "%s abstract class %s\n{\n",
+							  accessMode, node->name);
 		}
 		else
 		{
-			TreeCCStreamPrint(stream, "public class %s\n{\n", node->name);
+			TreeCCStreamPrint(stream, "%s class %s\n{\n",
+							  accessMode, node->name);
 		}
 
 		/* Declare the node kind member variable */
@@ -641,13 +660,29 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 	/* Declare the class header */
 	if(context->reentrant && context->abstract_factory)
 	{
-		TreeCCStreamPrint(stream, "public abstract class %s\n{\n\n",
-						  context->state_type);
+		if(context->internal_access)
+		{
+			TreeCCStreamPrint(stream, "internal abstract class %s\n{\n\n",
+							  context->state_type);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "public abstract class %s\n{\n\n",
+							  context->state_type);
+		}
 	}
 	else
 	{
-		TreeCCStreamPrint(stream, "public class %s\n{\n\n",
-						  context->state_type);
+		if(context->internal_access)
+		{
+			TreeCCStreamPrint(stream, "internal class %s\n{\n\n",
+							  context->state_type);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "public class %s\n{\n\n",
+							  context->state_type);
+		}
 	}
 
 	/* Singleton handling for non-reentrant systems */

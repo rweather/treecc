@@ -697,13 +697,24 @@ static int IsEnumType(TreeCCContext *context, const char *type)
 static void Java_GenStart(TreeCCContext *context, TreeCCStream *stream,
 					      TreeCCOperation *oper)
 {
-	if(oper->className)
+	const char *accessMode;
+	if(context->internal_access && context->language == TREECC_LANG_CSHARP)
 	{
-		TreeCCStreamPrint(stream, "public class %s\n{\n", oper->className);
+		accessMode = "internal";
 	}
 	else
 	{
-		TreeCCStreamPrint(stream, "public class %s\n{\n", oper->name);
+		accessMode = "public";
+	}
+	if(oper->className)
+	{
+		TreeCCStreamPrint(stream, "%s class %s\n{\n",
+						  accessMode, oper->className);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream, "%s class %s\n{\n",
+						  accessMode, oper->name);
 	}
 }
 
