@@ -7,6 +7,9 @@
 	examples/ylwrap: update build system to automake 1.6, and remove
 	"expr_cpp" from the build because cygwin's automake is busted.
 
+	* auto_gen.sh, config.h.in: remove config.h.in from the CVS
+	tree and generate it from "auto_gen.sh" instead.
+
 2002-06-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* NEWS, configure.in: update version for the "0.1.2" release.

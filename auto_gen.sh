@@ -21,6 +21,9 @@
 # Run aclocal to update the macros.
 aclocal
 
+# Run autoheader to create the config.h.in file.
+autoheader
+
 # Get extra options to use depending upon the automake version.
 AM_VERSION=`automake --version`
 case "$AM_VERSION" in
