@@ -1,4 +1,9 @@
 
+2002-12-21  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in: remove AC_PROG_CXX from configure.in, because it
+	isn't necessary any more since expr_cpp was disabled.
+
 2002-12-16  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/run_tests: perform end of line conversion on the expected
