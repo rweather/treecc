@@ -26,7 +26,7 @@ line 69: %case power infer_type
 #ifndef __yy_output_h
 #define __yy_output_h
 
-#include <new.h>
+#include <new>
 
 const int expression_kind = 1;
 const int binary_kind = 2;
@@ -492,7 +492,7 @@ void *YYNODESTATE::alloc(size_t size__)
 /*
  * Deallocate a block of memory.
  */
-void *YYNODESTATE::dealloc(void *ptr__, size_t size__)
+void YYNODESTATE::dealloc(void *ptr__, size_t size__)
 {
 	/* Nothing to do for this type of node allocator */
 }

@@ -1,4 +1,9 @@
 
+2003-02-29  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* tests/output5.out, tests/output6.out, tests/output9.out:
+	update test output files for one of jeyk's fixes.
+
 2003-02-29  Jeyasankar Kottalam  <jeyk@cox.net>
 
 	* gen_cpp.cpp, etc/cpp_skel.cc: add namespace support for C++;
