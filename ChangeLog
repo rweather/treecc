@@ -1,4 +1,9 @@
 
+2002-11-03  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* doc/extending.txt, README: add a "quick and dirty" guide for
+	people who want to extend treecc with new output languages.
+
 2002-10-26  Peter Minten  <silvernerd@users.sf.net>
 
 	* Makefile.am, gen.c, gen.h, gen_ruby.c, info.h, options.c,

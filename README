@@ -51,6 +51,8 @@ This forces treecc to be built in such a way that it can be run as a
 regular Windows program.  Otherwise you will need to run treecc within
 the Cygwin environment, using CYGWIN1.DLL.
 
+If you want to add a new output languages, see "doc/extending.txt".
+
 Copyright Considerations
 ------------------------
 
