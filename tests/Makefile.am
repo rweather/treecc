@@ -11,8 +11,4 @@ test_output_LDADD = ../libtreecc.a
 
 TESTS = run_tests
 
-if USINGGCC
-INCLUDES = -I$(srcdir)/.. -Wall
-else
-INCLUDES = -I$(srcdir)/..
-endif
+AM_CFLAGS = -I$(srcdir)/..

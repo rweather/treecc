@@ -22,8 +22,4 @@ CLEANFILES = expr_c.c expr_c.h expr_cpp.cc expr_cpp.h expr_cs.cs \
 			 gram_c.c gram_c.h gram_cpp.cc gram_cpp.h \
 			 scan_c.c scan_cpp.cc
 
-if USINGGCC
-INCLUDES = -Wall
-endif
-
 gram_cpp.cc: gram_cpp.yy

@@ -15,6 +15,9 @@
 	* configure.in, config.guess, config.sub: set up for a canonical
 	build system, so that cygwin/mingw32 detection works correctly.
 
+	* Makefile.am, configure.in, examples/Makefile.am, tests/Makefile.am:
+	remove TREECC_DATA_DIR and clean up the -Wall handling for gcc.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds

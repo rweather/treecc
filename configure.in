@@ -42,7 +42,9 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 
 dnl Check to see if we are using gcc or not.
-AM_CONDITIONAL(USINGGCC, test x$GCC = xyes)
+if test x$GCC = xyes ; then
+	CFLAGS="$CFLAGS -Wall"
+fi
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(vfprintf strchr qsort vsnprintf _vsnprintf vsprintf)

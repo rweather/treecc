@@ -32,10 +32,4 @@ SKELETON_FILES = $(top_srcdir)/etc/c_skel.c \
 $(srcdir)/skels.c: $(SKELETON_FILES) $(top_srcdir)/mkskel-sh
 	$(SHELL) $(top_srcdir)/mkskel-sh $(SKELETON_FILES) >$(srcdir)/skels.c
 
-if USINGGCC
-INCLUDES = -Wall -DTREECC_DATA_DIR=\"$(datadir)/treecc\"
-else
-INCLUDES = -DTREECC_DATA_DIR=\"$(datadir)/treecc\"
-endif
-
 CLEANFILES = skels.c
