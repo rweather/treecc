@@ -5,6 +5,11 @@
 in "YYNODESTATE_block" so that the start of the "data__" buffer will be
 properly aligned on 64-bit platforms.
 
+* tests/output1.out, tests/output2.out, tests/output3.out, tests/output4.out,
+tests/output5.out, tests/output6.out, tests/output7.out, tests/output8.out,
+tests/output9.out: new test output files that were affected by the
+skeleton change.
+
 2001-11-08  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * etc/c_skel.c, etc/cpp_skel.cc: update the C and C++ skeleton files with

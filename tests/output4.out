@@ -339,8 +339,8 @@ extern void yynodefailed(void);
  */
 struct GlobalState_block
 {
-	struct GlobalState_block *next__;
 	char data__[GlobalState_BLKSIZ];
+	struct GlobalState_block *next__;
 
 };
 struct GlobalState_push
