@@ -3,6 +3,8 @@
 
 	* configure.in, NEWS: update version for the 0.2.6 release.
 
+	* configure.in: update working version to "0.2.7".
+
 2003-07-05  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* gen_c.c, gen_cpp.c: fix some incorrect variable declarations
