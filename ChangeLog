@@ -1,4 +1,8 @@
 
+2002-04-20  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, NEWS: update version for the "0.1.0" release.
+
 2002-04-01  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* configure.in, aclocal.m4: use "AM_MAINTAINER_MODE" in the
