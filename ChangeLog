@@ -15,6 +15,8 @@ be formatted correctly when PDF documentation is generated.
 
 * configure.in, NEWS: version and news updates for the "0.0.4" release.
 
+* configure.in: change the version to "0.0.5" for the new working version.
+
 2001-08-14  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 * treecc.spec: applied patch submitted by mdaniel to create RPM spec file.
