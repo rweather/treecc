@@ -3,6 +3,8 @@
 
 	* configure.in, NEWS: update version for the 0.3.2 release.
 
+	* configure.in: update working version to "0.3.3".
+
 2004-07-26  Gopal.V  <gopalv82@symonds.net>
 
 	* examples/Makefile.am: Mark gram_c.c as a dependency of the 
