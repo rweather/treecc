@@ -4,6 +4,8 @@
 	* conf_fix.sh, README: add a configuration script that can be
 	used to get around problems with automake 1.5 under Cygwin.
 
+	* configure.in, NEWS: update version for the "0.0.8" release.
+
 2002-03-23  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* doc/essay.html, README: add the treecc essay to the "doc"

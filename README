@@ -28,6 +28,12 @@ The "make check" runs the treecc test suite to check for any problems
 on your system.  Report any such problems to the authors, together with
 a script of the failed test output.
 
+Note: there have been problems reported with building treecc with
+automake 1.5 under Cygwin.  These problems usually manifest as an
+error referring to a missing "depcomp" file.  To get around this
+problem, unpack a fresh copy of the ".tar.gz" file and use the
+"./conf_fix.sh" script instead of "./configure".
+
 If you obtained the treecc sources via CVS, you will need to run the
 following before "./configure":
 

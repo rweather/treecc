@@ -1,4 +1,16 @@
 
+0.0.8 (27 March 2002)
+
+	* ANSI C compatiblity fixes.
+	* Only build "expr_cpp" if bison is being used because "byacc"
+	  does not understand the options used in the C++ grammar.
+	* Polish the Texinfo documentation a little.
+	* Fix the C++ skeleton to use "size_t" in the declaration of "alloc".
+	* Implement the "strip_filenames" option to improve the predictability
+	  of code generation in Portable.NET's C# compiler.
+	* Add the "auto_gen.sh" and "conf_fix.sh" scripts.
+	* Add the "essay.html" file to the documentation directory.
+
 0.0.6 (28 December 2001)
 
 	* Swap the order of some fields in "YYNODESTATE" to align nodes
