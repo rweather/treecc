@@ -18,6 +18,9 @@
 	* Makefile.am, configure.in, examples/Makefile.am, tests/Makefile.am:
 	remove TREECC_DATA_DIR and clean up the -Wall handling for gcc.
 
+	* examples/Makefile.am: remove the unnecessary skeleton directory
+	specification.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds
