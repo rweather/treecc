@@ -1,4 +1,9 @@
 
+2002-04-01  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, aclocal.m4: use "AM_MAINTAINER_MODE" in the
+	configure.in file to work around automake issues under Cygwin.
+
 2002-03-27  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* conf_fix.sh, README: add a configuration script that can be
