@@ -18,9 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-%header "expr_c.h"
-%output "expr_c.c"
-
 /*
  * Include the following declarations into the ".h" file.
  */

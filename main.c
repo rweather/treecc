@@ -348,7 +348,7 @@ int main(int argc, char *argv[])
 	context->sourceStream = TreeCCStreamCreate(context, outputFile,
 											   NULL, 0);
 	context->sourceStream->defaultFile = 1;
-	context->headerStream = TreeCCStreamCreate(context, outputFile,
+	context->headerStream = TreeCCStreamCreate(context, headerFile,
 											   NULL, 1);
 	context->headerStream->defaultFile = 1;
 

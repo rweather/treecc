@@ -25,6 +25,7 @@ extern	"C" {
 #endif
 
 extern FILE *TreeCCErrorFile;
+extern int TreeCCErrorStripPath;
 
 int main(int argc, char *argv[])
 {
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 
 	/* Make sure all error messages go to stdout, not stderr */
 	TreeCCErrorFile = stdout;
+	TreeCCErrorStripPath = 1;
 
 	/* Open the token parser */
 	TreeCCOpen(&input, argv[0], infile, argv[1]);

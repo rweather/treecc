@@ -24,6 +24,11 @@
 	* make-zip.sh, doc/binary_readme.txt: add the "make-zip.sh"
 	script, to assist with building a Win32 binary .zip file package.
 
+	* errors.c, main.c, examples/Makefile.am, examples/expr_c.tc,
+	tests/Makefile.am, tests/run_tests, tests/test_input.c,
+	tests/test_output.c, tests/test_parse.c: changes to support
+	out of tree builds properly.
+
 2002-11-24  Gopal V  <gopalv82@symonds.net>
 	
 	* treecc.spec, configure.in, treecc.spec.in: Fix RPM builds

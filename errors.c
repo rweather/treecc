@@ -27,6 +27,7 @@ extern	"C" {
 #endif
 
 FILE *TreeCCErrorFile = NULL;
+int TreeCCErrorStripPath = 0;
 
 static void ReportError(char *filename, long linenum,
 						const char *format, VA_LIST va)
@@ -37,6 +38,16 @@ static void ReportError(char *filename, long linenum,
 	}
 	if(filename)
 	{
+		if(TreeCCErrorStripPath)
+		{
+			int len = strlen(filename);
+			while(len > 0 && filename[len - 1] != '/' &&
+				  filename[len - 1] != '\\')
+			{
+				--len;
+			}
+			filename += len;
+		}
 		fputs(filename, TreeCCErrorFile);
 		putc(':', TreeCCErrorFile);
 	}

@@ -10,5 +10,6 @@ test_output_SOURCES = test_output.c
 test_output_LDADD = ../libtreecc.a
 
 TESTS = run_tests
+TEST_ENVIRONMENT = $(SHELL)
 
 AM_CFLAGS = -I$(srcdir)/..
