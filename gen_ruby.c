@@ -41,14 +41,15 @@ static void DeclareTypeDefs(TreeCCContext *context,
 		/* Define an enumerated type */
 		TreeCCStream *stream = node->source;
 		TreeCCNode *child;
-		TreeCCStreamPrint(stream, "class %s\n", node->name);
+		TreeCCStreamPrint(stream, "class %s \n", node->name);
 		child = node->firstChild;
 		while(child != 0)
 		{
 			if((child->flags & TREECC_NODE_ENUM_VALUE) != 0)
 			{
-				TreeCCStreamPrint(stream, "\t%s = %i,\n", child->name, counter++);
+				TreeCCStreamPrint(stream, "  %s = %i\n", child->name, counter++);
 			}
+
 			child = child->nextSibling;
 		}
 		TreeCCStreamPrint(stream, "end\n\n");
@@ -164,7 +165,7 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 			{
 				if(node == actualNode)
 				{
-					TreeCCStreamPrint(stream, "\tdef %s(", virt->name);
+					TreeCCStreamPrint(stream, "  def %s(", virt->name);
 				}
 				else
 				{
@@ -177,11 +178,11 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 			{
 				if(node == actualNode)
 				{
-					TreeCCStreamPrint(stream, "\tdef %s(", virt->name);
+					TreeCCStreamPrint(stream, "  def %s(", virt->name);
 				}
 				else
 				{
-					TreeCCStreamPrint(stream, "\tdef %s(", virt->name);
+					TreeCCStreamPrint(stream, "  def %s(", virt->name);
 				}
 			}
 			param = virt->oper->params;
@@ -223,7 +224,7 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 				TreeCCStreamPrint(stream, ")\n");
 				TreeCCStreamLine(stream, operCase->codeLinenum,
 								 operCase->codeFilename);
-				TreeCCStreamPrint(stream, "\t");
+				TreeCCStreamPrint(stream, "  ");
 				if(!(virt->oper->params->name) ||
 				   !strcmp(virt->oper->params->name, "self"))
 				{
@@ -235,18 +236,18 @@ static void ImplementVirtuals(TreeCCContext *context, TreeCCStream *stream,
 				{
 					/* The first parameter is called something else,
 					   so create a temporary variable to hold "this" */
-				   	TreeCCStreamPrint(stream, "\n\t\t%s %s = self\n\t",
+				   	TreeCCStreamPrint(stream, "\n    %s %s = self\n  ",
 									  actualNode->name,
 									  virt->oper->params->name);
 					TreeCCStreamCodeIndent(stream, operCase->code, 1);
 				}
-				TreeCCStreamPrint(stream, "end\n");
+				TreeCCStreamPrint(stream, "  end\n");
 				TreeCCStreamFixLine(stream);
 				TreeCCStreamPrint(stream, "\n");
 			}
 			else
 			{
-				TreeCCStreamPrint(stream, ")\n\n");
+				TreeCCStreamPrint(stream, ")\n  end\n");
 			}
 		}
 		virt = virt->next;
@@ -320,34 +321,44 @@ static void BuildTypeDecls(TreeCCContext *context,
 		/* Declare the public methods for access to the above fields */
 		/* Ruby has handy accessor creating stuff */
 		/*TreeCCStreamPrint(stream,
-				"\tpublic int getKind() { return kind__; }\n");*/
+				"  public int getKind() { return kind__; }\n");*/
 		TreeCCStreamPrint(stream,
-				"\tattr_reader :kind\n");
+				"  protected\n  attr_reader :kind\n  public\n\n");
 			
 		if(context->track_lines)
 		{
 			/* A same kind of hack here*/
 			/*TreeCCStreamPrint(stream,
-				"\tpublic String getFilename() { return filename__; }\n");
+				"  public String getFilename() { return filename__; }\n");
 			TreeCCStreamPrint(stream,
-				"\tpublic long getLinenum() { return linenum__; }\n");
+				"  public long getLinenum() { return linenum__; }\n");
 			TreeCCStreamPrint(stream,
-			 	"\tpublic void setFilename(String filename) "
+			 	"  public void setFilename(String filename) "
 					"{ filename__ = filename; }\n");
 			TreeCCStreamPrint(stream,
-				"\tpublic void setLinenum(long linenum) "
+				"  public void setLinenum(long linenum) "
 					"{ linenum__ = linenum; }\n");*/
 			TreeCCStreamPrint(stream,
-				"\tattr_accessor :linenum, :filename\n");
+				"  attr_accessor :Linenum, :Filename\n");
 		}
 		TreeCCStreamPrint(stream, "\n");
 	}
+
+	/* Add the attr_accessor stuff for nodes specific to this node type */
+	field = node->fields;
+	while(field != 0)
+	{
+		TreeCCStreamPrint(stream, "  attr_accessor :%s\n", field->name);
+		field = field->next;
+	}
+	/* End this section with an extra newline */
+	TreeCCStreamPrint(stream, "\n");
 
 	/* Declare the kind value */
 	/* Stick to the Ruby convention of constants, start with Uppercase,
 	   continue with lowercase */
 	/* The parent doesn't matter, so don't check it */
-	TreeCCStreamPrint(stream, "\tKind = %d;\n\n",
+	TreeCCStreamPrint(stream, "  KIND = %d\n\n",
 					  node->number);
 
 	/* Declare the constructor for the node type */
@@ -355,7 +366,7 @@ static void BuildTypeDecls(TreeCCContext *context,
 	   Ruby to cause troubles here */
 
 	/* The constructor is ALWAYS called initialize */
-	TreeCCStreamPrint(stream, "\tdef initialize(");
+	TreeCCStreamPrint(stream, "  def initialize(");
 	if(context->reentrant)
 	{
 		TreeCCStreamPrint(stream, "state__");
@@ -376,8 +387,8 @@ static void BuildTypeDecls(TreeCCContext *context,
 	if(node->parent)
 	{
 		/* Do not use base, Ruby uses super for that */
-		/*TreeCCStreamPrint(stream, "\t\t: base(");*/
-		TreeCCStreamPrint(stream, "\t\tsuper(");
+		/*TreeCCStreamPrint(stream, "    : base(");*/
+		TreeCCStreamPrint(stream, "    super(");
 		if(context->reentrant)
 		{
 			TreeCCStreamPrint(stream, "@state");
@@ -393,7 +404,7 @@ static void BuildTypeDecls(TreeCCContext *context,
 	}
 	
 	/* Set the node kind */	
-	TreeCCStreamPrint(stream, "\t\t@kind = Kind;\n");
+	TreeCCStreamPrint(stream, "    @kind = KIND\n");
 
 	/* Track the filename and line number if necessary */
 	if(context->track_lines && !(node->parent))
@@ -401,17 +412,17 @@ static void BuildTypeDecls(TreeCCContext *context,
 		if(context->reentrant)
 		{
 			TreeCCStreamPrint(stream,
-					"\t\t@filename = @state.currFilename\n");
+					"    @Filename = @state.currFilename\n");
 			TreeCCStreamPrint(stream,
-					"\t\t@linenum = @state.currLinenum\n");
+					"    @Finenum = @state.currLinenum\n");
 		}
 		else
 		{
 			TreeCCStreamPrint(stream,
-					"\t\t@filename = %s.state.currFilename();\n",
+					"    @Filename = %s.state.currFilename()\n",
 					context->state_type);
 			TreeCCStreamPrint(stream,
-					"\t\t@linenum = %s.state.currLinenum();\n",
+					"    @Linenum = %s.state.currLinenum()\n",
 					context->state_type);
 		}
 	}
@@ -422,42 +433,42 @@ static void BuildTypeDecls(TreeCCContext *context,
 	{
 		if((field->flags & TREECC_FIELD_NOCREATE) == 0)
 		{
-			TreeCCStreamPrint(stream, "\t\tself.%s = %s;\n",
+			TreeCCStreamPrint(stream, "    self.%s = %s\n",
 							  field->name, field->name);
 		}
 		else if(field->value)
 		{
-			TreeCCStreamPrint(stream, "\t\tself.%s = %s;\n",
+			TreeCCStreamPrint(stream, "    self.%s = %s\n",
 							  field->name, field->value);
 		}
 		field = field->next;
 	}
-	TreeCCStreamPrint(stream, "\tend\n\n");
+	TreeCCStreamPrint(stream, "  end\n\n");
 
 	/* Implement the virtual functions */
 	ImplementVirtuals(context, stream, node, node);
 
 	/* Declare the "isA" and "getKindName" helper methods */
 
-	TreeCCStreamPrint(stream, "\tdef isA(kind)\n");
+	TreeCCStreamPrint(stream, "  def isA(kind)\n");
 
-	TreeCCStreamPrint(stream, "\t\tif(@kind == Kind) then\n");
-	TreeCCStreamPrint(stream, "\t\t\treturn true;\n");
-	TreeCCStreamPrint(stream, "\t\telse\n");
+	TreeCCStreamPrint(stream, "    if(@kind == KIND) then\n");
+	TreeCCStreamPrint(stream, "      return true\n");
+	TreeCCStreamPrint(stream, "    else\n");
 	if(node->parent)
 	{
-		TreeCCStreamPrint(stream, "\t\t\treturn super(kind);\n");
+		TreeCCStreamPrint(stream, "      return super(kind)\n    end\n");
 	}
 	else
 	{
-		TreeCCStreamPrint(stream, "\t\t\treturn 0;\n");
+		TreeCCStreamPrint(stream, "      return 0\n    end\n");
 	}
-	TreeCCStreamPrint(stream, "\tend\n\n");
+	TreeCCStreamPrint(stream, "  end\n\n");
 
-	TreeCCStreamPrint(stream, "\tdef kindname\n");
+	TreeCCStreamPrint(stream, "  def KindName\n");
 
-	TreeCCStreamPrint(stream, "\t\treturn \"%s\"\n", node->name);
-	TreeCCStreamPrint(stream, "\tend\n");
+	TreeCCStreamPrint(stream, "    return \"%s\"\n", node->name);
+	TreeCCStreamPrint(stream, "  end\n");
 
 	/* Output the class footer */
 	TreeCCStreamPrint(stream, "end\n\n");
@@ -553,7 +564,7 @@ static void ImplementCreateFuncs(TreeCCContext *context, TreeCCNode *node)
 	}
 
 	/* Output the start of the function definition */
-	TreeCCStreamPrint(stream, "\tdef %s %sCreate(",
+	TreeCCStreamPrint(stream, "  def %s %sCreate(",
 					  node->name, node->name);
 
 	/* Output the parameters for the create function */
@@ -568,10 +579,10 @@ static void ImplementCreateFuncs(TreeCCContext *context, TreeCCNode *node)
 	else
 	{
 		TreeCCStreamPrint(stream, ")\n");
-		TreeCCStreamPrint(stream, "\t\treturn %s.new(this", node->name);
+		TreeCCStreamPrint(stream, "    return %s.new(this", node->name);
 		FactoryInvokeParams(context, stream, node, 1);
 		TreeCCStreamPrint(stream, ")\n");
-		TreeCCStreamPrint(stream, "\tend\n\n");
+		TreeCCStreamPrint(stream, "  end\n\n");
 	}
 }
 
@@ -583,16 +594,17 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 	TreeCCStreamPrint(stream, "class %s\n",
 					  context->state_type);
 
+	TreeCCStreamPrint(stream, "  @@state = nil\n");
 
 	/* Singleton handling for non-reentrant systems */
 	if(!(context->reentrant))
 	{
-		TreeCCStreamPrint(stream, "\tdef state\n");
-		TreeCCStreamPrint(stream, "\t\tif(@state != null) return @state\n");
-		TreeCCStreamPrint(stream, "\t\t@state = %s.new()\n",
+		TreeCCStreamPrint(stream, "  def %s.state\n", context->state_type);
+		TreeCCStreamPrint(stream, "    return @@state unless @@state.nil?\n");
+		TreeCCStreamPrint(stream, "    @@state = %s.new()\n",
 						  context->state_type);
-		TreeCCStreamPrint(stream, "\t\treturn @state;\n");
-		TreeCCStreamPrint(stream, "\tend\n\n");
+		TreeCCStreamPrint(stream, "    return @@state\n");
+		TreeCCStreamPrint(stream, "  end\n\n");
 	}
 
 	/* Implement the constructor */
@@ -602,7 +614,7 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 	}
 	else
 	{
-		TreeCCStreamPrint(stream, "\tdef intialize \n \t\t@state = self \n \tend\n\n");
+		TreeCCStreamPrint(stream, "  def intialize \n     @@state = self \n   end\n\n");
 	}
 
 	/* Implement the create functions for all of the node types */
@@ -615,9 +627,9 @@ static void ImplementStateType(TreeCCContext *context, TreeCCStream *stream)
 	if(context->track_lines)
 	{
 		TreeCCStreamPrint(stream,
-			"\tdef currFilename \n \t\treturn null \n\tend\n");
+			"  def currFilename \n     return nil \n  end\n\n");
 		TreeCCStreamPrint(stream,
-			"\tdef currLinenum \n \t\treturn 0 \n\tend\n\n");
+			"  def currLinenum \n     return 0 \n  end\n\n");
 	}
 
 	/* Declare the end of the state type */
@@ -682,6 +694,501 @@ static void WriteRubyFooters(TreeCCContext *context)
 	}
 }
 
+/*
+ * Determine if a type name corresponds to an enumerated type.
+ */
+static int IsEnumType(TreeCCContext *context, const char *type)
+{
+	TreeCCNode *node = TreeCCNodeFindByType(context, type);
+	if(node)
+	{
+		if((node->flags & TREECC_NODE_ENUM) != 0)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
+ * Output spaces's for a specific level of indenting.
+ */
+static void Indent(TreeCCStream *stream, int indent)
+{
+	while(indent >= 4)
+	{
+		TreeCCStreamPrint(stream, "        ");
+		indent -= 4;
+	}
+	if(indent == 1)
+	{
+		TreeCCStreamPrint(stream, "  ");
+	}
+	else if(indent == 2)
+	{
+		TreeCCStreamPrint(stream, "    ");
+	}
+	else if(indent == 3)
+	{
+		TreeCCStreamPrint(stream, "      ");
+	}
+}
+
+/*
+ * Non-virtual code generation functions start here
+ */
+
+/*
+ * Generate the start declarations for a non-virtual operation.
+ */
+static void Ruby_GenStart(TreeCCContext *context, TreeCCStream *stream,
+					      TreeCCOperation *oper)
+{
+	if(oper->className)
+	{
+		TreeCCStreamPrint(stream, "class %s\n", oper->className);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream, "class %s\n", oper->name);
+	}
+}
+
+/*
+ * Generate the entry point for a non-virtual operation.
+ */
+static void RubyGenEntry(TreeCCContext *context, TreeCCStream *stream,
+					     TreeCCOperation *oper, int number)
+{
+	TreeCCParam *param;
+	int num;
+	int needComma;
+	char *cname;
+
+	if(oper->className)
+	{
+		cname = oper->className;
+	}
+	else
+	{
+		cname = oper->name;
+	}	
+
+	if(number != -1)
+	{
+		TreeCCStreamPrint(stream, "  private \n  def %s.%s_split_%d__(",
+						  cname, oper->name, number);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream, "  public \n  def %s.%s(",
+						  cname, oper->name);
+	}
+
+	param = oper->params;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "p%d__", num);
+			++num;
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if(!IsEnumType(context, param->type))
+			{
+				TreeCCStreamPrint(stream, "__");
+			}
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ")\n");
+}
+
+/*
+ * Generate the entry point for a non-virtual operation.
+ */
+static void Ruby_GenEntry(TreeCCContext *context, TreeCCStream *stream,
+					      TreeCCOperation *oper)
+{
+	RubyGenEntry(context, stream, oper, -1);
+}
+
+/*
+ * Generate the entry point for a split-out function.
+ */
+static void Ruby_GenSplitEntry(TreeCCContext *context, TreeCCStream *stream,
+					           TreeCCOperation *oper, int number)
+{
+	RubyGenEntry(context, stream, oper, number);
+}
+
+/*
+ * Generate the head of a "switch" statement.
+ */
+static void Ruby_GenSwitchHead(TreeCCContext *context, TreeCCStream *stream,
+							   char *paramName, int level, int isEnum)
+{
+	Indent(stream, level * 2 + 2);
+	if(isEnum)
+	{
+		TreeCCStreamPrint(stream, "case %s\n", paramName);
+	}
+	else
+	{
+		TreeCCStreamPrint(stream, "case %s__.type::KIND\n", paramName);
+	}
+	Indent(stream, level * 2 + 2);
+	TreeCCStreamPrint(stream, "\n");
+}
+
+/*
+ * Generate a selector for a "switch" case.
+ */
+static void Ruby_GenSelector(TreeCCContext *context, TreeCCStream *stream,
+						     TreeCCNode *node, int level)
+{
+	if((node->flags & TREECC_NODE_ENUM_VALUE) != 0)
+	{
+		Indent(stream, level * 2 + 3);
+		TreeCCStreamPrint(stream, "when %s.%s\n",
+						  node->parent->name, node->name);
+	}
+	else if((node->flags & TREECC_NODE_ENUM) == 0)
+	{
+		Indent(stream, level * 2 + 3);
+		TreeCCStreamPrint(stream, "when %s::KIND\n", node->name);
+	}
+}
+
+/*
+ * Terminate the selectors and begin the body of a "switch" case.
+ */
+static void Ruby_GenEndSelectors(TreeCCContext *context, TreeCCStream *stream,
+							     int level)
+{
+	/* No use for this in Ruby */
+}
+
+/*
+ * Generate the code for a case within a function.
+ */
+static void Ruby_GenCaseFunc(TreeCCContext *context, TreeCCStream *stream,
+						     TreeCCOperationCase *operCase, int number)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+	int num;
+	int needComma;
+	char *type;
+	char *cname;
+
+	if(operCase->oper->className)
+	{
+		cname = operCase->oper->className;
+	}
+	else
+	{
+		cname = operCase->oper->name;
+	}	
+
+	/* Output the header for the function */
+	TreeCCStreamPrint(stream, "  private \n  def %s.%s_%d__(",
+					  cname, operCase->oper->name, number);
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+		   	if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				type = trigger->node->name;
+			}
+			else
+			{
+				type = param->type;
+			}
+			trigger = trigger->next;
+		}
+		else
+		{
+			type = param->type;
+		}
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "p%d__", num);
+			++num;
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ")\n");
+
+	/* Output the code for the operation case */
+	if(operCase->code)
+	{
+		TreeCCStreamCodeIndent(stream, operCase->code, 1);
+	}
+	TreeCCStreamPrint(stream, "end\n");
+	TreeCCStreamPrint(stream, "\n");
+}
+
+/*
+ * Generate a call to a case function from within the "switch".
+ */
+static void Ruby_GenCaseCall(TreeCCContext *context, TreeCCStream *stream,
+						     TreeCCOperationCase *operCase, int number,
+						     int level)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+	int num;
+	int needComma;
+
+	/* Indent to the correct level */
+	Indent(stream, level * 2 + 1);
+
+	/* Print out the call */
+	TreeCCStreamPrint(stream, "%s_%d__(", operCase->oper->name, number);
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+/*		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "(%s)", trigger->node->name);
+			}
+		}*/
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "p%d__", num);
+			++num;
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "__");
+			}
+			trigger = trigger->next;
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ")\n");
+}
+
+/*
+ * Generate the code for a case inline within the "switch".
+ */
+static void Ruby_GenCaseInline(TreeCCContext *context, TreeCCStream *stream,
+						       TreeCCOperationCase *operCase, int level)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+
+	/* Copy the parameters to new variables of the correct types */
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	while(param != 0)
+	{
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if(param->name != 0)
+			{
+				if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+				   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+				{
+					Indent(stream, level * 2 + 4);
+					TreeCCStreamPrint(stream, "%s = %s__;\n",
+									  param->name, param->name);
+				}
+			}
+			trigger = trigger->next;
+		}
+		param = param->next;
+	}
+
+	/* Output the inline code for the case */
+	Indent(stream, level * 2 + 4);
+	if(operCase->code)
+	{
+		/* Multiply the indent level by two because every ident is one space */
+		TreeCCStreamCodeIndentCustom
+			(stream, operCase->code,' ',(level * 2 + 3) * 2);		
+	}
+	Indent(stream, level * 2 + 4);
+	TreeCCStreamPrint(stream, "\n");
+}
+
+/*
+ * Generate a call to a split function from within the "switch".
+ */
+static void Ruby_GenCaseSplit(TreeCCContext *context, TreeCCStream *stream,
+						      TreeCCOperationCase *operCase,
+							  int number, int level)
+{
+	TreeCCParam *param;
+	TreeCCTrigger *trigger;
+	int num;
+	int needComma;
+
+	/* Indent to the correct level */
+	Indent(stream, level * 2 + 2);
+
+	/* Print out the call */
+	TreeCCStreamPrint(stream, "%s_split_%d__(", operCase->oper->name, number);
+	param = operCase->oper->params;
+	trigger = operCase->triggers;
+	num = 1;
+	needComma = 0;
+	while(param != 0)
+	{
+		if(needComma)
+		{
+			TreeCCStreamPrint(stream, ", ");
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "%s", trigger->node->name);
+			}
+		}
+		if(param->name)
+		{
+			TreeCCStreamPrint(stream, "%s", param->name);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "p%d__", num);
+			++num;
+		}
+		if((param->flags & TREECC_PARAM_TRIGGER) != 0)
+		{
+			if((trigger->node->flags & TREECC_NODE_ENUM) == 0 &&
+		   	   (trigger->node->flags & TREECC_NODE_ENUM_VALUE) == 0)
+			{
+				TreeCCStreamPrint(stream, "__");
+			}
+			trigger = trigger->next;
+		}
+		needComma = 1;
+		param = param->next;
+	}
+	TreeCCStreamPrint(stream, ")\n");
+}
+
+/*
+ * Terminate a "switch" case.
+ */
+static void Ruby_GenEndCase(TreeCCContext *context, TreeCCStream *stream,
+						    int level)
+{
+	/*Indent(stream, level * 2 + 3);
+	TreeCCStreamPrint(stream, "\n");*/
+}
+
+/*
+ * Terminate the "switch" statement.
+ */
+static void Ruby_GenEndSwitch(TreeCCContext *context, TreeCCStream *stream,
+						      int level)
+{
+	Indent(stream, level * 2 + 3);
+	TreeCCStreamPrint(stream, "else\n");
+	Indent(stream, level * 2 + 2);
+	TreeCCStreamPrint(stream, "end\n");
+}
+
+/*
+ * Generate the exit point for a non-virtual operation.
+ */
+static void Ruby_GenExit(TreeCCContext *context, TreeCCStream *stream,
+					     TreeCCOperation *oper)
+{
+	if(strcmp(oper->returnType, "void") != 0)
+	{
+		/* Generate a default return value for the function */
+		if(oper->defValue)
+		{
+			TreeCCStreamPrint(stream, "  return %s\n", oper->defValue);
+		}
+		else
+		{
+			TreeCCStreamPrint(stream, "  return 0\n");
+		}
+	}
+	TreeCCStreamPrint(stream, "  end\n");
+}
+
+/*
+ * Generate the end declarations for a non-virtual operation.
+ */
+static void Ruby_GenEnd(TreeCCContext *context, TreeCCStream *stream,
+					    TreeCCOperation *oper)
+{
+	TreeCCStreamPrint(stream, "end\n");
+}
+
+/*
+ * Table of non-virtual code generation functions.
+ */
+TreeCCNonVirtual const TreeCCNonVirtualFuncsRuby = {
+	Ruby_GenStart,
+	Ruby_GenEntry,
+	Ruby_GenSplitEntry,
+	Ruby_GenSwitchHead,
+	Ruby_GenSelector,
+	Ruby_GenEndSelectors,
+	Ruby_GenCaseFunc,
+	Ruby_GenCaseCall,
+	Ruby_GenCaseInline,
+	Ruby_GenCaseSplit,
+	Ruby_GenEndCase,
+	Ruby_GenEndSwitch,
+	Ruby_GenExit,
+	Ruby_GenEnd,
+};
+
 void TreeCCGenerateRuby(TreeCCContext *context)
 {
 	/* Write all stream headers */
@@ -698,7 +1205,9 @@ void TreeCCGenerateRuby(TreeCCContext *context)
 		ImplementStateType(context, context->sourceStream);
 	}
 	TreeCCNodeVisitAll(context, BuildTypeDecls);
-	TreeCCGenerateNonVirtuals(context, &TreeCCNonVirtualFuncsJava);
+	/* NO JAVA PLEASE */
+	TreeCCGenerateNonVirtuals(context, &TreeCCNonVirtualFuncsRuby);
+	
 
 	/* Write all stream footers */
 	WriteRubyFooters(context);

@@ -30,8 +30,8 @@
 %{
 
 class Eval_value
-	int_value = 0;
-	float_value = 0;
+  Int_value = 0
+  Float_value = 0
 end
 
 %}
@@ -43,9 +43,9 @@ end
  */
 %enum Type_code =
 {
-	error_type,
-    int_type,
-    float_type
+	Error_type,
+    Int_type,
+    Float_type
 }
 
 /*
@@ -53,18 +53,18 @@ end
  */
 %node Expression %abstract %typedef =
 {
-    %nocreate Type_code type = {Type_code.error_type};
+    %nocreate Type_code type = {Type_code::Error_type};
 }
 
 %node Binary Expression %abstract =
 {
-    expression expr1;
-    expression expr2;
+    Expression expr1;
+    Expression expr2;
 }
 
 %node Unary Expression %abstract =
 {
-    expression expr;
+    Expression expr;
 }
 
 %node Intnum Expression =
@@ -78,96 +78,79 @@ end
 }
 
 %node Plus Binary
-/*%node Minus Binary
+%node Minus Binary
 %node Multiply Binary
 %node Divide Binary
 %node Power Binary
-%node Negate Unary*/
-/*
-%node cast expression =
+%node Negate Unary
+
+%node Cast Expression =
 {
 	Type_code new_type;
-	expr = expression.new;
+	Expression expr;
 }
-*/
+
 /*
  * Define the "infer_type" operation as a non-virtual.
  */
-/*%operation void InferType::infer_type(expression e)
+%operation void InferType::infer_type(Expression e)
 
-infer_type(binary)
+infer_type(Binary)
 {
-    infer_type(e.expr1)
-    infer_type(e.expr2)
+  infer_type(e.expr1)
+  infer_type(e.expr2)
 
-    if(e.expr1.type == Type_code.error_type ||
-	   e.expr2.type == Type_code.error_type)
-	{
-        e.type = Type_code.error_type
-	}
-    else if(e.expr1.type == Type_code.float_type ||
-		    e.expr2.type == Type_code.float_type)
-    {
-        e.type = Type_code.float_type
-    }
-    else
-    {
-        e.type = Type_code.int_type
-    }
+  if (e.expr1.type == Type_code::Error_type || e.expr2.type == Type_code::Error_type) then
+    e.type = Type_code::Error_type
+  elsif (e.expr1.type == Type_code::Float_type || e.expr2.type == Type_code::Float_type) then
+    e.type = Type_code::Float_type
+  else
+    e.type = Type_code::Int_type
+  end
 }
 
-infer_type(unary)
+infer_type(Unary)
 {
-    infer_type(e.expr)
-    e.type = e.expr.type
+  infer_type(e.expr)
+  e.type = e.expr.type
 }
 
-infer_type(intnum)
+infer_type(Intnum)
 {
-    e.type = Type_code.int_type
+  e.type = Type_code::Int_type
 }
 
-infer_type(floatnum)
+infer_type(Floatnum)
 {
-    e.type = Type_code.float_type
+  e.type = Type_code::Float_type
 }
 
-infer_type(power)
+infer_type(Power)
 {
-    infer_type(e.expr1)
-    infer_type(e.expr2)
+  infer_type(e.expr1)
+  infer_type(e.expr2)
 
-	if(e.expr1.type == Type_code.error_type ||
-	   e.expr2.type == Type_code.error_type)
-	{
-		e.type = Type_code.error_type
-	}
-    else if(e.expr2.type != Type_code.int_type)
-    {
-		Console.Error.WriteLine(e.getFilename() + ":" + e.getLinenum() +
-        				        ": second argument to `^' is not an integer")
-		e.type = Type_code.error_type
-    }
-	else
-	{
-    	e.type = e.expr1.type
-	}
+  if (e.expr1.type == Type_code::Error_type || e.expr2.type == Type_code::Error_type) then
+    e.type = Type_code::Error_type
+  elsif (e.expr2.type != Type_code::Int_type) then
+    p (e.getFilename() + ":" + e.getLinenum() + ": second argument to `^' is not an integer")
+    e.type = Type_code::Error_type
+  else
+    e.type = e.expr1.type
+  end
 }
 
-infer_type(cast)
+infer_type(Cast)
 {
-	infer_type(e.expr)
+  infer_type(e.expr)
 
-	if(e.expr.type != Type_code.error_type)
-	{
-		e.type = e.new_type
-	}
-	else
-	{
-		e.type = Type_code.error_type
-	}
+  if(e.expr.type != Type_code::Error_type)
+    e.type = e.new_type
+  else
+    e.type = Type_code::Error_type
+  end
 }
-*/
+
 /*
  * Define the "eval_expr" operation as a virtual.
  */
@@ -175,190 +158,172 @@ infer_type(cast)
 
 eval_expr(Plus)
 {
-	# Evaluate the sub-expressions
-	eval_value value1 = expr1.eval_expr
-	eval_value value2 = expr2.eval_expr
+  # Evaluate the sub-Expressions
+  eval_value value1 = expr1.eval_expr
+  eval_value value2 = expr2.eval_expr
 
-	# Coerce to the common type
-#	Coerce.coerce(value1, expr1.type, type)
-#	Coerce.coerce(value2, expr2.type, type)
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value2, expr2.type, type)
 
-	# Evaluate the operator 
-	if(type == Type_code.int_type)
-		value1.int_value += value2.int_value
-	else
-		value1.float_value += value2.float_value
-	end
+  # Evaluate the operator 
+  if (type == Type_code::Int_type) then
+    value1.Int_value += value2.Int_value
+  else
+    value1.Float_value += value2.Float_value
+  end
 
-	# Return the result to the caller
-	return value1
-}
-/*
-eval_expr(minus)
-{*/
-	/* Evaluate the sub-expressions */
-/*	eval_value value1 = expr1.eval_expr()
-	eval_value value2 = expr2.eval_expr()
-*/
-	/* Coerce to the common type */
-/*	Coerce.coerce(value1, expr1.type, type)
-	Coerce.coerce(value2, expr2.type, type)
-*/
-	/* Evaluate the operator */
-/*	if(type == Type_code.int_type)
-	{
-		value1.int_value -= value2.int_value
-	}
-	else
-	{
-		value1.float_value -= value2.float_value;
-	}
-*/
-	/* Return the result to the caller */
-/*	return value1
+  # Return the result to the caller
+  return value1
 }
 
-eval_expr(multiply)
-{*/
-	/* Evaluate the sub-expressions */
-/*	eval_value value1 = expr1.eval_expr()
-	eval_value value2 = expr2.eval_expr()
-*/
-	/* Coerce to the common type */
-/*	Coerce.coerce(value1, expr1.type, type)
-	Coerce.coerce(value2, expr2.type, type)
-*/
-	/* Evaluate the operator */
-/*	if(type == Type_code.int_type)
-	{
-		value1.int_value *= value2.int_value;
-	}
-	else
-	{
-		value1.float_value *= value2.float_value;
-	}
-*/
-	/* Return the result to the caller */
-/*	return value1;
-}
-
-eval_expr(divide)
+eval_expr(Minus)
 {
-*/	/* Evaluate the sub-expressions */
-/*	eval_value value1 = expr1.eval_expr();
-	eval_value value2 = expr2.eval_expr();
-*/
-	/* Coerce to the common type */
-/*	Coerce.coerce(value1, expr1.type, type);
-	Coerce.coerce(value2, expr2.type, type);
-*/
-	/* Evaluate the operator */
-/*	if(type == Type_code.int_type)
-	{
-		if(value2.int_value != 0)
-		{
-			value1.int_value /= value2.int_value;
-		}
-		else
-		{
-			Console.Error.WriteLine(getFilename() + ":" + getLinenum() +
-							        ": division by zero");
-			value1.int_value = 0;
-		}
-	}
-	else
-	{
-		value1.float_value /= value2.float_value;
-	}
-*/
-	/* Return the result to the caller */
-	/*return value1;
+  # Evaluate the sub-Expressions 
+  eval_value value1 = expr1.eval_expr()
+  eval_value value2 = expr2.eval_expr()
+
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value2, expr2.type, type)
+
+  # Evaluate the operator
+  if(type == Type_code::Int_type) then
+    value1.Int_value -= value2.Int_value
+  else
+    value1.Float_value -= value2.Float_value;
+  end
+
+  # Return the result to the caller
+  return value1
 }
 
-eval_expr(power)
-{*/
-	/* Evaluate the sub-expressions */
-/*	eval_value value1 = expr1.eval_expr();
-	eval_value value2 = expr2.eval_expr();
-*/
-	/* Evaluate the operator */
-/*	if(type == Type_code.int_type)
-	{
-		value1.int_value = (int)(Math.Pow((double)(value1.int_value),
-		                                  (double)(value2.int_value)));
-	}
-	else
-	{
-		value1.float_value = (float)(Math.Pow((double)(value1.float_value),
-		                                      (double)(value2.int_value)));
-	}
+eval_expr(Multiply)
+{
+  # Evaluate the sub-Expressions 
+  eval_value value1 = expr1.eval_expr()
+  eval_value value2 = expr2.eval_expr()
 
-*/	/* Return the result to the caller */
-/*	return value1;
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value2, expr2.type, type)
+
+  # Evaluate the operator
+  if(type == Type_code::Int_type) then
+    value1.Int_value *= value2.Int_value
+  else
+    value1.Float_value *= value2.Float_value;
+  end
+
+  # Return the result to the caller
+  return value1
 }
 
-eval_expr(negate)
-{*/
-	/* Evaluate the sub-expression */
-	/*eval_value value = expr.eval_expr();
-*/
-	/* Evaluate the operator */
-/*	if(type == Type_code.int_type)
-	{
-		value.int_value = -(value.int_value);
-	}
-	else
-	{
-		value.float_value = -(value.float_value);
-	}
-*/
-	/* Return the result to the caller */
-/*	return value;
+eval_expr(Divide)
+{
+  # Evaluate the sub-Expressions 
+  eval_value value1 = expr1.eval_expr()
+  eval_value value2 = expr2.eval_expr()
+
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value2, expr2.type, type)
+
+  # Evaluate the operator
+  if(type == Type_code::Int_type) then
+    value1.Int_value -= value2.Int_value
+  else
+    value1.Float_value -= value2.Float_value;
+  end
+
+  # Return the result to the caller
+  return value1
 }
 
-eval_expr(cast)
-{*/
-	/* Evaluate the sub-expression */
-/*	eval_value value = expr.eval_expr();*/
+eval_expr(Power)
+{
+  # Evaluate the sub-Expressions 
+  eval_value value1 = expr1.eval_expr()
+  eval_value value2 = expr2.eval_expr()
 
-	/* Cast to the final type */
-/*	Coerce.coerce(value, expr.type, type);*/
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value2, expr2.type, type)
 
-	/* Return the result to the caller */
-/*	return value;
+  # Evaluate the operator
+  if(type == Type_code::Int_type) then
+    value1.Int_value = value1.Int_value ^ value2.Int_value
+  else
+    value1.Float_value = value1.Float_value ^ value2.Float_value;
+  end
+
+  # Return the result to the caller
+  return value1
 }
-*/
+
+eval_expr(Negate)
+{
+  # Evaluate the sub-Expression 
+  eval_value value = expr.eval_expr()
+
+  # Coerce to the common type
+  Coerce.coerce(value1, expr1.type, type)
+  Coerce.coerce(value, expr.type, type)
+
+  # Evaluate the operator
+  if(type == Type_code::Int_type) then
+    value.Int_value = -1 * value.Int_value
+  else
+    value.Float_value = -1 * value.Float_value;
+  end
+
+  # Return the result to the caller
+  return value
+}
+
+eval_expr(Cast)
+{
+  # Evaluate the sub-Expression
+  eval_value value = expr.eval_expr()
+
+  # Coerce to the common type
+  Coerce.coerce(value, expr.type, type)
+
+  # Return the result to the caller
+  return value
+}
+
 eval_expr(Intnum)
 {
-	value = eval_value.new
-	value.int_value = num
-	return value
+  value = eval_value.new
+  value.Int_value = num
+  return value
 }
 
 eval_expr(Floatnum)
 {
-	value = eval_value.new
-	value.float_value = num
-	return value
+  value = eval_value.new
+  value.Float_value = num
+  return value
 }
 
 /*
  * Define the "coerce" operation as an inline non-virtual.
  */
-/*%operation %inline void Coerce::coerce
+%operation %inline void Coerce::coerce
 				(value, [Type_code from], [Type_code to])
 
-coerce(int_type, float_type)
+coerce(Int_type, Float_type)
 {
-//	value.float_value = (float)(value.int_value);
+  value.Float_value = value.Int_value.to_f;
 }
 
-coerce(float_type, int_type)
+coerce(Float_type, Int_type)
 {
-//	value.int_value = (int)(value.float_value);
+  value.Int_value = value.Float_value.to_i;
 }
 
 coerce(Type_code, Type_code)
 {
-	/* Nothing to do here *//*
-}*/
+  # Nothing to do here
+}

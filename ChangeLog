@@ -1,4 +1,13 @@
+2002-11-09  Peter Minten  <silvernerd@users.sf.net>
 
+	* gen_ruby.c: Modified to create code compliant with Ruby markup
+	conventions, also some little bug fixes.
+	
+	* examples/expr_ruby.tc: Improved example.
+	
+	* stream.h, stream.c: Overloaded TreeCCStreamCodeIndent
+	to support languages that don't use tabs for indenting.
+	
 2002-11-05  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* NEWS, configure.in: update version for the "0.1.6" release.

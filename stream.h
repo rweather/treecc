@@ -147,6 +147,13 @@ void TreeCCStreamCode(TreeCCStream *stream, char *code);
 void TreeCCStreamCodeIndent(TreeCCStream *stream, char *code, int indent);
 
 /*
+ * Output a block of literal code to a stream which is indented.
+ * The first line is not indented. This version supports custom indent chars.
+ */
+void TreeCCStreamCodeIndentCustom(TreeCCStream *stream, char *code, 
+								 char indentchar, int indent);
+
+/*
  * Fix the line number information in the output stream
  * after outputting a block of code.
  */

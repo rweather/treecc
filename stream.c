@@ -504,6 +504,26 @@ void TreeCCStreamCodeIndent(TreeCCStream *stream, char *code, int indent)
 	}
 }
 
+void TreeCCStreamCodeIndentCustom(TreeCCStream *stream, char *code, 
+								  char indentchar, int indent)
+{
+	int temp;
+	while(*code != '\0')
+	{
+		StreamPut(*code, stream);
+		if(*code == '\n')
+		{
+			++(stream->linenum);
+			for(temp = 0; temp < indent; ++temp)
+			{
+				StreamPut(indentchar, stream);
+			}
+		}
+		++code;
+	}
+}
+
+
 void TreeCCStreamFixLine(TreeCCStream *stream)
 {
 	TreeCCStreamLine(stream, stream->linenum + 1, stream->embedName);
