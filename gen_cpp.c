@@ -984,13 +984,18 @@ static void WriteCPPHeaders(TreeCCContext *context)
 		{
 			TreeCCStreamHeaderTop(stream);
 			TreeCCStreamPrint(stream, "\n");
-			TreeCCStreamPrint(stream, "#include <new.h>\n");
+			TreeCCStreamPrint(stream, "#include <new>\n");
 			TreeCCStreamPrint(stream, "\n");
 		}
 		else
 		{
 			TreeCCStreamSourceTop(stream);
 			TreeCCStreamPrint(stream, "\n");
+		}
+		if(context->namespace)
+		{
+			TreeCCStreamPrint(stream, "namespace %s\n{\n\n",
+					context->namespace);
 		}
 		if(stream->defaultFile)
 		{
@@ -1016,13 +1021,20 @@ static void WriteCPPFooters(TreeCCContext *context)
 			/* Clear the default file's contents, which we don't need */
 			TreeCCStreamClear(stream);
 		}
-		else if(stream->isHeader)
-		{
-			TreeCCStreamHeaderBottom(stream);
-		}
 		else
 		{
-			TreeCCStreamSourceBottom(stream);
+			if(context->namespace)
+			{
+				TreeCCStreamPrint(stream, "}\n");
+			}
+			if(stream->isHeader)
+			{
+				TreeCCStreamHeaderBottom(stream);
+			}
+			else
+			{
+				TreeCCStreamSourceBottom(stream);
+			}
 		}
 		stream = stream->nextStream;
 	}

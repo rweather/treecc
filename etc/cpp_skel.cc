@@ -166,7 +166,7 @@ void *YYNODESTATE::alloc(size_t size__)
 /*
  * Deallocate a block of memory.
  */
-void *YYNODESTATE::dealloc(void *ptr__, size_t size__)
+void YYNODESTATE::dealloc(void *ptr__, size_t size__)
 {
 	/* Nothing to do for this type of node allocator */
 }
