@@ -4,6 +4,8 @@
 	* tests/output5.out, tests/output6.out, tests/output9.out:
 	update test output files for one of jeyk's fixes.
 
+	* configure.in, NEWS: update version for the 0.2.4 release.
+
 2003-02-29  Jeyasankar Kottalam  <jeyk@cox.net>
 
 	* gen_cpp.cpp, etc/cpp_skel.cc: add namespace support for C++;
