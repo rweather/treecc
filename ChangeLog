@@ -1,4 +1,9 @@
 
+2004-10-29  Peter Lund <firefly@diku.dk>
+
+	* doc/treecc.1: fix manpage formatting issues. (patch attached
+	to bug #10779, Gopal).
+
 2004-09-07  Russell Stuart <russell-savannah@stuart.id.au>
 
 	* debian/changelog,
