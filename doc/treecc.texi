@@ -5,10 +5,9 @@
 @setchapternewpage off
 @c %** end of header
 
-@dircategory DotGNU
+@dircategory Programming tools:
 @direntry
-* TreeCC: (treecc).             Generate code for compilers to build
-                                abstract syntax trees.
+* TreeCC: (treecc).			Tree compiler-compiler
 @end direntry
 
 @ifinfo
