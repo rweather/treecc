@@ -1,4 +1,12 @@
 
+2004-09-07  Russell Stuart <russell-savannah@stuart.id.au>
+
+	* debian/changelog,
+	  debian/README.Debian,
+	  debian/rules,
+	  treecc.spec.in:
+	  Cleaned up Debian directory.
+
 2004-08-23  Russell Stuart <russell-savannah@stuart.id.au>
 
 	* debian/files - deleted.  This is an intermediate file generated
