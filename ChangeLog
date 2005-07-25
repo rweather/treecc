@@ -1,3 +1,7 @@
+2005-07-25  Deryk Robosson  <deryk@0x0a.com>
+
+	* configure.in: Add check for BeOS which removes libm from examples.
+
 2005-01-23  Russell Stuart  <russell-savannah@stuart.id.au>
 
 	* Updated build-depian-packages.sh for new release.

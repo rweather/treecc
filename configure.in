@@ -21,6 +21,20 @@ case "$host" in
 esac
 AC_MSG_RESULT($platform_win32)
 
+AC_MSG_CHECKING([if building for BeOS platform])
+case "$host" in
+	*-*-beos*)
+		platform_beos=yes
+		LDADD=""
+		;;
+	*)
+		platform_beos=no
+		LDADD="-lm"
+		;;
+esac
+AC_MSG_RESULT($platform_beos)
+AC_SUBST(LDADD)
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
