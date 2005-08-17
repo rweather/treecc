@@ -1,6 +1,6 @@
 2005-08-17  Klaus Treichel  <ktreichel@web.de>
 
-	* Makefile.am: add header files to ditstributed sources. Move skels.c to
+	* Makefile.am: add header files to distributed sources. Move skels.c to
 	not distributed sources and add mkskel-sh to EXTRA_DIST.
 
 	* doc/Makefile.am: Add $(man_MANS), texinfo.tex, mkdoc, mkhtml, mkpdf,
