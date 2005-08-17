@@ -6,13 +6,13 @@ noinst_PROGRAMS = expr_c
 ## EXTRA_PROGRAMS  = expr_cpp
 
 expr_c_DEPENDENCIES = $(top_builddir)/treecc
-expr_c_SOURCES = expr_c.c gram_c.y scan_c.l
+BUILT_SOURCES = expr_c.c  gram_c.c gram_c.h
+nodist_expr_c_SOURCES =  expr_c.c
+dist_expr_c_SOURCES = expr_c.tc gram_c.y scan_c.l
 expr_c_LDADD = -lm
 
 expr_c.c expr_c.h: $(srcdir)/expr_c.tc
 	$(top_builddir)/treecc -o expr_c.c -h expr_c.h $(srcdir)/expr_c.tc
-
-scan_c.l: gram_c.c 
 
 ## expr_cpp_SOURCES = expr_cpp.cc gram_cpp.yy scan_cpp.ll
 ##

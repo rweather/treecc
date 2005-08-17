@@ -1,3 +1,19 @@
+2005-08-17  Klaus Treichel  <ktreichel@web.de>
+
+	* Makefile.am: add header files to ditstributed sources. Move skels.c to
+	not distributed sources and add mkskel-sh to EXTRA_DIST.
+
+	* doc/Makefile.am: Add $(man_MANS), texinfo.tex, mkdoc, mkhtml, mkpdf,
+	extending.txt, essay.html and binary_readme.txt to EXTRA_DIST.
+
+	* etc/Makefile.am: add $(noinst_DATA) to EXTRA_DIST.
+
+	* examples/Makefile.am: Move expr_c.c to BUILT_SOURCES AND add gram_c.c and
+	gram_c.h to BUILT_SOURCES. Add expr_c.c to nodist_SOURCES and add expr_c.tc to
+	dist_SOURCES.
+
+	* tests/Makefile.am: Add run_tests and testfiles to EXTRA_DIST.
+
 2005-07-25  Deryk Robosson  <deryk@0x0a.com>
 
 	* configure.in: Add check for BeOS which removes libm from examples.
