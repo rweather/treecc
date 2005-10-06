@@ -1,3 +1,7 @@
+2005-10-06  Klaus Treichel  <ktreichel@web.de>
+
+	* Makefile.am, examples/Makefile.am: Fix build problems with autotools 1.4.
+
 2005-08-18  Klaus Treichel  <ktreichel@web.de>
 
 	* Makefile.am: Remove $(srcdir) from skels.c to make 'make distcheck' work.
