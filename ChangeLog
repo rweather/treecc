@@ -3,6 +3,8 @@
 
 	* configure.in, NEWS: update version for the 0.3.8 release.
 
+	* configure.in: update working version to "0.3.9".
+
 2005-10-06  Klaus Treichel  <ktreichel@web.de>
 
 	* Makefile.am, examples/Makefile.am: Fix build problems with autotools 1.4.
