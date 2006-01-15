@@ -1,3 +1,8 @@
+
+2006-01-15  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* configure.in, NEWS: update version for the 0.3.8 release.
+
 2005-10-06  Klaus Treichel  <ktreichel@web.de>
 
 	* Makefile.am, examples/Makefile.am: Fix build problems with autotools 1.4.

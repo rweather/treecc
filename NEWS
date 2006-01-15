@@ -1,4 +1,10 @@
 
+0.3.8 (15 January 2006)
+
+	* Update Debian packaging rules (Russell Stuart).
+	* Configure fixes for BeOS (Deryk Robosson).
+	* Fix make dist so that it works (Klaus Treichel).
+
 0.3.6 (16 January 2005)
 
 	* Fix a problem with treecc.spec (Russell Stuart).
