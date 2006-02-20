@@ -1,15 +1,24 @@
 #!/bin/bash -e
 #
 # SYPNOSIS
-#   ./build-debian-packages.sh
+#   sh ./build-debian-packages.sh [--nobuild] ../pnetArchive-ver.tar.gz
 #
 # DESCRIPTION
-#   This script combines the information in the rpm .spec file
-#   with the build-debian-packages.conf file to produce most
-#   of the control files in the debian directory.  This is done
-#   so package descrptions and file lists can be maintained in
-#   one place - the .spec file.  The files created in the
-#   debian directory are:
+#   This script creates new debian source and binary packages given:
+#     - a new upstream of a pnet archive, and
+#     - the debian source package from the previous release.
+#   When run the current directory must be the debian source package
+#   for the previous release (see the sypnosis).  The output is
+#   placed in the parent directory.
+#
+#   This script does its magic by combining the information in the rpm
+#   .spec file with the build-debian-packages.conf file to produce most
+#   of the control files in the debian directory.  This is done so
+#   package descrptions and file lists can be maintained in one place -
+#   the .spec file.  See the comments in the build-debian-packages.conf
+#   file for info on what must be in there.
+#
+#   The files created in the debian directory are:
 #
 #     changelog (updated if out of date)
 #     control
@@ -18,12 +27,7 @@
 #     *.info
 #     *.install
 #
-#   The debian source and packages are then built.  The end
-#   result appears in the parent directory.
-#
-#   Changes and building are done in a copy of this directory
-#   created in debian/tmp.  Apart from debian/tmp, no files
-#   un this directory are modified.
+#   Apart from debian/tmp, no files in this directory are modified.
 #
 # WARNING
 # -------
@@ -33,10 +37,15 @@
 #   in the CVS repository.
 #
 
-pre=no
-[[ ."$1" != ."--pre" ]] || {
-  pre=yes
+nobuild=no
+[[ ."$1" != ."--nobuild" ]] || {
+  nobuild=yes
   shift
+}
+
+[[ -n "$1" && -z "$2" ]] || {
+  echo 1>&2 "usage: $0 [--nobuild] pnetArchive-ver.tar.gz"
+  exit 1
 }
 archive=$1
 
@@ -53,14 +62,8 @@ getVersion() {
   echo ${pkgVersion}
 }
 
-if [[ -z "${archive}" ]]
-then
-  version=$(pwd)
-  version=${version##*-}
-else
-  version=${archive##*-}
-  version=${version%.tar.gz}
-fi
+version=${archive##*-}
+version=${version%.tar.gz}
 
 pnetDpkgVersion() {
   local dpkgVersion=$(getVersion "$1")
@@ -138,31 +141,29 @@ expandRpmMacros() {
 # that convention.  So force it by copying ourselves
 # into a directory of that name.
 #
-rm -rf debian/tmp
 builddir="debian/tmp/${PKG_NAME}-${version}"
-if [[ -z "${archive}" ]]
-then
-  mkdir -p "${builddir}"
-  tar --create --exclude="./debian/tmp" --exclude="./debian/tmp/*" . |
-    tar --extract --directory "${builddir}" 
-else
-  rm -rf tmp
-  mkdir tmp
-  tar --extract --directory tmp --gzip --file "${archive}"
-  dirname=${archive##*/}
-  dirname=${dirname%.tar.gz}
-  [[ ."${dirname}" = "${builddir##*/}" ]] ||
-    mv tmp/"${dirname}" "tmp/${builddir##*/}"
-  cp -a debian "tmp/${builddir##*/}"
-  mv tmp debian
-fi
+rm -rf "${builddir%/*}"
+
+rm -rf tmp
+mkdir tmp
+tar --extract --directory tmp --gzip --file "${archive}"
+dirname=${archive##*/}
+dirname=${dirname%.tar.gz}
+[[ ."${dirname}" = ."${builddir##*/}" ]] ||
+  mv tmp/"${dirname}" "tmp/${builddir##*/}"
+cp -a debian "tmp/${builddir##*/}"
+cp build-debian-packages.* "tmp/${builddir##*/}"
 
 #
 # Create the .orig.tar.gz file.
 #
-cd "${builddir%/*}"
-tar --create --gzip --file "${PKG_NAME}_${version}.orig.tar.gz" "${builddir##*/}"
-cd "${builddir##*/}"
+cp "$archive" "tmp/${PKG_NAME}_${version}.orig.tar.gz" 
+
+#
+# Move into the build area.
+#
+mv tmp debian
+cd "${builddir}"
 
 #
 # Build the control, *.install and *.docs files.
@@ -251,6 +252,8 @@ do
 	  echo Architecture: $(getOverride "${descpackage}" "${PKG_ARCH}" 'any')
 	  echo -n Description: ${summary}
 	  echo -e "$(fixMcsVersion "${description}")"
+	  echo " ."
+	  echo "  Homepage: http://www.southern-storm.com.au/portable_net.html"
 	) >>"${control}"
 	descpackage=
 	description=
@@ -309,14 +312,18 @@ License can be found in /usr/share/common-licenses/GPL file.
   changelogModified=yes
 }
 
-[[ "${pre}" == no ]] || exit 0
+[[ "${nobuild}" == no ]] || {
+    cd ../../..
+    mv "${builddir}" "${builddir%/*}/${PKG_NAME}_${version}"* ..
+    rmdir "${builddir%/*}"
+    exit 0
+  }
 
 #
 # Invoke the magic Debian build incantation.
 #
 fakeroot=
-[[ $(id -u) = 0 ]] ||
-  fakeroot="fakeroot -l /usr/lib/libfakeroot/libfakeroot.so.0"
+[[ $(id -u) = 0 ]] || fakeroot="fakeroot"
 ${fakeroot} debian/rules clean
 ${fakeroot} dpkg-buildpackage
 
@@ -324,12 +331,12 @@ ${fakeroot} dpkg-buildpackage
 # Move the results up to the original parent directory.
 #
 cd ../../..
-mv "debian/tmp/${PKG_NAME}_${version}"* ..
+mv "${builddir}" "${builddir%/*}/${PKG_NAME}_${version}"* ..
+rmdir "${builddir%/*}"
 
 #
 # Give a warning if we changed the Debian changelog.
 #
 cmp -s "${builddir}/debian/changelog" debian/changelog || {
   echo "$0: I modified debian/changelog.  Please commit the changed file to cvs."
-  cp "${builddir}/debian/changelog" debian/changelog
 }
