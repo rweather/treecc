@@ -1,3 +1,18 @@
+2007-01-20  Robert Schwebel  <r.schwebel@pengutronix.de>
+
+	* configure.in: Remove AM_MAINTAINER_MODE to enable automatic reconfigure
+	if one of the autotool input files was changed.
+
+	* Makefile.am: Remove the $(top_srcdir) in the skels.c dependencies because
+	we allready are in the source dir.
+
+	* examples/Makefile.am: Move generated sources to nodist_expr_c_SOURCES
+	which prevents the build system trying to package them into the
+	distribution.
+
+	* tests/Makefile.am: Fix the building out of the tree by specifying
+	$(top_builddir).or $(top_srcdir) to point to the right location.
+
 2006-02-20  Russell Stuart  <russell-savannah@stuart.id.au>
 
 	* minor re-work of build-debian-packages.

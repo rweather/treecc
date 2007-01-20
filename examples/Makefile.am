@@ -7,10 +7,11 @@ noinst_PROGRAMS = expr_c
 
 EXTRA_DIST = expr_c.tc gram_c.h
 
-expr_c_DEPENDENCIES = $(top_builddir)/treecc
+## expr_c_DEPENDENCIES = $(top_builddir)/treecc
 BUILT_SOURCES = expr_c.c  expr_c.h gram_c.c gram_c.h
 
-expr_c_SOURCES = expr_c.c expr_c.h gram_c.y scan_c.l
+expr_c_SOURCES = gram_c.y scan_c.l
+nodist_expr_c_SOURCES = expr_c.c expr_c.h
 expr_c_LDADD = -lm
 
 expr_c.c expr_c.h: $(srcdir)/expr_c.tc
@@ -21,7 +22,7 @@ gram_c.c gram_c.h: gram_c.y
 ## expr_cpp_SOURCES = expr_cpp.cc gram_cpp.yy scan_cpp.ll
 ##
 ## expr_cpp.cc expr_cpp.h: expr_cpp.tc
-## 	../treecc $(srcdir)/expr_cpp.tc
+## 	$(top_builddir)/treecc $(srcdir)/expr_cpp.tc
 
 AM_YFLAGS = -d
 
