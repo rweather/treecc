@@ -50,3 +50,10 @@ skels.c: $(SKELETON_FILES) mkskel-sh
 	$(SHELL) mkskel-sh $(SKELETON_FILES) >skels.c
 
 CLEANFILES = skels.c
+
+MAINTAINERCLEANFILES = Makefile.in \
+					   config.guess \
+					   config.sub \
+					   configure \
+					   install-sh \
+					   missing

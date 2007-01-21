@@ -94,3 +94,5 @@ test_output_LDADD = $(top_builddir)/libtreecc.a
 normalize_SOURCES = normalize.c
 
 AM_CFLAGS = -I$(top_srcdir)
+
+MAINTAINERCLEANFILES = Makefile.in

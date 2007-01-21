@@ -9,3 +9,4 @@ noinst_DATA = cpp_skel.cc cpp_skel.h c_skel.c c_skel.h \
 
 EXTRA_DIST = $(noinst_DATA)
 
+MAINTAINERCLEANFILES = Makefile.in
