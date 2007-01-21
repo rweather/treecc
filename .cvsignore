@@ -12,3 +12,9 @@ treecc.spec
 aclocal.m4
 config.h.in
 skels.c
+autom4te.cache
+config.guess
+config.sub
+install-sh
+missing
+stamp-h1

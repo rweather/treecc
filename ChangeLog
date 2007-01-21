@@ -1,3 +1,8 @@
+2007-01-21  Klaus Treichel  <ktreichel@web.de>
+
+	* .cvsignore: Add autom4te.cache, config.guess, config.sub, install-sh,
+	missing and stamp-h1.
+
 2007-01-21  Robert Schwebel  <r.schwebel@pengutronix.de>
 
 	* Makefile.am, doc/Makefile.am, etc/Makefile.am, examples/Makefile.am,
