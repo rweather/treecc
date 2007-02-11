@@ -3,6 +3,7 @@ AC_INIT(input.h)
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(treecc, 0.3.9)
 AM_CONFIG_HEADER(config.h)
+AM_MAINTAINER_MODE
 
 dnl Turn off the cygwin library if building for Win32.
 AC_MSG_CHECKING([if building for some Win32 platform])

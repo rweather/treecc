@@ -1,3 +1,8 @@
+2007-02-11  Klaus Treichel  <ktreichel@web.de>
+
+	* configure.in: Readd the AM_MAINTAINER_MODE as suggested by Robert
+	Schwebel.
+
 2007-01-21  Klaus Treichel  <ktreichel@web.de>
 
 	* .cvsignore: Add autom4te.cache, config.guess, config.sub, install-sh,
