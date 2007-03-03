@@ -1,4 +1,9 @@
 
+0.3.10 (3 March 2007)
+
+	* Fix build system (Robert Schwebel) 
+	* Minor re-work od build-debian-packages (Russel Stuart)
+
 0.3.8 (15 January 2006)
 
 	* Update Debian packaging rules (Russell Stuart).

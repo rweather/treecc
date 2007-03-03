@@ -1,3 +1,10 @@
+
+2007-03-03  Klaus Treichel  <ktreichel@web.de>
+
+	* configure.in, NEWS: update version for the 0.3.10 release.
+
+	* configure.in: update version to the new 0.3.11 development version.
+
 2007-02-11  Klaus Treichel  <ktreichel@web.de>
 
 	* configure.in: Readd the AM_MAINTAINER_MODE as suggested by Robert
