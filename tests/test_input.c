@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			case TREECC_TOKEN_IDENTIFIER:
 			{
 				TreeCCDebug(input.linenum, "identifier (len = %d): %s",
-				       	    strlen(input.text), input.text);
+				       	    (int)strlen(input.text), input.text);
 				if(!strcmp(input.text, "parse_literal"))
 				{
 					input.parseLiteral = 1;

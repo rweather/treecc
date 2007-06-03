@@ -1,4 +1,8 @@
 
+2007-06-03  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* tests/test_input.c: fix 32bit-ism that gave a warning on amd64.
+
 2007-03-03  Klaus Treichel  <ktreichel@web.de>
 
 	* configure.in, NEWS: update version for the 0.3.10 release.
