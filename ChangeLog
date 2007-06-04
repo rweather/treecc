@@ -4,6 +4,8 @@
 	* Makefile.am, gen.c, gen.h, gen_python.c, info.h, main.c, options.c,
 	stream.c, stream.h, doc/treecc.texi: add Python language binding to treecc.
 
+	* examples/expr_python.tc, examples/README: add Python example.
+
 2007-06-03  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/test_input.c: fix 32bit-ism that gave a warning on amd64.
