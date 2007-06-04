@@ -1,4 +1,9 @@
 
+2007-06-04  Rhys Weatherley  <rweather@southern-storm.com.au>
+
+	* Makefile.am, gen.c, gen.h, gen_python.c, info.h, main.c, options.c,
+	stream.c, stream.h, doc/treecc.texi: add Python language binding to treecc.
+
 2007-06-03  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* tests/test_input.c: fix 32bit-ism that gave a warning on amd64.

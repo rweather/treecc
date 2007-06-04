@@ -1120,7 +1120,8 @@ node types.  By default, node type allocation begins at 1.
 @item %option lang = LANGUAGE
 @cindex lang option
 Specify the output language.  Must be one of @code{"C"}, @code{"C++"},
-@code{"Java"}, or @code{"C#"}.  The default is @code{"C"}.
+@code{"Java"}, @code{"C#"}, @code{"Ruby"}, @code{"PHP"}, or @code{"Python"}.
+The default is @code{"C"}.
 
 @item %option block_size = NUM
 @cindex block_size option
@@ -1346,11 +1347,12 @@ abstract syntax trees.  The following sections describe the API's
 for each of the output languages.
 
 @menu
-* C Language::     C Language API's
-* C++ Language::   C++ Language API's
-* Java Language::  Java Language API's
-* C# Language::    C# Language API's
-* Ruby Language::  Ruby Language API's
+* C Language::       C Language API's
+* C++ Language::     C++ Language API's
+* Java Language::    Java Language API's
+* C# Language::      C# Language API's
+* Ruby Language::    Ruby Language API's
+* Python Language::  Python Language API's
 @end menu
 
 @c -----------------------------------------------------------------------
@@ -2405,7 +2407,7 @@ to act as the global state and node creation factory.
 
 @c -----------------------------------------------------------------------
 
-@node Ruby Language, Full Expression Example, C# Language, Output APIs
+@node Ruby Language, Python Language, C# Language, Output APIs
 @section Ruby Language APIs
 @cindex Ruby APIs
 
@@ -2682,7 +2684,145 @@ to act as the global state and node creation factory.
 
 @c -----------------------------------------------------------------------
 
-@node Full Expression Example, EBNF Syntax, Ruby Language, Top
+@node Python Language, Full Expression Example, Ruby Language, Output APIs
+@section Python Language APIs
+@cindex Python APIs
+
+In the Python output language, each node type is converted into a
+@samp{class} that contains the node's fields, operations, and other
+house-keeping definitions.  The following example demonstrates how
+treecc node declarations are converted into Python source code:
+
+@example
+%node expression %abstract %typedef =
+@{
+    %nocreate type_code type;
+@}
+%node binary expression %abstract =
+@{
+    expression expr1;
+    expression expr2;
+@}
+%node plus binary
+@end example
+
+becomes:
+
+@example
+class expression:
+    KIND = 1
+    def __init__(self):
+        self.kind = 1
+        self.filename = yycurrfilename()
+        self.linenum = yycurrlinenum()
+
+    def getKindName(self):
+        return self.__class__.__name__
+
+class binary (expression):
+    KIND = 2
+    def __init__(self, expr1, expr2):
+        expression.__init__(self)
+        self.kind = 2
+        self.expr1 = expr1
+        self.expr2 = expr2
+
+class plus (binary):
+    KIND = 3
+    def __init__(self, expr1, expr2):
+        binary.__init__(self, expr1, expr2)
+        self.kind = 3
+@end example
+
+The following standard members are available on every node type:
+
+@table @code
+@item KIND
+@cindex KIND field (Python)
+The kind value for the node type corresponding to this class.
+The kind value for node type @samp{NAME} is called @samp{NAME.KIND}.
+
+@item kind
+@cindex kind field (Python)
+Gets the numeric kind value associated with a particular node.
+The kind value for node type @samp{NAME} is called @samp{NAME.KIND}.
+
+@item getKindName()
+@cindex getKindName method (Python)
+The name of the node kind associated with a particular node.  This may
+be helpful for debugging and logging code.
+
+@item filename
+@cindex filename field (Python)
+The filename corresponding to where the node was created during parsing.
+This field is only initialized if @samp{%option track_lines} was
+specified.
+
+@item linenum
+@cindex linenum field (Python)
+The line number corresponding to where the node was created during
+parsing.  This field is only initialized if @samp{%option track_lines}
+was specified.
+@end table
+
+The @code{isA()} method from the other output languages is not present
+in the Python binding.  Use the standard Python @code{isinstance}
+function instead.
+
+Enumerated types are converted into a Python @samp{class} definition:
+
+@example
+%enum JavaType =
+@{
+    JT_BYTE,
+    JT_SHORT,
+    JT_CHAR,
+    JT_INT,
+    JT_LONG,
+    JT_FLOAT,
+    JT_DOUBLE,
+    JT_OBJECT_REF
+@}
+@end example
+
+becomes:
+
+@example
+class JavaType:
+    JT_BYTE = 0
+    JT_SHORT = 1
+    JT_CHAR = 2
+    JT_INT = 3
+    JT_LONG = 4
+    JT_FLOAT = 5
+    JT_DOUBLE = 6
+    JT_OBJECT_REF = 7
+@end example
+
+Virtual operations are converted into public methods on the Python
+node classes.  Non-virtual operations are converted into a global
+method within the generated Python module.
+
+If @samp{%option track_lines} is specified, then the generated Python
+module is assumed to contain the following global methods to provide line
+tracking information:
+
+@table @code
+@item yycurrfilename()
+@cindex yycurrfilename method (Python)
+The name of the current input file from the parser.
+
+@item yycurrlinenum()
+@cindex yycurrlinenum method (Ruby)
+The number of the current input line from the parser.
+@end table
+
+The programmer will typically provide a literal @code{%end} block to
+define these methods.
+
+@c -----------------------------------------------------------------------
+
+@node Full Expression Example, EBNF Syntax, Python Language, Top
 @appendix Full expression example code
 @cindex Full expression example
 

@@ -1,7 +1,7 @@
 /*
  * stream.c - Stream handling for writing source code.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -523,6 +523,92 @@ void TreeCCStreamCodeIndentCustom(TreeCCStream *stream, char *code,
 	}
 }
 
+void TreeCCStreamCodeIndentPython(TreeCCStream *stream, char *code, int indent)
+{
+	int temp;
+	int startline = 1;
+	int spaces = -1;
+	int len;
+
+	/* Strip off the first and last blank lines, as they are probably
+	   due to formatting in the treecc file, and not part of the actual
+	   Python code that we need to output */
+	temp = 0;
+	while(code[temp] != '\0' && code[temp] != '\n')
+	{
+		if(code[temp] != ' ' && code[temp] != '\t')
+			break;
+		++temp;
+	}
+	if(code[temp] == '\n')
+	{
+		code += temp + 1;
+	}
+	len = strlen(code);
+	if(len > 0)
+	{
+		--len;
+		while(len > 0 && (code[len - 1] == ' ' || code[len - 1] == '\t'))
+			--len;
+		if(len > 0 && code[len - 1] != '\n')
+		{
+			/* Last line is not completely blank */
+			len = strlen(code);
+		}
+	}
+
+	/* Bail out if no code to output at all */
+	if(!len)
+		return;
+
+	/* Output the remaining code */
+	while(len > 0)
+	{
+		if(*code == '\n')
+		{
+			StreamPut(*code, stream);
+			++(stream->linenum);
+			startline = 1;
+			++code;
+			--len;
+		}
+		else if(startline)
+		{
+			/* Expand white space at the start of a line */
+			spaces = 0;
+			while(len > 0 && (*code == ' ' || *code == '\t'))
+			{
+				if(*code++ == ' ')
+					++spaces;
+				else
+					spaces = (spaces + 8) & ~7;
+				--len;
+			}
+			startline = 0;
+		}
+		else
+		{
+			if(spaces >= 0)
+			{
+				temp = indent * 4 + spaces;
+				while(temp-- > 0)
+				{
+					StreamPut(' ', stream);
+				}
+				spaces = -1;
+			}
+			StreamPut(*code, stream);
+			++code;
+			--len;
+			startline = 0;
+		}
+	}
+	if(!startline)
+	{
+		/* Make sure that the last line is terminated */
+		StreamPut('\n', stream);
+	}
+}
 
 void TreeCCStreamFixLine(TreeCCStream *stream)
 {
@@ -644,6 +730,13 @@ void TreeCCStreamSourceTop(TreeCCStream *stream)
 {
 	TreeCCStreamPrint(stream, "/* %s.  Generated automatically by treecc */\n",
 					  stream->embedName);
+	OutputDefns(stream, 0);
+}
+
+void TreeCCStreamSourceTopSpecial(TreeCCStream *stream, int ch)
+{
+	TreeCCStreamPrint(stream, "%c %s.  Generated automatically by treecc\n",
+					  ch, stream->embedName);
 	OutputDefns(stream, 0);
 }
 

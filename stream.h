@@ -1,7 +1,7 @@
 /*
  * stream.h - Stream handling for writing source code.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,6 +154,14 @@ void TreeCCStreamCodeIndentCustom(TreeCCStream *stream, char *code,
 								 char indentchar, int indent);
 
 /*
+ * Output a block of literal code to a stream which is indented.
+ * The code is normalized to remove leading TAB's and replace
+ * them with spaces, as per Python's conventions.  Each indent
+ * level corresponds to four spaces.
+ */
+void TreeCCStreamCodeIndentPython(TreeCCStream *stream, char *code, int indent);
+
+/*
  * Fix the line number information in the output stream
  * after outputting a block of code.
  */
@@ -185,6 +193,12 @@ void TreeCCStreamSourceTop(TreeCCStream *stream);
  * Output extra information that is needed at the top of a source file for C#.
  */
 void TreeCCStreamSourceTopCS(TreeCCStream *stream);
+
+/*
+ * Output extra information that is needed at the top of a source file,
+ * using a special comment character.
+ */
+void TreeCCStreamSourceTopSpecial(TreeCCStream *stream, int ch);
 
 /*
  * Output extra information that is needed at the bottom of a source file.

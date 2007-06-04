@@ -1,7 +1,7 @@
 /*
  * options.c - Process options from "treecc" input files.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -258,6 +258,10 @@ static int LangOption(TreeCCContext *context, char *value, int flag)
 		else if(!strcmp(value, "php") || !strcmp(value, "PHP"))
 		{
 			context->language = TREECC_LANG_PHP;
+		}
+		else if(!strcmp(value, "python") || !strcmp(value, "Python"))
+		{
+			context->language = TREECC_LANG_PYTHON;
 		}
 		else
 		{

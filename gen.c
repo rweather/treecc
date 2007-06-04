@@ -1,7 +1,7 @@
 /*
  * gen.c - Generate code to "treecc" output files.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,6 +68,11 @@ void TreeCCGenerate(TreeCCContext *context)
 		}
 		break;
 
+		case TREECC_LANG_PYTHON:
+		{
+			TreeCCGeneratePython(context);
+		}
+		break;
 	}
 }
 

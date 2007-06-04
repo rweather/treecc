@@ -1,7 +1,7 @@
 /*
  * main.c - Main program entry point for "treecc".
  *
- * Copyright (C) 2001, 2002  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2002, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -471,7 +471,7 @@ int main(int argc, char *argv[])
 static void Usage(char *progname)
 {
 	fprintf(stderr, "TREECC " VERSION " - Tree Compiler-Compiler\n");
-	fprintf(stderr, "Copyright (c) 2001, 2002 Southern Storm Software, Pty Ltd.\n");
+	fprintf(stderr, "Copyright (c) 2001, 2002, 2007 Southern Storm Software, Pty Ltd.\n");
 	fprintf(stderr, "\n");
 	fprintf(stderr, "Usage: %s [options] input ...\n", progname);
 	fprintf(stderr, "\n");

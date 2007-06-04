@@ -1,7 +1,7 @@
 /*
  * info.h - Store information about parsed "treecc" input files.
  *
- * Copyright (C) 2001  Southern Storm Software, Pty Ltd.
+ * Copyright (C) 2001, 2007  Southern Storm Software, Pty Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,6 +75,7 @@ typedef struct _tagTreeCCOperationCase	TreeCCOperationCase;
 #define	TREECC_LANG_CSHARP			3
 #define	TREECC_LANG_RUBY			4
 #define	TREECC_LANG_PHP				5
+#define	TREECC_LANG_PYTHON			6
 
 /*
  * Information that is stored about a field.
