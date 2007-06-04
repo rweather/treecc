@@ -73,6 +73,16 @@ if test "x$YACC" = "xbison -y" ; then
 	EXPR_CPP=expr_cpp
 fi
 
+dnl Check for building on a multi os system
+if test x$GCC = xyes ; then
+	multi_os_directory=`$CC -print-multi-os-directory`
+	case $multi_os_directory in
+	  .) ;; # Avoid trailing /.
+	  *) libdir=$libdir/$multi_os_directory ;;
+	esac
+fi
+AC_SUBST(libdir)
+
 AC_OUTPUT([
 Makefile
 etc/Makefile

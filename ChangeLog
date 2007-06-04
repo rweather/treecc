@@ -1,4 +1,9 @@
 
+2007-06-04  Klaus Treichel  <ktreichel@web.de>
+
+	* configure.in: Add support for multi os archs (like x86_64 which
+	supports 64bit and 32bit apps).
+
 2007-06-04  Rhys Weatherley  <rweather@southern-storm.com.au>
 
 	* Makefile.am, gen.c, gen.h, gen_python.c, info.h, main.c, options.c,
