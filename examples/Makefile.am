@@ -12,7 +12,6 @@ BUILT_SOURCES = expr_c.c  expr_c.h gram_c.c gram_c.h
 
 expr_c_SOURCES = gram_c.y scan_c.l
 nodist_expr_c_SOURCES = expr_c.c expr_c.h
-expr_c_LDADD = -lm
 
 expr_c.c expr_c.h: $(srcdir)/expr_c.tc
 	$(top_builddir)/treecc -o expr_c.c -h expr_c.h $(srcdir)/expr_c.tc

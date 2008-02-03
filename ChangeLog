@@ -1,4 +1,10 @@
 
+2008-02-03  Andreas Färber  <andreas.faerber@web.de>
+
+	* examples/Makefile.am: Remove explicit linking with libm to fix build on
+	system without libm. Linking with libm is handled by configure.
+	(patch #6399)
+
 2007-06-04  Klaus Treichel  <ktreichel@web.de>
 
 	* configure.in: Add support for multi os archs (like x86_64 which
