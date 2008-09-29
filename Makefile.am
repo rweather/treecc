@@ -47,8 +47,8 @@ SKELETON_FILES = $(top_srcdir)/etc/c_skel.c \
 				 $(top_srcdir)/etc/cpp_gc_skel.h \
 				 $(top_srcdir)/etc/cpp_gc_skel.cc
 
-skels.c: $(SKELETON_FILES) mkskel-sh
-	$(SHELL) mkskel-sh $(SKELETON_FILES) >skels.c
+skels.c: $(SKELETON_FILES) $(top_srcdir)/mkskel-sh
+	$(SHELL) $(top_srcdir)/mkskel-sh $(SKELETON_FILES) >skels.c
 
 CLEANFILES = skels.c
 

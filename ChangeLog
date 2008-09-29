@@ -1,3 +1,6 @@
+2008-09-29  Andreas Färber  <andreas.faerber@web.de>
+
+	* Makefile.am: Fix VPATH support for building skels.c. (patch #6415)
 
 2008-02-03  Andreas Färber  <andreas.faerber@web.de>
 
