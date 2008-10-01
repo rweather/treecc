@@ -2,7 +2,7 @@
 #
 # auto_gen.sh - Make the Makefile.in and configure files.
 #
-# Copyright (C) 2001, 2002  Southern Storm Software, Pty Ltd.
+# Copyright (C) 2001, 2002, 2008  Southern Storm Software, Pty Ltd.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,20 +18,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# Run aclocal to update the macros.
-aclocal
+# This script exists only for convenience purposes.
 
-# Run autoheader to create the config.h.in file.
-autoheader
+# Run autoreconf
+autoreconf -fi
 
-# Get extra options to use depending upon the automake version.
-AM_VERSION=`automake --version`
-case "$AM_VERSION" in
-    automake*1.4*) AM_FLAGS="" ;;
-                *) AM_FLAGS="--ignore-deps" ;;
-esac
-
-# Run automake and autoconf.
-automake --add-missing --copy $AM_FLAGS
-autoconf
 exit 0

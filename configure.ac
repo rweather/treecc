@@ -1,8 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(input.h)
-AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(treecc, 0.3.11)
-AM_CONFIG_HEADER(config.h)
+AC_INIT([GNU Treecc], [0.3.11], [dotgnu-pnet@gnu.org])
+AC_CONFIG_SRCDIR([input.h])
+AC_CANONICAL_TARGET
+AM_INIT_AUTOMAKE
+AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
 
 dnl Turn off the cygwin library if building for Win32.
@@ -83,10 +84,11 @@ if test x$GCC = xyes ; then
 fi
 AC_SUBST(libdir)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 etc/Makefile
 doc/Makefile
 tests/Makefile
 examples/Makefile
 treecc.spec])
+AC_OUTPUT

@@ -1,3 +1,11 @@
+2008-10-01  Klaus Treichel  <ktreichel@web.de>
+
+	* auto_gen.sh: Simply call autoreconf -fi now.
+
+	* configure.in: Remove and replace by configure.ac.
+
+	* configure.ac: Add updated version of configure.in.
+
 2008-09-29  Andreas Färber  <andreas.faerber@web.de>
 
 	* Makefile.am: Fix VPATH support for building skels.c. (patch #6415)
