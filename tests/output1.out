@@ -359,7 +359,7 @@ static YYNODESTATE fixed_state__;
 		type field; \
 	}
 #define	YYNODESTATE_ALIGN_FOR_TYPE(type)	\
-	((unsigned)(&(((struct _YYNODESTATE_align_##type *)0)->field)))
+	((unsigned)(unsigned long)(&(((struct _YYNODESTATE_align_##type *)0)->field)))
 #define	YYNODESTATE_ALIGN_MAX(a,b)	\
 	((a) > (b) ? (a) : (b))
 #define	YYNODESTATE_ALIGN_MAX3(a,b,c) \
