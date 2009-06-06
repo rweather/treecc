@@ -22,3 +22,6 @@ depcomp
 ylwrap
 *.a
 *.o
+INSTALL
+doc/texinfo.tex
+*~
