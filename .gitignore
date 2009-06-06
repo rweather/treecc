@@ -18,3 +18,7 @@ config.sub
 install-sh
 missing
 stamp-h1
+depcomp
+ylwrap
+*.a
+*.o
