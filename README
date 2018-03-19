@@ -9,6 +9,13 @@ A fuller account of why treecc exists and what it can be used for can
 be found in the Texinfo documentation within the "doc" subdirectory,
 and in the introductory article "doc/essay.html".
 
+Note: This distribution is a copy of the original treecc utility from
+the DotGNU project.  Since that project no longer exists, it is
+becoming difficult to find treecc on the Internet these days, so
+I'm pushing a copy of the code here to github.  The code is a little
+old so may need some help to get it to compile on modern systems.
+Patches and merge requests welcome - Rhys Weatherley.
+
 Downloading and Building
 ------------------------
 
@@ -70,8 +77,4 @@ Contacting the Authors
 
 The authors can be contacted via e-mail at the following address:
 
-    treecc@southern-storm.com.au
-
-Also check our Web site for updates to treecc:
-
-    http://www.southern-storm.com.au/treecc/
+    rhys.weatherley@gmail.com
