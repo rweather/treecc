@@ -16,12 +16,8 @@ I'm pushing a copy of the code here to github.  The code is a little
 old so may need some help to get it to compile on modern systems.
 Patches and merge requests welcome - Rhys Weatherley.
 
-Downloading and Building
+Building and Installing
 ------------------------
-
-The latest version of treecc can be obtained from the following Web site:
-
-    http://www.southern-storm.com.au/treecc/
 
 To build and install, unpack the ".tar.gz" file into a temporary directory
 and execute the following commands:
