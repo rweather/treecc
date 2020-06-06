@@ -1,3 +1,18 @@
+2020-06-06  Ivan de Jesus Deras  <ideras@gmail.com>
+
+	* etc/cpp_skel.cc, etc/cpp_gc_skel.cc, gen_cpp.c: make the filename
+	and linenum fields and related get methods "const correct" in the
+	C++ generator.
+
+	* tests/output*.out: Update test output files after "const correct"
+	changes.
+
+	* examples/expr_cpp.tc: Update C++ example after "const correct"
+	changes.
+
+	* doc/treecc.texi: Update Texinfo to reflect "const correct"
+	changes.
+
 2009-06-07  Rhys Weatherley  <rhys.weatherley@gmail.com>
 
 	* INSTALL, doc/texinfo.tex: Remove auto-generated files from

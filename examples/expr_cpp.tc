@@ -393,13 +393,13 @@ class NodeState : public YYNODESTATE
 {
 private:
 
-	char *progname;
-	char *filename;
+	const char *progname;
+	const char *filename;
 	long  linenum;
 
 public:
 
-	NodeState(char *_progname, char *_filename)
+	NodeState(const char *_progname, const char *_filename)
 			: YYNODESTATE()
 		{
 			filename = _filename;
@@ -409,8 +409,8 @@ public:
 
 public:
 
-	virtual char *currFilename();
-	virtual long currLinenum();
+	virtual const char *currFilename() const;
+	virtual long currLinenum() const;
 	virtual void failed();
 
 	void incLine() { ++linenum; }
@@ -477,7 +477,7 @@ NodeState::~NodeState()
 /*
  * Get the name of the current input file in use by the parser.
  */
-char *NodeState::currFilename()
+const char *NodeState::currFilename() const
 {
 	return filename;
 }
@@ -485,7 +485,7 @@ char *NodeState::currFilename()
 /*
  * Get the line number for the current input line in use by the parser.
  */
-long NodeState::currLinenum()
+long NodeState::currLinenum() const
 {
 	return linenum;
 }
