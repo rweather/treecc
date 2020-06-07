@@ -244,7 +244,7 @@ static void BuildTypeDecls(TreeCCContext *context,
 		/* Declare the filename and linenum fields if we are tracking lines */
 		if(context->track_lines)
 		{
-			TreeCCStreamPrint(stream, "\tchar *filename__;\n");
+			TreeCCStreamPrint(stream, "\tconst char *filename__;\n");
 			TreeCCStreamPrint(stream, "\tlong linenum__;\n");
 		}
 
@@ -258,7 +258,7 @@ static void BuildTypeDecls(TreeCCContext *context,
 			TreeCCStreamPrint(stream,
 				"\tlong getLinenum() const { return linenum__; }\n");
 			TreeCCStreamPrint(stream,
-			 "\tvoid setFilename(char *filename) { filename__ = filename; }\n");
+			 "\tvoid setFilename(const char *filename) { filename__ = filename; }\n");
 			TreeCCStreamPrint(stream,
 				"\tvoid setLinenum(long linenum) { linenum__ = linenum; }\n");
 		}
@@ -861,8 +861,8 @@ static void DeclareStateType(TreeCCContext *context, TreeCCStream *stream)
 	/* Declare the line number tracking methods */
 	if(context->track_lines)
 	{
-		TreeCCStreamPrint(stream, "\tvirtual char *currFilename();\n");
-		TreeCCStreamPrint(stream, "\tvirtual long currLinenum();\n");
+		TreeCCStreamPrint(stream, "\tvirtual const char *currFilename() const;\n");
+		TreeCCStreamPrint(stream, "\tvirtual long currLinenum() const;\n");
 	}
 
 	/* Declare the end of the state type */

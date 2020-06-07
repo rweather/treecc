@@ -26,11 +26,11 @@ Copyright @copyright{} 2001 Southern Storm Software, Pty Ltd
 
 @vskip 50pt
 
-@center{Rhys Weatherley}
+@center Rhys Weatherley
 
 @vskip 50pt
-@center{Copyright @copyright{} 2001, 2002 Southern Storm Software, Pty Ltd}
-@center{Copyright @copyright{} 2003 Free Software Foundation, Inc.}
+@center Copyright @copyright{} 2001, 2002 Southern Storm Software, Pty Ltd
+@center Copyright @copyright{} 2003 Free Software Foundation, Inc.
 @end titlepage
 
 @c -----------------------------------------------------------------------
@@ -1662,7 +1662,7 @@ class expression
 protected:
 
     int kind__;
-    char *filename__;
+    const char *filename__;
     long linenum__;
 
 public:
@@ -1670,7 +1670,7 @@ public:
     int getKind() const @{ return kind__; @}
     const char *getFilename() const @{ return filename__; @}
     int getLinenum() const @{ return linenum__; @}
-    void setFilename(char *filename) @{ filename__ = filename; @}
+    void setFilename(const char *filename) @{ filename__ = filename; @}
     void setLinenum(long linenum) @{ linenum__ = linenum; @}
 
     void *operator new(size_t);
@@ -1761,7 +1761,7 @@ Gets the line number corresponding to where the node was created
 during parsing.  This method is only generated if @samp{%option track_lines}
 was specified.
 
-@item void setFilename(char *value)
+@item void setFilename(const char *value)
 @cindex setFilename method (C++)
 Sets the filename associated with the node to @samp{value}.  The
 string is not copied, so @samp{value} must persist for the lifetime
@@ -1845,7 +1845,7 @@ overridden by the programmer in subclasses.  The programmer may
 choose to exit to program when the system is out of memory; in
 which case @code{alloc} will never return @code{NULL}.
 
-@item virtual char *currFilename()
+@item virtual const char *currFilename() const
 @cindex currFilename method (C++)
 Get the name of the current input file from the parser.  The pointer
 that is returned from this function is stored as-is: the string is
@@ -1853,7 +1853,7 @@ not copied.  Therefore, the value must persist for at least as long
 as the node will persist.  This method is usually overrriden by
 the programmer in subclasses if @samp{%option track_lines} was specified.
 
-@item virtual long currLinenum()
+@item virtual long currLinenum() const
 @cindex currLinenum method (C++)
 Get the number of the current input line from the parser.  This
 method is usually overridden by the programmer in subclasses

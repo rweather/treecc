@@ -261,12 +261,12 @@ void YYNODESTATE::failed()
 
 #ifdef YYNODESTATE_TRACK_LINES
 
-char *YYNODESTATE::currFilename()
+const char *YYNODESTATE::currFilename() const
 {
-	return (char *)0;
+	return (const char *)0;
 }
 
-long YYNODESTATE::currLinenum()
+long YYNODESTATE::currLinenum() const
 {
 	return 0;
 }

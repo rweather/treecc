@@ -83,8 +83,8 @@ public:
 	void pop();
 	void clear();
 	virtual void failed();
-	virtual char *currFilename();
-	virtual long currLinenum();
+	virtual const char *currFilename() const;
+	virtual long currLinenum() const;
 
 };
 
@@ -93,7 +93,7 @@ class expression
 protected:
 
 	int kind__;
-	char *filename__;
+	const char *filename__;
 	long linenum__;
 
 public:
@@ -101,7 +101,7 @@ public:
 	int getKind() const { return kind__; }
 	const char *getFilename() const { return filename__; }
 	long getLinenum() const { return linenum__; }
-	void setFilename(char *filename) { filename__ = filename; }
+	void setFilename(const char *filename) { filename__ = filename; }
 	void setLinenum(long linenum) { linenum__ = linenum; }
 
 	void *operator new(size_t);
@@ -566,12 +566,12 @@ void YYNODESTATE::failed()
 
 #ifdef YYNODESTATE_TRACK_LINES
 
-char *YYNODESTATE::currFilename()
+const char *YYNODESTATE::currFilename() const
 {
-	return (char *)0;
+	return (const char *)0;
 }
 
-long YYNODESTATE::currLinenum()
+long YYNODESTATE::currLinenum() const
 {
 	return 0;
 }
